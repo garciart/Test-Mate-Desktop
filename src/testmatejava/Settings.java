@@ -29,21 +29,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import testmatejava.Constants.*;
 
 /**
- *
+ * TestMate model class for test settings
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class Settings {
-    private final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
-    
+
     
     /** Display questions as read from the file (0 = default) or randomize the order (1) */
-    private int questionOrderSetting = 0;
-    /** Display terms as question (0 = default), definition as question (1), or mix it up (2) */
-    private int termDisplaySetting = 0;
+    private QuestionOrder questionOrderSetting = QuestionOrder.DEFAULT;
+    /** Display terms as question (0 = default), definitions as question (1), or mix it up (2) */
+    private TermDisplay termDisplaySetting = TermDisplay.TERMFIRST;
     /** Provide feedback after each answer (0 = default) or wait until the end of the test (1) */
-    private int provideFeedbackSetting = 0;
+    private ProvideFeedback provideFeedbackSetting = ProvideFeedback.YES;
     
     /** Basic constructor */
     public Settings() {
@@ -51,76 +51,80 @@ public final class Settings {
     }
 
     /** Question order setting getter
-     * @return 0 (Display questions as read from the file (Default)), 1 (Randomize the order) */
-    public int getQuestionOrderSetting() {
+     * @return DEFAULT - Display questions as read from the file,
+     *         RANDOM - Randomize the order */
+    public QuestionOrder getQuestionOrderSetting() {
         return questionOrderSetting;
     }
 
     /** Term display setting getter
-     * @return 0 (Display terms as question (Default)), 1 (Definition as question), 2 (Mix it up) */
-    public int getTermDisplaySetting() {
+     * @return TERMFIRST - Display terms as question (Default)),
+     *         DEFFIRST - Display definition as question,
+     *         MIXED - Mix it up */
+    public TermDisplay getTermDisplaySetting() {
         return termDisplaySetting;
     }
 
     /** Provide feedback setting getter
-     * @return 0 (Provide feedback after each answer (Default)) 1 (Wait until the end of the test) */
-    public int getProvideFeedbackSetting() {
+     * @return YES - Provide feedback after each answer (Default),
+     *         NO - Wait until the end of the test to provide feedback */
+    public ProvideFeedback getProvideFeedbackSetting() {
         return provideFeedbackSetting;
     }
 
     /** Question order setting setter
-     * @param qo 0 (Display questions as read from the file (Default)), 1 (Randomize the order) */
-    public void setQuestionOrderSetting(int qo) {
-        qo = (Math.abs(qo) <= 1) ? (Math.abs(qo)) : 0;
+     * @param qo DEFAULT to display questions as read from the file or RANDOM to randomize the order */
+    public void setQuestionOrderSetting(QuestionOrder qo) {
         this.questionOrderSetting = qo;
     }
 
     /** Term display setting setter
-     * @param td 0 (Display terms as question (Default)), 1 (Definition as question), 2 (Mix it up) */
-    public void setTermDisplaySetting(int td) {
-        td = (Math.abs(td) <= 2) ? (Math.abs(td)) : 0;
+     * @param td TERMFIRST to display terms as question (Default), DEFFIRST to display definitions as question, MIXED to mix it up */
+    public void setTermDisplaySetting(TermDisplay td) {
         this.termDisplaySetting = td;
     }
 
     /** Provide feedback setting setter
-     * @param pf 0 (Provide feedback after each answer (Default)) 1 (Wait until the end of the test) */
-    public void setProvideFeedbackSetting(int pf) {
-        pf = (Math.abs(pf) <= 1) ? (Math.abs(pf)) : 0;
+     * @param pf YES to to provide feedback after each answer (Default), NO to wait until the end of the test to provide feedback */
+    public void setProvideFeedbackSetting(ProvideFeedback pf) {
         this.provideFeedbackSetting = pf;
     }
     
     /**
-     * Get saved test settings
+     * Get saved test settings from file
      * @throws FileNotFoundException When file cannot be found
      * @throws IOException When file cannot be opened
      */
     public final void getSettingsFromFile() throws FileNotFoundException, IOException {
         String line;
-        FileReader fileReader = new FileReader(SETTINGSFILE);
+        FileReader fileReader = new FileReader(Constants.SETTINGSFILE);
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
-                setQuestionOrderSetting(Integer.parseInt(line));
+                setQuestionOrderSetting(QuestionOrder.valueOf(line));
             }
             if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
-                setTermDisplaySetting(Integer.parseInt(line));
+                setTermDisplaySetting(TermDisplay.valueOf(line));
             }
             if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
-                setProvideFeedbackSetting(Integer.parseInt(line));
+                setProvideFeedbackSetting(ProvideFeedback.valueOf(line));
             }
         }
     }
     
     /**
      * Save test settings to file
+     * @param qo DEFAULT to display questions as read from the file or RANDOM to randomize the order
+     * @param td TERMFIRST to display terms as question (Default), DEFFIRST to display definitions as question, MIXED to mix it up
+     * @param pf YES to to provide feedback after each answer (Default), NO to wait until the end of the test to provide feedback
      * @throws java.io.IOException When file cannot be opened
      */
-    public final void saveSettingsToFile() throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(SETTINGSFILE))) {
-            bw.write(Integer.toString(getQuestionOrderSetting()));
+    public final void saveSettingsToFile(QuestionOrder qo, TermDisplay td, ProvideFeedback pf) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constants.SETTINGSFILE))) {
+            bw.write(qo.toString());
             bw.newLine();
-            bw.write(Integer.toString(getTermDisplaySetting()));
+            bw.write(td.toString());
             bw.newLine();
-            bw.write(Integer.toString(getProvideFeedbackSetting()));
+            bw.write(pf.toString());
         }
         catch (Exception ex) {
             throw new IOException("Unable to update file! " + ex.toString());

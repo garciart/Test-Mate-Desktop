@@ -23,10 +23,34 @@
  */
 package testmatejava;
 
+import testmatejava.Constants.*;
+
 /**
- * TestMate model class for test objects
+ * TestMate model abstract class for test data objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Test {
+public abstract class TestData {
+    protected MediaFlag mediaFlag = MediaFlag.N;
+    protected String mediaFileName;
     
+    public final MediaFlag getMediaFlag() {
+        return mediaFlag;
+    }
+    
+    public final String getMediaFileName() {
+        return mediaFileName;
+    }
+    
+    public final void setMediaFlag(MediaFlag mediaFlag) {
+        this.mediaFlag = mediaFlag;
+    }
+    
+    public final void setMediaFileName(String mediaFileName) {
+        if(mediaFileName.matches("^[\\w\\- ]+(.jpg|.png|.mp3|.mpg|.mpeg|.mp4)$")) {
+            this.mediaFileName = mediaFileName;
+        }
+        else {
+            throw new IllegalArgumentException("Illegal filename!");
+        }
+    }
 }
