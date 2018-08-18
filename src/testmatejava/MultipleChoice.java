@@ -23,37 +23,40 @@
  */
 package testmatejava;
 
-import testmatejava.Constants.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public final class KeyTerm extends TestData {
-    private String keyTerm;
-    private String definition;
+public final class MultipleChoice extends TestData {
+    private String mcQuestion;
+    private ArrayList<String> mcAnswer;
+    private String mcExplanation;
     
-    public final String getKeyTerm() {
-        return keyTerm;
+    public final String getMCQuestion() {
+        return mcQuestion;
     }
 
-    public final String getDefinition() {
-        return definition;
+    public final ArrayList<String> getMCAnswer() {
+        return mcAnswer;
     }
     
-    public final void setKeyTerm(String keyTerm) {
-        if(Utility.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
-        this.keyTerm = keyTerm;
+    public final String getMCExplanation() {
+        return mcExplanation;
     }
     
-    public final void setDefinition(String definition) {
-        if(Utility.isNullOrEmpty(definition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
-        this.definition = definition;
+    public final void setMCQuestion(String mcQuestion) {
+        if(Utility.isNullOrEmpty(mcQuestion)) throw new NullPointerException("Multiple choice questions cannot be null or empty.");
+        this.mcQuestion = mcQuestion;
     }
     
-    public KeyTerm(String keyTerm, MediaFlag mediaFlag, String mediaFileName, String definition) {
-        setKeyTerm(keyTerm);
-        validateAndSetMedia(mediaFlag, mediaFileName);
-        setDefinition(definition);
+    public final void setMCAnswer(ArrayList<String> mcAnswer) {
+        if(mcAnswer == null) throw new NullPointerException("Multiple choice questions must have at least one answer.");
+        this.mcAnswer = mcAnswer;
+    }
+
+    public final void setMCExplanation(String mcExplanation) {
+        this.mcExplanation = mcExplanation;
     }
 }

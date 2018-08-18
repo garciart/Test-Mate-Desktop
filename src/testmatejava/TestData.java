@@ -42,15 +42,37 @@ public abstract class TestData {
     }
     
     public final void setMediaFlag(MediaFlag mediaFlag) {
+        if(mediaFlag == null) throw new NullPointerException("Media flag cannot be null.");
         this.mediaFlag = mediaFlag;
     }
     
     public final void setMediaFileName(String mediaFileName) {
-        if(mediaFileName.matches("^[\\w\\- ]+(.jpg|.png|.mp3|.mpg|.mpeg|.mp4)$")) {
-            this.mediaFileName = mediaFileName;
-        }
+        this.mediaFileName = mediaFileName;
+    }
+    
+    protected final void validateAndSetMedia(MediaFlag mediaFlag, String mediaFileName) {
+        if(mediaFlag == MediaFlag.N && !Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Filename should be NULL.");
         else {
-            throw new IllegalArgumentException("Illegal filename!");
+            if(Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
+            switch(mediaFlag) {
+                case I: {
+                    if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    break;
+                }
+                case A: {
+                    if(!mediaFileName.matches("^[\\w\\- ]+(.mp3)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    break;
+                }
+                case V: {
+                    if(!mediaFileName.matches("^[\\w\\- ]+(.mpg|.mpeg|.mp4)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    break;
+                }
+                default: {
+                    throw new IllegalArgumentException("Unsupported media type.");
+                }
+            }
+            setMediaFileName(mediaFileName);
         }
+        
     }
 }

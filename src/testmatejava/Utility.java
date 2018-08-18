@@ -23,37 +23,12 @@
  */
 package testmatejava;
 
-import testmatejava.Constants.*;
-
 /**
  *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public final class KeyTerm extends TestData {
-    private String keyTerm;
-    private String definition;
-    
-    public final String getKeyTerm() {
-        return keyTerm;
-    }
-
-    public final String getDefinition() {
-        return definition;
-    }
-    
-    public final void setKeyTerm(String keyTerm) {
-        if(Utility.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
-        this.keyTerm = keyTerm;
-    }
-    
-    public final void setDefinition(String definition) {
-        if(Utility.isNullOrEmpty(definition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
-        this.definition = definition;
-    }
-    
-    public KeyTerm(String keyTerm, MediaFlag mediaFlag, String mediaFileName, String definition) {
-        setKeyTerm(keyTerm);
-        validateAndSetMedia(mediaFlag, mediaFileName);
-        setDefinition(definition);
+public class Utility {
+    public static final boolean isNullOrEmpty(String s) {
+        return ((s == null || "".equals(s.trim())));
     }
 }

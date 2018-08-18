@@ -30,9 +30,24 @@ public class TestMateJava {
         System.out.println("questionOrderSetting = " + s.getQuestionOrderSetting());
         System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
         System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
-        KeyTerm testData = new KeyTerm("La", MediaFlag.N, "sound.mp3", "A note to follow so.");
-        System.out.println(testData.getMediaFileName());
-        testData.setMediaFileName("bob.doc");
-        System.out.println(testData.getMediaFileName());
+        s.setProvideFeedbackSetting(null);
+        /*
+        String test = "";
+        if(Utility.isNullOrEmpty(test)) {
+            System.out.println("\nEmpty string!\n");
+        }
+        else {
+            System.out.println("\nString is not empty!\n");
+        }
+        */
+        try {
+            KeyTerm testData = new KeyTerm("La", MediaFlag.A, "bob.png", "A note to follow so.");
+            System.out.println(testData.getMediaFileName());
+            testData.setMediaFileName("bob.mp3");
+            System.out.println(testData.getMediaFileName());
+        }
+        catch (Exception ex) {
+            System.out.println("Error: " + ex.toString());
+        }
     }
 }
