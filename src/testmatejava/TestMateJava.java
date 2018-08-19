@@ -41,7 +41,7 @@ public class TestMateJava {
         }
         */
         try {
-            KeyTerm testData = new KeyTerm("La", MediaFlag.A, "bob.png", "A note to follow so.");
+            KeyTerm testData = new KeyTerm("La", MediaType.A, "bob.png", "A note to follow so.");
             System.out.println(testData.getMediaFileName());
             testData.setMediaFileName("bob.mp3");
             System.out.println(testData.getMediaFileName());

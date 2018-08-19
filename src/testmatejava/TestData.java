@@ -30,31 +30,31 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public abstract class TestData {
-    protected MediaFlag mediaFlag = MediaFlag.N;
+    protected MediaType mediaType = MediaType.N;
     protected String mediaFileName;
     
-    public final MediaFlag getMediaFlag() {
-        return mediaFlag;
+    public final MediaType getMediaType() {
+        return mediaType;
     }
     
     public final String getMediaFileName() {
         return mediaFileName;
     }
     
-    public final void setMediaFlag(MediaFlag mediaFlag) {
-        if(mediaFlag == null) throw new NullPointerException("Media flag cannot be null.");
-        this.mediaFlag = mediaFlag;
+    public final void setMediaType(MediaType mediaType) {
+        if(mediaType == null) throw new NullPointerException("Media flag cannot be null.");
+        this.mediaType = mediaType;
     }
     
     public final void setMediaFileName(String mediaFileName) {
         this.mediaFileName = mediaFileName;
     }
     
-    protected final void validateAndSetMedia(MediaFlag mediaFlag, String mediaFileName) {
-        if(mediaFlag == MediaFlag.N && !Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Filename should be NULL.");
+    protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
+        if(mediaType == MediaType.N && !Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Filename should be NULL.");
         else {
             if(Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
-            switch(mediaFlag) {
+            switch(mediaType) {
                 case I: {
                     if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
                     break;
@@ -73,6 +73,5 @@ public abstract class TestData {
             }
             setMediaFileName(mediaFileName);
         }
-        
     }
 }

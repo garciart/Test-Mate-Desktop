@@ -1,0 +1,86 @@
+algorithm
+a set of ordered and finite steps to solve a given problem.
+
+array
+a collection of items in which each item can be accessed by using a unique index.
+
+binary code
+A computer program written using only two symbols, 0 and 1.
+
+binary number system
+At the most basic level, the system which computers use to represent information and code using only two symbols, 0 and 1.
+
+case
+statements contained in a switch block.
+
+class
+a set of data and methods defined between an opening brace ({) and a closing brace (}).
+
+computer programs (programs)
+a set of precise and complete instructions to accomplish a task.
+
+constant
+data fields or local variables whose value cannot be modified.
+
+data types
+specifies the type of data that you work with in a program, defining the size of memory needed to store the data and the kinds of operations that can be performed on the data.
+
+decision structures
+introduce decision-making ability into a program, enabling you to branch to different sections of the code depending on the truth value of a Boolean expression.
+
+decision table
+a compact and readable format for presenting the algorithm.
+
+default statement
+used when an expression does not match any of the cases in a switch block.
+
+do-while loop
+repeatedly executes a block of statements until a specified Boolean expression evaluates to false, but tests the condition at the bottom of the loop.
+
+exception
+an error condition that occurs during the execution of a C# program.
+
+finally block
+used in association with the try block, and is always executed regardless of whether an exception is thrown; often used to write clean-up code.
+
+flowchart
+a graphical representation of an algorithm.
+
+for loop
+combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code.
+
+foreach loop
+useful for iterating through the elements of a collection.
+
+high-level language
+Languages such as C#, Visual Basic, or Java that allow you to write precise instructions in a human-readable form. 
+
+if statement
+executes a given sequence of statements only if the corresponding Boolean expression evaluates to true.
+
+if-else statement
+allows your program to perform one action if the Boolean expression evaluates to true and a different action if the Boolean expression evaluates to false.
+
+methods
+code blocks containing a series of statements, which can receive input via arguments and can return a value to the caller.
+
+operator
+a symbol that specifies which operation to perform on the operands before returning a result.
+
+recursion
+a programming technique that causes a method to call itself in order to compute a result.
+
+switch block
+can include one or more case statements or a default statement.
+
+switch statement
+allows multi-way branching, and, in many cases, it can simplify a complex combination of if-else statements.
+
+try-catch-finally block
+a code block that throws and handles exceptions to prevent program execution from terminating.
+
+variable
+temporary storage for values during the execution of a program.
+
+while loop
+repeatedly executes a block of statements until a specified Boolean expression evaluates to false.

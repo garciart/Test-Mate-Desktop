@@ -23,48 +23,28 @@
  */
 package testmatejava;
 
+import java.util.ArrayList;
+import testmatejava.Constants.*;
+
 /**
- * TestMate model class for common constants
+ *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Constants {
-    public static final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
+public class TestQuestion {
+    private QuestionType questionType;
+    private String question;
+    private MediaType mediaType;
+    private String mediaFile;
+    private ArrayList<String> choices;
+    private int correctAnswerIndex;
+    private String explanation;
     
-    /** Question order settings
-     * DEFAULT to display questions as read from the file
-     * RANDOM to randomize the order */
-    public enum QuestionOrder {
-        DEFAULT,
-        RANDOM;
-    }
-
-    /** Term display settings
-     * TERMFIRST to display terms as question (Default),
-     * DEFFIRST to display definitions as question,
-     * MIXED to mix it up */
-    public enum TermDisplay {
-        TERMFIRST,
-        DEFFIRST,
-        MIXED
-    }
-
-    /** Provide feedback settings
-     * YES to to provide feedback after each answer (Default),
-     * NO to wait until the end of the test to provide feedback */
-    public enum ProvideFeedback {
-        YES,
-        NO
-    }
-
-    /** Media flag constants
-     * N for none, I for images, A for audio files, and V for video files */    
-    public enum MediaType {
-        N, I, A, V
+    public final QuestionType getQuestionType() {
+        return questionType;
     }
     
-    /** Question type constants
-     * K for Key Term, M for Multiple Choice, T for True or False */    
-    public enum QuestionType {
-        K, M, T
+    public final void setQuestionType(QuestionType questionType) {
+        if(questionType == null) throw new NullPointerException("Question Type cannot be null.");
+        this.questionType = questionType;
     }
 }

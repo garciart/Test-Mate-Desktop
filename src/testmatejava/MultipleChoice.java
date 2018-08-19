@@ -31,6 +31,7 @@ import java.util.ArrayList;
  */
 public final class MultipleChoice extends TestData {
     private String mcQuestion;
+    private int mcNumberOfChoices = 0;
     private ArrayList<String> mcAnswer;
     private String mcExplanation;
     
@@ -38,6 +39,10 @@ public final class MultipleChoice extends TestData {
         return mcQuestion;
     }
 
+    public final int getMCNumberOfChoices() {
+        return mcNumberOfChoices;
+    }
+    
     public final ArrayList<String> getMCAnswer() {
         return mcAnswer;
     }
@@ -49,6 +54,11 @@ public final class MultipleChoice extends TestData {
     public final void setMCQuestion(String mcQuestion) {
         if(Utility.isNullOrEmpty(mcQuestion)) throw new NullPointerException("Multiple choice questions cannot be null or empty.");
         this.mcQuestion = mcQuestion;
+    }
+    
+    public final void setMCNumberOfChoices(int mcNumberOfChoices) {
+        if(mcNumberOfChoices <= 0) throw new IllegalArgumentException("The number of multiple choice answers cannot be null or zero.");
+        this.mcNumberOfChoices = mcNumberOfChoices;
     }
     
     public final void setMCAnswer(ArrayList<String> mcAnswer) {

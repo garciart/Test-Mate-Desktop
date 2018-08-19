@@ -51,9 +51,9 @@ public final class KeyTerm extends TestData {
         this.definition = definition;
     }
     
-    public KeyTerm(String keyTerm, MediaFlag mediaFlag, String mediaFileName, String definition) {
+    public KeyTerm(String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
         setKeyTerm(keyTerm);
-        validateAndSetMedia(mediaFlag, mediaFileName);
+        validateAndSetMedia(mediaType, mediaFileName);
         setDefinition(definition);
     }
 }
