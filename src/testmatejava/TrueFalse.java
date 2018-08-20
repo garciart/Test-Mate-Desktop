@@ -23,6 +23,8 @@
  */
 package testmatejava;
 
+import testmatejava.Constants.*;
+
 /**
  *
  * @author Rob Garcia at rgarcia@rgprogramming.com
@@ -46,7 +48,7 @@ public final class TrueFalse extends TestData {
     
     public final void setTFQuestion(String tfQuestion) {
         if(Utility.isNullOrEmpty(tfQuestion)) throw new NullPointerException("True/False questions cannot be null or empty.");
-        this.tfQuestion = tfQuestion;
+        else this.tfQuestion = tfQuestion;
     }
     
     public final void setTFAnswer(boolean tfAnswer) {
@@ -57,8 +59,14 @@ public final class TrueFalse extends TestData {
         this.tfExplanation = tfExplanation;
     }
     
-    public TrueFalse(String tfQuestion, boolean tfAnswer, String tfExplanation) {
+    public TrueFalse(QuestionType questionType) {
+        setQuestionType(questionType);
+    }
+    
+    public TrueFalse(QuestionType questionType, String tfQuestion, MediaType mediaType, String mediaFileName, boolean tfAnswer, String tfExplanation) {
+        setQuestionType(questionType);
         setTFQuestion(tfQuestion);
+        validateAndSetMedia(mediaType, mediaFileName);
         setTFAnswer(tfAnswer);
         setTFExplanation(tfExplanation);
     }

@@ -30,9 +30,14 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public abstract class TestData {
+    protected QuestionType questionType;
     protected MediaType mediaType = MediaType.N;
     protected String mediaFileName;
     
+    public final QuestionType getQuestionType() {
+        return questionType;
+    }
+
     public final MediaType getMediaType() {
         return mediaType;
     }
@@ -41,8 +46,13 @@ public abstract class TestData {
         return mediaFileName;
     }
     
+    public final void setQuestionType(QuestionType questionType) {
+        if(questionType == null) throw new NullPointerException("Question type cannot be null.");
+        this.questionType = questionType;
+    }
+
     public final void setMediaType(MediaType mediaType) {
-        if(mediaType == null) throw new NullPointerException("Media flag cannot be null.");
+        if(mediaType == null) throw new NullPointerException("Media type cannot be null.");
         this.mediaType = mediaType;
     }
     
@@ -51,9 +61,11 @@ public abstract class TestData {
     }
     
     protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
-        if(mediaType == MediaType.N && !Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Filename should be NULL.");
+        if(mediaType == MediaType.N) {
+            if(!mediaFileName.toLowerCase().equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
+        }
         else {
-            if(Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
+            if(mediaFileName.toLowerCase().equals("null") || Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
             switch(mediaType) {
                 case I: {
                     if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");

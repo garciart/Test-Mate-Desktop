@@ -55,16 +55,16 @@ public class Constants {
         YES,
         NO
     }
-
-    /** Media flag constants
-     * N for none, I for images, A for audio files, and V for video files */    
-    public enum MediaType {
-        N, I, A, V
-    }
     
     /** Question type constants
      * K for Key Term, M for Multiple Choice, T for True or False */    
     public enum QuestionType {
         K, M, T
+    }
+    
+    /** Media flag constants
+     * N for none, I for images, A for audio files, and V for video files */    
+    public enum MediaType {
+        N, I, A, V
     }
 }

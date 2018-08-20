@@ -24,6 +24,7 @@
 package testmatejava;
 
 import java.util.ArrayList;
+import testmatejava.Constants.*;
 
 /**
  *
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 public final class MultipleChoice extends TestData {
     private String mcQuestion;
     private int mcNumberOfChoices = 0;
-    private ArrayList<String> mcAnswer;
+    private ArrayList<String> mcChoice;
     private String mcExplanation;
     
     public final String getMCQuestion() {
@@ -43,8 +44,8 @@ public final class MultipleChoice extends TestData {
         return mcNumberOfChoices;
     }
     
-    public final ArrayList<String> getMCAnswer() {
-        return mcAnswer;
+    public final ArrayList<String> getMCChoice() {
+        return mcChoice;
     }
     
     public final String getMCExplanation() {
@@ -53,20 +54,33 @@ public final class MultipleChoice extends TestData {
     
     public final void setMCQuestion(String mcQuestion) {
         if(Utility.isNullOrEmpty(mcQuestion)) throw new NullPointerException("Multiple choice questions cannot be null or empty.");
-        this.mcQuestion = mcQuestion;
+        else this.mcQuestion = mcQuestion;
     }
     
     public final void setMCNumberOfChoices(int mcNumberOfChoices) {
         if(mcNumberOfChoices <= 0) throw new IllegalArgumentException("The number of multiple choice answers cannot be null or zero.");
-        this.mcNumberOfChoices = mcNumberOfChoices;
+        else this.mcNumberOfChoices = mcNumberOfChoices;
     }
     
-    public final void setMCAnswer(ArrayList<String> mcAnswer) {
-        if(mcAnswer == null) throw new NullPointerException("Multiple choice questions must have at least one answer.");
-        this.mcAnswer = mcAnswer;
+    public final void setMCChoices(ArrayList<String> mcChoices) {
+        if(mcChoices == null) throw new NullPointerException("Multiple choice questions must have at least one choice.");
+        else this.mcChoice = mcChoice;
     }
 
     public final void setMCExplanation(String mcExplanation) {
         this.mcExplanation = mcExplanation;
+    }
+    
+    public MultipleChoice(QuestionType questionType) {
+        setQuestionType(questionType);
+    }
+    
+    public MultipleChoice(QuestionType questionType, String mcQuestion, MediaType mediaType, String mediaFileName, int mcNumberOfChoices,  ArrayList<String> mcChoices, String mcExplanation) {
+        setQuestionType(questionType);
+        setMCQuestion(mcQuestion);
+        validateAndSetMedia(mediaType, mediaFileName);
+        setMCNumberOfChoices(mcNumberOfChoices);
+        setMCChoices(mcChoices);
+        setMCExplanation(mcExplanation);
     }
 }

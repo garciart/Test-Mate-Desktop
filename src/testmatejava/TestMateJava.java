@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import testmatejava.Constants.*;
@@ -48,12 +49,29 @@ public class TestMateJava {
         }
         */
         try {
-            KeyTerm td = new KeyTerm("La", MediaType.I, "bob.png", "A note to follow so.");
+            /*
+            KeyTerm td = new KeyTerm(QuestionType.K, "La", MediaType.I, "bob.png", "A note to follow so.");
             System.out.println(td.getMediaFileName());
             td.setMediaFileName("bob.mp3");
             System.out.println(td.getMediaFileName());
-            // readFile();
-            randomTest();
+            */
+            readFile();
+            for(int x = 0; x < testData.size(); x++) {
+                TestData t = (TestData)testData.get(x);
+                switch(t.getQuestionType()) {
+                    case K:
+                        KeyTerm k = (KeyTerm)testData.get(x);
+                        System.out.println(k.getKeyTerm() + ": " + k.getKTDefinition());
+                        break;
+                    case M:
+                        break;
+                    case T:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            // randomTest();
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
@@ -69,10 +87,61 @@ public class TestMateJava {
      */    
     private static void readFile() throws FileNotFoundException, IOException {
         String line;
+        testData = new ArrayList<>();
         FileReader fileReader = new FileReader(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             while((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
-                System.out.println(line);
+                if(line.equals(QuestionType.K.toString())) {
+                    KeyTerm k = new KeyTerm(QuestionType.K);
+                    k.setKeyTerm(bufferedReader.readLine());
+                    MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
+                    String tempMF = bufferedReader.readLine();
+                    k.validateAndSetMedia(tempMT, tempMF);
+                    k.setKTDefinition(bufferedReader.readLine());
+                    testData.add(k);
+                }
+                else if(line.equals(QuestionType.M.toString())) {
+                    MultipleChoice m = new MultipleChoice(QuestionType.M);
+                    m.setMCQuestion(bufferedReader.readLine());
+                    MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
+                    String tempMF = bufferedReader.readLine();
+                    m.validateAndSetMedia(tempMT, tempMF);
+                    m.setMCNumberOfChoices(Integer.parseInt(bufferedReader.readLine()));
+                    ArrayList tempChoices = new ArrayList<>();
+                    for(int x = 0; x <= m.getMCNumberOfChoices(); x++) {
+                        tempChoices.add(bufferedReader.readLine());
+                    }
+                    m.setMCChoices(tempChoices);
+                    String tempExplanation  = bufferedReader.readLine();
+                    if(tempExplanation.toLowerCase().equals("null") || Utility.isNullOrEmpty(tempExplanation)) {
+                        m.setMCExplanation("The answer is: " + tempChoices.get(0).toString());
+                    }
+                    else {
+                        m.setMCExplanation(tempExplanation);
+                    }
+                    testData.add(m);
+                }
+                else if(line.equals(QuestionType.T.toString())) {
+                    TrueFalse t = new TrueFalse(QuestionType.T);
+                    t.setTFQuestion(bufferedReader.readLine());
+                    MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
+                    String tempMF = bufferedReader.readLine();
+                    t.validateAndSetMedia(tempMT, tempMF);
+                    t.setTFAnswer(Boolean.valueOf(bufferedReader.readLine()));
+                    String tempExplanation  = bufferedReader.readLine();
+                    if(tempExplanation.toLowerCase().equals("null") || Utility.isNullOrEmpty(tempExplanation)) {
+                        t.setTFExplanation("The answer is: " + t.getTFAnswer());
+                    }
+                    else {
+                        t.setTFExplanation(tempExplanation);
+                    }
+                    testData.add(t);
+                }
+                else {
+                    throw new IllegalArgumentException("Corrunpt data file. Check structure and values.");
+                }
+                    
+                
                 /*
                 String[] temp = line.split(",");
                 // temp[0] is the species, temp[1] is the name, and temp[2] is the bithdate

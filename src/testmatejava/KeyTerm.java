@@ -31,29 +31,34 @@ import testmatejava.Constants.*;
  */
 public final class KeyTerm extends TestData {
     private String keyTerm;
-    private String definition;
+    private String ktDefinition;
     
     public final String getKeyTerm() {
         return keyTerm;
     }
 
-    public final String getDefinition() {
-        return definition;
+    public final String getKTDefinition() {
+        return ktDefinition;
     }
     
     public final void setKeyTerm(String keyTerm) {
         if(Utility.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
-        this.keyTerm = keyTerm;
+        else this.keyTerm = keyTerm;
     }
     
-    public final void setDefinition(String definition) {
-        if(Utility.isNullOrEmpty(definition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
-        this.definition = definition;
+    public final void setKTDefinition(String ktDefinition) {
+        if(Utility.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
+        else this.ktDefinition = ktDefinition;
     }
     
-    public KeyTerm(String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
+    public KeyTerm(QuestionType questionType) {
+        setQuestionType(questionType);
+    }
+    
+    public KeyTerm(QuestionType questionType, String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
+        setQuestionType(questionType);
         setKeyTerm(keyTerm);
         validateAndSetMedia(mediaType, mediaFileName);
-        setDefinition(definition);
+        setKTDefinition(ktDefinition);
     }
 }
