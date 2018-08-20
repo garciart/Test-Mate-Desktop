@@ -30,8 +30,8 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class KeyTerm extends TestData {
-    private String keyTerm;
-    private String ktDefinition;
+    private String keyTerm = new String();;
+    private String ktDefinition = new String();;
     
     public final String getKeyTerm() {
         return keyTerm;
@@ -55,10 +55,12 @@ public final class KeyTerm extends TestData {
         setQuestionType(questionType);
     }
     
+    /*
     public KeyTerm(QuestionType questionType, String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
         setQuestionType(questionType);
         setKeyTerm(keyTerm);
         validateAndSetMedia(mediaType, mediaFileName);
         setKTDefinition(ktDefinition);
     }
+    */
 }

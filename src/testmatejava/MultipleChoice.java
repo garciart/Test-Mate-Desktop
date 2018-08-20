@@ -31,10 +31,10 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class MultipleChoice extends TestData {
-    private String mcQuestion;
+    private String mcQuestion = new String();
     private int mcNumberOfChoices = 0;
-    private ArrayList<String> mcChoice;
-    private String mcExplanation;
+    private ArrayList<String> mcChoices = new ArrayList<>();
+    private String mcExplanation = new String();
     
     public final String getMCQuestion() {
         return mcQuestion;
@@ -44,8 +44,8 @@ public final class MultipleChoice extends TestData {
         return mcNumberOfChoices;
     }
     
-    public final ArrayList<String> getMCChoice() {
-        return mcChoice;
+    public final ArrayList<String> getMCChoices() {
+        return mcChoices;
     }
     
     public final String getMCExplanation() {
@@ -64,7 +64,7 @@ public final class MultipleChoice extends TestData {
     
     public final void setMCChoices(ArrayList<String> mcChoices) {
         if(mcChoices == null) throw new NullPointerException("Multiple choice questions must have at least one choice.");
-        else this.mcChoice = mcChoice;
+        else this.mcChoices = mcChoices;
     }
 
     public final void setMCExplanation(String mcExplanation) {
@@ -75,6 +75,7 @@ public final class MultipleChoice extends TestData {
         setQuestionType(questionType);
     }
     
+    /*
     public MultipleChoice(QuestionType questionType, String mcQuestion, MediaType mediaType, String mediaFileName, int mcNumberOfChoices,  ArrayList<String> mcChoices, String mcExplanation) {
         setQuestionType(questionType);
         setMCQuestion(mcQuestion);
@@ -83,4 +84,5 @@ public final class MultipleChoice extends TestData {
         setMCChoices(mcChoices);
         setMCExplanation(mcExplanation);
     }
+    */
 }

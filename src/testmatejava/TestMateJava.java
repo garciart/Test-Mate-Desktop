@@ -57,15 +57,29 @@ public class TestMateJava {
             */
             readFile();
             for(int x = 0; x < testData.size(); x++) {
-                TestData t = (TestData)testData.get(x);
-                switch(t.getQuestionType()) {
+                // TestData td = (TestData)testData.get(x);
+                switch(((TestData)testData.get(x)).getQuestionType()) {
                     case K:
-                        KeyTerm k = (KeyTerm)testData.get(x);
-                        System.out.println(k.getKeyTerm() + ": " + k.getKTDefinition());
+                        KeyTerm kt = (KeyTerm)testData.get(x);
+                        System.out.println(kt.getKeyTerm() + ": " + kt.getKTDefinition());
                         break;
                     case M:
+                        MultipleChoice mc = (MultipleChoice)testData.get(x);
+                        mc.setMCQuestion(mc.getMCQuestion().replace("\\t", "\t"));
+                        mc.setMCQuestion(mc.getMCQuestion().replace("\\n", "\n"));
+                        System.out.println(mc.getMCQuestion());
+                        for(String c : mc.getMCChoices()) {
+                            System.out.println(c);
+                        }
+                        System.out.println(mc.getMCExplanation());
                         break;
                     case T:
+                        TrueFalse tf = (TrueFalse)testData.get(x);
+                        tf.setTFQuestion(tf.getTFQuestion().replace("\\t", "\t"));
+                        tf.setTFQuestion(tf.getTFQuestion().replace("\\n", "\n"));
+                        System.out.println(tf.getTFQuestion());
+                        System.out.println(tf.getTFAnswer());
+                        System.out.println(tf.getTFExplanation());
                         break;
                     default:
                         break;
@@ -107,14 +121,12 @@ public class TestMateJava {
                     String tempMF = bufferedReader.readLine();
                     m.validateAndSetMedia(tempMT, tempMF);
                     m.setMCNumberOfChoices(Integer.parseInt(bufferedReader.readLine()));
-                    ArrayList tempChoices = new ArrayList<>();
                     for(int x = 0; x <= m.getMCNumberOfChoices(); x++) {
-                        tempChoices.add(bufferedReader.readLine());
+                        m.getMCChoices().add(bufferedReader.readLine());
                     }
-                    m.setMCChoices(tempChoices);
                     String tempExplanation  = bufferedReader.readLine();
                     if(tempExplanation.toLowerCase().equals("null") || Utility.isNullOrEmpty(tempExplanation)) {
-                        m.setMCExplanation("The answer is: " + tempChoices.get(0).toString());
+                        m.setMCExplanation("The answer is: " + m.getMCChoices().get(0));
                     }
                     else {
                         m.setMCExplanation(tempExplanation);

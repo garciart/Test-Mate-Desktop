@@ -152,7 +152,7 @@ null
 26
 27
 28
-In the snippet, n is incremented after the assignment is completed (e.g., d = n + 5).
+The answer is 25, since n is incremented only after the assignment (d = n + 5) is completed.
 T
 The switch statement selects for execution a statement list having an associated label that corresponds to the value of an expression.
 N

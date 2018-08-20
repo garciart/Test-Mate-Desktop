@@ -30,9 +30,9 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class TrueFalse extends TestData {
-    private String tfQuestion;
-    private boolean tfAnswer;
-    private String tfExplanation;
+    private String tfQuestion = new String();;
+    private boolean tfAnswer = false;
+    private String tfExplanation = new String();;
     
     public final String getTFQuestion() {
         return tfQuestion;
@@ -63,6 +63,7 @@ public final class TrueFalse extends TestData {
         setQuestionType(questionType);
     }
     
+    /*
     public TrueFalse(QuestionType questionType, String tfQuestion, MediaType mediaType, String mediaFileName, boolean tfAnswer, String tfExplanation) {
         setQuestionType(questionType);
         setTFQuestion(tfQuestion);
@@ -70,4 +71,5 @@ public final class TrueFalse extends TestData {
         setTFAnswer(tfAnswer);
         setTFExplanation(tfExplanation);
     }
+    */
 }
