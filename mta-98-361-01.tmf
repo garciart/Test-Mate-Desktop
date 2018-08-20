@@ -1,86 +1,215 @@
+K
 algorithm
+0
+null
 a set of ordered and finite steps to solve a given problem.
-
+K
 array
+0
+null
 a collection of items in which each item can be accessed by using a unique index.
-
+K
 binary code
+0
+null
 A computer program written using only two symbols, 0 and 1.
-
+K
 binary number system
+0
+null
 At the most basic level, the system which computers use to represent information and code using only two symbols, 0 and 1.
-
+K
 case
+0
+null
 statements contained in a switch block.
-
+K
 class
+0
+null
 a set of data and methods defined between an opening brace ({) and a closing brace (}).
-
+K
 computer programs (programs)
+0
+null
 a set of precise and complete instructions to accomplish a task.
-
+K
 constant
+0
+null
 data fields or local variables whose value cannot be modified.
-
+K
 data types
+0
+null
 specifies the type of data that you work with in a program, defining the size of memory needed to store the data and the kinds of operations that can be performed on the data.
-
+K
 decision structures
+0
+null
 introduce decision-making ability into a program, enabling you to branch to different sections of the code depending on the truth value of a Boolean expression.
-
+K
 decision table
+0
+null
 a compact and readable format for presenting the algorithm.
-
+K
 default statement
+0
+null
 used when an expression does not match any of the cases in a switch block.
-
+K
 do-while loop
+0
+null
 repeatedly executes a block of statements until a specified Boolean expression evaluates to false, but tests the condition at the bottom of the loop.
-
+K
 exception
+0
+null
 an error condition that occurs during the execution of a C# program.
-
+K
 finally block
+0
+null
 used in association with the try block, and is always executed regardless of whether an exception is thrown; often used to write clean-up code.
-
+K
 flowchart
+0
+null
 a graphical representation of an algorithm.
-
+K
 for loop
+0
+null
 combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code.
-
+K
 foreach loop
+0
+null
 useful for iterating through the elements of a collection.
-
+K
 high-level language
+0
+null
 Languages such as C#, Visual Basic, or Java that allow you to write precise instructions in a human-readable form. 
-
+K
 if statement
+0
+null
 executes a given sequence of statements only if the corresponding Boolean expression evaluates to true.
-
+K
 if-else statement
+0
+null
 allows your program to perform one action if the Boolean expression evaluates to true and a different action if the Boolean expression evaluates to false.
-
+K
 methods
+0
+null
 code blocks containing a series of statements, which can receive input via arguments and can return a value to the caller.
-
+K
 operator
+0
+null
 a symbol that specifies which operation to perform on the operands before returning a result.
-
+K
 recursion
+0
+null
 a programming technique that causes a method to call itself in order to compute a result.
-
+K
 switch block
+0
+null
 can include one or more case statements or a default statement.
-
+K
 switch statement
+0
+null
 allows multi-way branching, and, in many cases, it can simplify a complex combination of if-else statements.
-
+K
 try-catch-finally block
+0
+null
 a code block that throws and handles exceptions to prevent program execution from terminating.
-
+K
 variable
+0
+null
 temporary storage for values during the execution of a program.
-
+K
 while loop
+0
+null
 repeatedly executes a block of statements until a specified Boolean expression evaluates to false.
+M
+Review the following code snippet:\nint n = 20;\nint d = n++ + 5;\nWhat will be the value of d after this code snippet is executed?
+0
+null
+3
+25
+26
+27
+28
+In the snippet, n is incremented after the assignment is completed (e.g., d = n + 5).
+T
+The switch statement selects for execution a statement list having an associated label that corresponds to the value of an expression.
+0
+null
+false
+The switch statement selects for execution a statement list having an associated label that corresponds to the value of an expression.
+T
+The if-else loop tests the condition at the bottom of the loop instead of at the top.
+0
+null
+false
+The do-while loop tests the condition at the bottom of the loop instead of at the top.
+T
+The only operator that takes three arguments is the ?: operator.
+0
+null
+true
+The only operator that takes three arguments is the ?: operator.
+T
+The foreach loop is the most compact way to iterate through the items in a collection.
+0
+null
+true
+The foreach loop is the most compact way to iterate through the items in a collection.
+T
+On a 32-bit computer, a variable of int data type takes two bytes of memory.
+0
+null
+true
+On a 32-bit computer, a variable of int data type takes two bytes of memory.
+T
+To access the first element of an array, you use an index of 1.
+0
+null
+false
+To access the first element of an array, you use an index of 0.
+T
+Recursion is a programming technique that causes a method to call itself in order to compute a result.
+0
+null
+true
+Recursion is a programming technique that causes a method to call itself in order to compute a result.
+T
+Variables are data fields whose value cannot be modified.
+0
+null
+false
+Constants are data fields or local variables whose value cannot be modified.
+T
+When an algorithm involves a large number of conditions, a(n) decision table is a compact and readable format for presenting the algorithm.
+0
+null
+true
+When an algorithm involves a large number of conditions, a(n) decision table is a compact and readable format for presenting the algorithm.
+T
+A(n) flowchart is a graphical representation of an algorithm.
+0
+null
+true
+A(n) flowchart is a graphical representation of an algorithm.
