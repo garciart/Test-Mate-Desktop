@@ -53,7 +53,7 @@ public final class MultipleChoice extends TestData {
     }
     
     public final void setMCQuestion(String mcQuestion) {
-        if(Utility.isNullOrEmpty(mcQuestion)) throw new NullPointerException("Multiple choice questions cannot be null or empty.");
+        if(Utilities.isNullOrEmpty(mcQuestion)) throw new NullPointerException("Multiple choice questions cannot be null or empty.");
         else this.mcQuestion = mcQuestion;
     }
     

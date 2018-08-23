@@ -65,7 +65,7 @@ public abstract class TestData {
             if(!mediaFileName.toLowerCase().equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
         }
         else {
-            if(mediaFileName.toLowerCase().equals("null") || Utility.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
+            if(mediaFileName.toLowerCase().equals("null") || Utilities.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
             switch(mediaType) {
                 case I: {
                     if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");

@@ -29,6 +29,7 @@ package testmatejava;
  */
 public class Constants {
     public static final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
+    public static final char[] LETTERS = {'A', 'B', 'C', 'D'};
     
     /** Question order settings
      * DEFAULT to display questions as read from the file

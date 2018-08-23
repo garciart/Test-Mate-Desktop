@@ -42,12 +42,12 @@ public final class KeyTerm extends TestData {
     }
     
     public final void setKeyTerm(String keyTerm) {
-        if(Utility.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
+        if(Utilities.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
         else this.keyTerm = keyTerm;
     }
     
     public final void setKTDefinition(String ktDefinition) {
-        if(Utility.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
+        if(Utilities.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
         else this.ktDefinition = ktDefinition;
     }
     

@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2018 Rob Garcia at rgarcia@rgprogramming.com.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package testmatejava;
 
@@ -41,7 +59,7 @@ public class TestMateJava {
         s.setProvideFeedbackSetting(null);
         /*
         String test = "";
-        if(Utility.isNullOrEmpty(test)) {
+        if(Utilities.isNullOrEmpty(test)) {
             System.out.println("\nEmpty string!\n");
         }
         else {
@@ -61,22 +79,30 @@ public class TestMateJava {
                 switch(((TestData)testData.get(x)).getQuestionType()) {
                     case K:
                         KeyTerm kt = (KeyTerm)testData.get(x);
+                        // Eventually move to readFile...
+                        kt.setKeyTerm(Utilities.fixEscapeCharacters(kt.getKeyTerm()));
+                        kt.setKTDefinition(Utilities.fixEscapeCharacters(kt.getKTDefinition()));
                         System.out.println(kt.getKeyTerm() + ": " + kt.getKTDefinition());
                         break;
                     case M:
                         MultipleChoice mc = (MultipleChoice)testData.get(x);
-                        mc.setMCQuestion(mc.getMCQuestion().replace("\\t", "\t"));
-                        mc.setMCQuestion(mc.getMCQuestion().replace("\\n", "\n"));
+                        // Eventually move to readFile...
+                        mc.setMCQuestion(Utilities.fixEscapeCharacters(mc.getMCQuestion()));
+                        mc.setMCExplanation(Utilities.fixEscapeCharacters(mc.getMCExplanation()));
                         System.out.println(mc.getMCQuestion());
-                        for(String c : mc.getMCChoices()) {
-                            System.out.println(c);
+                        int c = 0;
+                        for(String choices : mc.getMCChoices()) {
+                            choices = Utilities.fixEscapeCharacters(choices);
+                            System.out.println(Constants.LETTERS[c] + ". " + choices);
+                            c++;
                         }
                         System.out.println(mc.getMCExplanation());
                         break;
                     case T:
                         TrueFalse tf = (TrueFalse)testData.get(x);
-                        tf.setTFQuestion(tf.getTFQuestion().replace("\\t", "\t"));
-                        tf.setTFQuestion(tf.getTFQuestion().replace("\\n", "\n"));
+                        // Eventually move to readFile...
+                        tf.setTFQuestion(Utilities.fixEscapeCharacters(tf.getTFQuestion()));
+                        tf.setTFExplanation(Utilities.fixEscapeCharacters(tf.getTFExplanation()));
                         System.out.println(tf.getTFQuestion());
                         System.out.println(tf.getTFAnswer());
                         System.out.println(tf.getTFExplanation());
@@ -106,6 +132,7 @@ public class TestMateJava {
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             while((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
                 if(line.equals(QuestionType.K.toString())) {
+                    // MOVE Utilities.fixEscapeCharacters() to here eventually?
                     KeyTerm k = new KeyTerm(QuestionType.K);
                     k.setKeyTerm(bufferedReader.readLine());
                     MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
@@ -115,6 +142,7 @@ public class TestMateJava {
                     testData.add(k);
                 }
                 else if(line.equals(QuestionType.M.toString())) {
+                    // MOVE Utilities.fixEscapeCharacters() to here eventually?
                     MultipleChoice m = new MultipleChoice(QuestionType.M);
                     m.setMCQuestion(bufferedReader.readLine());
                     MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
@@ -125,7 +153,7 @@ public class TestMateJava {
                         m.getMCChoices().add(bufferedReader.readLine());
                     }
                     String tempExplanation  = bufferedReader.readLine();
-                    if(tempExplanation.toLowerCase().equals("null") || Utility.isNullOrEmpty(tempExplanation)) {
+                    if(tempExplanation.toLowerCase().equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
                         m.setMCExplanation("The answer is: " + m.getMCChoices().get(0));
                     }
                     else {
@@ -134,6 +162,7 @@ public class TestMateJava {
                     testData.add(m);
                 }
                 else if(line.equals(QuestionType.T.toString())) {
+                    // MOVE Utilities.fixEscapeCharacters() to here eventually?
                     TrueFalse t = new TrueFalse(QuestionType.T);
                     t.setTFQuestion(bufferedReader.readLine());
                     MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
@@ -141,7 +170,7 @@ public class TestMateJava {
                     t.validateAndSetMedia(tempMT, tempMF);
                     t.setTFAnswer(Boolean.valueOf(bufferedReader.readLine()));
                     String tempExplanation  = bufferedReader.readLine();
-                    if(tempExplanation.toLowerCase().equals("null") || Utility.isNullOrEmpty(tempExplanation)) {
+                    if(tempExplanation.toLowerCase().equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
                         t.setTFExplanation("The answer is: " + t.getTFAnswer());
                     }
                     else {

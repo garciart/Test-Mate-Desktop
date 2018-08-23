@@ -153,6 +153,96 @@ null
 27
 28
 The answer is 25, since n is incremented only after the assignment (d = n + 5) is completed.
+M
+Review the following code snippet:\nprivate static void WhileTest() {\n\tint i = 1;\n\twhile (i < 5) {\n\t\tConsole.WriteLine("The value of i = {0}", i);\n\t\ti++;\n\t}\n}\nHow many times will the while loop be executed in this code snippet?
+N
+null
+3
+4
+0
+1
+5
+The answer is 4, since i starts at one and the loop will only run while i is less than 5.
+M
+Review the following code snippet:\nint number1 = 10;\nint number2 = 20;\nif (number2 > number1)\nConsole.WriteLine("number1");\nConsole.WriteLine("number2");\nWhat output will be displayed after this code snippet is executed?
+N
+null
+3
+number1\nnumber2
+number1
+number2
+number2\nnumber1
+Since the condition is true and Console.WriteLine("number2"); is not part of the if statement, the answer is:\nnumber1\nnumber2
+M
+In a switch statement, if none of the case statements match the switch expression, then control is transferred to which statement?
+N
+null
+3
+default
+break
+continue
+return
+Control is transfered to the default statement.
+M
+You need to write code that closes a connection to a database and you need to make sure this code is always executed regardless of whether an exception is thrown. Where should you write this code?
+N
+null
+3
+Within a try block
+Within a catch block
+Within a finally block
+Within the Main method
+The finally block is always executed regardless of whether an exception is thrown.
+M
+You need to store values ranging from 0 to 255. You also need to make sure that your program minimizes memory use. Which data type should you use to store these values?
+N
+null
+3
+byte
+char
+short
+int
+A byte can store values between 0 and 255. A char and short in C# is two bytes, while an int may be four bytes.
+M
+If you don’t have a base case in your recursive algorithm, you create an infinite recursion. An infinite recursion will cause your program to throw an exception. Which exception will your program throw in such a case?
+N
+null
+3
+StackOverflowException
+OutOfMemoryException
+DivideByZeroException
+InvalidOperationException
+An infinite recursion will cause your computer to run out of memory and throw a System.StackOverflowException exception
+M
+You are learning how to develop repetitive algorithms in C#. You write the following method:\nprivate static void ForTest() {\n\tfor(int i = 1; i < 5;) {\n\t\tConsole.WriteLine("The value of i = {0}", i);\n\t}\n}\nHow many repetitions will the for loop in this code perform?
+N
+null
+3
+Infinite repetitions
+0
+4
+5
+Since i is not incremented and the condition will always be true, the loop will continue infinitely.
+M
+Which of the following C# features should you use to organize code and create globally unique types?
+N
+null
+3
+Namespace
+Assembly
+Class
+Data type
+Namespaces are used to organize classes and uniquely identify them.
+M
+You write the following code snippet:\nint[] numbers = {1, 2, 3, 4};\nint val = numbers[1];\nYou also create a variable of the RectangleHandler type like this:\nRectangleHandler handler;\nWhat is the value of the variable val after this code snippet is executed?
+N
+null
+3
+2
+1
+3
+4
+The answer is 2, since numbers[0] = 1, numbers[1] = 2, etc., and val = numbers[1].
 T
 The switch statement selects for execution a statement list having an associated label that corresponds to the value of an expression.
 N

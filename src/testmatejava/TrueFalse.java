@@ -47,7 +47,7 @@ public final class TrueFalse extends TestData {
     }
     
     public final void setTFQuestion(String tfQuestion) {
-        if(Utility.isNullOrEmpty(tfQuestion)) throw new NullPointerException("True/False questions cannot be null or empty.");
+        if(Utilities.isNullOrEmpty(tfQuestion)) throw new NullPointerException("True/False questions cannot be null or empty.");
         else this.tfQuestion = tfQuestion;
     }
     

@@ -27,8 +27,14 @@ package testmatejava;
  *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Utility {
+public class Utilities {
     public static final boolean isNullOrEmpty(String s) {
         return ((s == null || "".equals(s.trim())));
+    }
+    
+    public static final String fixEscapeCharacters(String s) {
+        s = s.replace("\\t", "\t");
+        s = s.replace("\\n", "\n");
+        return s;
     }
 }
