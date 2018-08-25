@@ -72,7 +72,7 @@ public class TestMateJava {
             System.out.println(td.getMediaFileName());
             td.setMediaFileName("bob.mp3");
             System.out.println(td.getMediaFileName());
-            */
+
             readFile();
             for(int x = 0; x < testData.size(); x++) {
                 // TestData td = (TestData)testData.get(x);
@@ -111,7 +111,13 @@ public class TestMateJava {
                         break;
                 }
             }
+            */
             // randomTest();
+            RandomNumbers rn = new RandomNumbers(40, 38);
+            for(int x = 0; x < 4; x++) {
+                System.out.println(x + ": " + rn.getUniqueArray()[x]);
+            }
+            System.out.println(rn.getIndexLocation());
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
@@ -181,49 +187,6 @@ public class TestMateJava {
                 else {
                     throw new IllegalArgumentException("Corrunpt data file. Check structure and values.");
                 }
-                    
-                
-                /*
-                String[] temp = line.split(",");
-                // temp[0] is the species, temp[1] is the name, and temp[2] is the bithdate
-                if(temp[0].matches("^[a-zA-Z0-9]*$") && temp[1].matches("^[a-zA-Z0-9]*$") && temp[2].matches("(0?[1-9]|1[012])\\/(0?[1-9]|[12][0-9]|3[01])\\/\\d{4}")) {
-                    switch (temp[0]) {
-                        case "Goat": {
-                            animal.add(new Goat(temp[1], temp[2]));
-                            break;
-                        }
-                        case "Lion": {
-                            animal.add(new Lion(temp[1], temp[2]));
-                            break;
-                        }
-                        case "Pig": {
-                            animal.add(new Pig(temp[1], temp[2]));
-                            break;
-                        }
-                        case "Turtle": {
-                            animal.add(new Turtle(temp[1], temp[2]));
-                            break;
-                        }
-                        case "Iguana": {
-                            animal.add(new Iguana(temp[1], temp[2]));
-                            break;
-                        }
-                        case "Eagle": {
-                            animal.add(new Eagle(temp[1], temp[2]));
-                            break;
-                        }
-                        case "Hawk": {
-                            animal.add(new Hawk(temp[1], temp[2]));
-                            break;
-                        }
-                        default:
-                            throw new InvalidAnimalException("Invalid animal " + temp[1] + " found!");
-                    }
-                }
-                else {
-                    throw new InvalidAnimalException("Format error! Check your parameters!");
-                }
-                */
             }
         } 
     }
