@@ -29,7 +29,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import testmatejava.Constants.*;
 
 /**
@@ -112,12 +111,15 @@ public class TestMateJava {
                 }
             }
             */
-            // randomTest();
-            RandomNumbers rn = new RandomNumbers(40, 38);
-            for(int x = 0; x < 4; x++) {
-                System.out.println(x + ": " + rn.getUniqueArray()[x]);
+            for(int y = 0; y <= 10; y++) {
+                RandomNumbers rn = new RandomNumbers(40, 6);
+                Thread.sleep(1000);
+                for(int x = 0; x <= 3; x++) {
+                    System.out.print(x + ": " + rn.getUniqueArray()[x]);
+                    System.out.println((x == rn.getIndexLocation() ? " - here!" : ""));
+                }
+                System.out.println();
             }
-            System.out.println(rn.getIndexLocation());
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
@@ -189,144 +191,5 @@ public class TestMateJava {
                 }
             }
         } 
-    }
-    
-    public static void randomTest() {
-        // randomTest(int t, int i)
-        int t = 3; // Zero-based
-        int i = 2; // Zero-based
-        int newIndex = 0;
-        Random rand = new Random(System.currentTimeMillis());
-        int[] randomArray = new int[t + 1];
-        if(t <= 3) {
-            System.out.println("Four questions or less:");
-            // Get ordered number set
-            for(int x = 0; x <= t; x++) {
-                randomArray[x] = x;
-            }
-            
-            /* TEST */
-            for(int x = 0; x <= t; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-            
-            // Shuffle the set
-            for(int x = 0; x <= t; x++) {
-                int r = rand.nextInt(t);
-                int temp = randomArray[x];
-                randomArray[x] = randomArray[r];
-                randomArray[r] = temp;
-            }
-            
-            /* TEST */
-            for(int x = 0; x <= t; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-        }
-        else if (t >= 4 && t <= 8) {
-            System.out.println("Five to nine questions:");
-            // Get ordered number set, excluding the index number
-            int y = 1;
-            for(int x = 0; x <= t; x++) {
-                if(x != i) {
-                    randomArray[y] = x;
-                    y++;
-                }
-            }
-            
-            /* TEST */
-            for(int x = 0; x <= t; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-
-            // Shuffle the first set
-            for(int x = 1; x <= t; x++) {
-                int r = rand.nextInt(t - 1) + 1;
-                int temp = randomArray[x];
-                randomArray[x] = randomArray[r];
-                randomArray[r] = temp;
-            }
-            
-            /* TEST */
-            for(int x = 0; x <= t; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-
-            // Add the index number to the beginning of the set
-            randomArray[0] = i;
-            // Reshuffle the first four numbers, ensuring the index number is in the new set
-            for(int x = 0; x <= 3; x++) {
-                int r = rand.nextInt(3);
-                int temp = randomArray[x];
-                randomArray[x] = randomArray[r];
-                randomArray[r] = temp;
-            }
-
-            /* TEST */
-            for(int x = 0; x <= 3; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-        }
-        else {
-            System.out.println("Greater than nine questions:");
-            // Get ordered number set, excluding the index number
-            int y = 0;
-            for(int x = (i + 1); x < (i + 8); x++) {
-                if(x < t) {
-                    randomArray[y + 1] = x;
-                }
-                else {
-                    randomArray[y + 1] = x - t;
-                }
-                y++;
-            }
-
-            /* TEST */
-            for(int x = 0; x < 8; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-            
-            // Shuffle the first set            
-            for(int x = 1; x < 8; x++) {
-                int r = rand.nextInt(7) + 1;
-                int temp = randomArray[x];
-                randomArray[x] = randomArray[r];
-                randomArray[r] = temp;
-            }
-
-            /* TEST */
-            for(int x = 0; x < 8; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-
-            // Add the index number to the beginning of the set
-            randomArray[0] = i;
-            // Reshuffle the first four numbers, ensuring the index number is in the new set
-            for(int x = 0; x <= 3; x++) {
-                int r = rand.nextInt(3);
-                int temp = randomArray[x];
-                randomArray[x] = randomArray[r];
-                randomArray[r] = temp;
-            }
-
-            /* TEST */
-            for(int x = 0; x < 8; x++) {
-                System.out.println(x + ": " + randomArray[x]);
-            }
-            System.out.println();
-        }
-        // Get new index
-        for(int x = 0; x <= (t < 3 ? t : 3); x++) {
-            System.out.println(x + ": " + randomArray[x]);
-            if(randomArray[x] == i) newIndex = x;
-        }
-        System.out.println("New zero-based index is " + newIndex);
     }
 }

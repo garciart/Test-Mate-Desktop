@@ -50,16 +50,22 @@ public class RandomNumbers {
     }
     
     public RandomNumbers(int max) {
+        // EVERYTHING IS ZERO-BASED, INCLUDING THE ARGUMENTS
+        // Ensure the argument is positive and that there is more than one value to randomize
         if(max > 1) {
+            // Seed the psuedo random number generator using the current time
             Random rand = new Random(System.currentTimeMillis());
-            this.uniqueArray = new int[max];
+            // Initiate the array set to the max size
+            this.uniqueArray = new int[max + 1];
             // Get ordered number set
-            for(int x = 0; x < max; x++) {
+            for(int x = 0; x <= max; x++) {
                 uniqueArray[x] = x;
             }
             // Shuffle the set
-            for(int x = 0; x < max; x++) {
-                int r = rand.nextInt(max);
+            for(int x = 0; x <= max; x++) {
+                // Get random numbers between 0 and max
+                // 0 is inclusive, but max is exclusive, so add 1)
+                int r = rand.nextInt(max + 1);
                 int temp = uniqueArray[x];
                 uniqueArray[x] = uniqueArray[r];
                 uniqueArray[r] = temp;
@@ -71,37 +77,44 @@ public class RandomNumbers {
     }
     
     public RandomNumbers(int max, int index) {
-        // Ensure the arguments are positive and that the index is less than or equal to the max value
+        // EVERYTHING IS ZERO-BASED, INCLUDING THE ARGUMENTS
+        // Ensure both arguments are positive and that the index is less than or equal to the max value
         if(max >= 0 && index >= 0 && max >= index) {
+            // Seed the psuedo random number generator using the current time
             Random rand = new Random(System.currentTimeMillis());
+            // Create a temporary array set to the max size
             int[] tempArray = new int[max + 1];
-            // Get ordered number set, INCLUDING the index number
-              // 0 to 3 zero-based choices
-            if(max < 4) {
+            // Use when max value is between 0 and 3
+            if(max <= 3) {
+                // Get ordered number set, INCLUDING the index number
                 for(int x = 0; x <= max; x++) {
                     tempArray[x] = x;
                 }
             }
             else {
-                // 4 to 7 zero-based choices
                 int y = 1;
-                if(max >= 4 && max < 8) {
+                // Use when max value is between 4 and 7
+                if(max >= 4 && max <= 7) {
                     // Get ordered number set, EXCLUDING the index number
+                    // Start at 1 to leave room for the index number later
                     for(int x = 1; x <= max; x++) {
+                        // Skip the index number
                         if(x != index) {
                             tempArray[y] = x;
+                            // Increment only if 
                             y++;
                         }
                     }
                 }
                 else {
-                    // 8 total choices or more
-                    // Get ordered number set, EXCLUDING the index number
-                    for(int x = (index + 1); x < (index + 8); x++) {
-                        // Slide back to 0 if x is greater than max
+                    // Use when max value is greater or equal to 8
+                    // Get an ordered number set of 7 numbers starting at the index number + 1
+                    // Start at 1 to leave room for the index number later
+                    for(int x = (index + 1); x <= (index + 7); x++) {
                         if(x <= max) {
                             tempArray[y] = x;
                         }
+                        // Slide back to 0 if the index + x goes over the max value
                         else {
                             tempArray[y] = x - (max + 1);
                         }
@@ -109,18 +122,21 @@ public class RandomNumbers {
                     }
                 }
                 // Shuffle the set
-                for(int x = 1; x < 8; x++) {
+                for(int x = 1; x <= 7; x++) {
+                    // Get random numbers between 1 and 7
+                    // 0 is inclusive, but 7 is exclusive, so add 1)
                     int r = rand.nextInt(7) + 1;
                     int temp = tempArray[x];
                     tempArray[x] = tempArray[r];
                     tempArray[r] = temp;
                 }
-                // Add the index number to the beginning of the set
+                // Place the index number at the beginning of the array
                 tempArray[0] = index;
             }
-            // Reshuffle the first four numbers, ensuring the index number is in the new set
+            // Reshuffle the first four numbers, [0] to [3]. The index number at [0] will be in the new set
             for(int x = 0; x <= 3; x++) {
-                int r = rand.nextInt(3);
+                // Remember, 4 is exclusive
+                int r = rand.nextInt(4);
                 int temp = tempArray[x];
                 tempArray[x] = tempArray[r];
                 tempArray[r] = temp;
@@ -133,7 +149,7 @@ public class RandomNumbers {
             }
         }
         else {
-            throw new IllegalArgumentException("Ensure the max value is greater than 1, the index is greater than zero, and the index is less than or equal to the max value.");
+            throw new IllegalArgumentException("Ensure both arguments are positive and that the index is less than or equal to the max value.");
         }
             
     }

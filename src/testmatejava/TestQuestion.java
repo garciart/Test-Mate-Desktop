@@ -35,6 +35,7 @@ public class TestQuestion {
     private String question;
     private MediaType mediaType;
     private String mediaFile;
+    private int numberOfChoices;
     private ArrayList<String> choices;
     private int correctAnswerIndex;
     private String explanation;
