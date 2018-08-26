@@ -30,8 +30,8 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class KeyTerm extends TestData {
-    private String keyTerm = new String();;
-    private String ktDefinition = new String();;
+    private String keyTerm;
+    private String ktDefinition;
     
     public final String getKeyTerm() {
         return keyTerm;

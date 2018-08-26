@@ -31,10 +31,9 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class MultipleChoice extends TestData {
-    private String mcQuestion = new String();
-    private int mcNumberOfChoices = 0;
-    private ArrayList<String> mcChoices = new ArrayList<>();
-    private String mcExplanation = new String();
+    private String mcQuestion;
+    private int mcNumberOfChoices;
+    private ArrayList<String> mcChoices;
     
     public final String getMCQuestion() {
         return mcQuestion;
@@ -46,10 +45,6 @@ public final class MultipleChoice extends TestData {
     
     public final ArrayList<String> getMCChoices() {
         return mcChoices;
-    }
-    
-    public final String getMCExplanation() {
-        return mcExplanation;
     }
     
     public final void setMCQuestion(String mcQuestion) {
@@ -66,12 +61,9 @@ public final class MultipleChoice extends TestData {
         if(mcChoices == null) throw new NullPointerException("Multiple choice questions must have at least one choice.");
         else this.mcChoices = mcChoices;
     }
-
-    public final void setMCExplanation(String mcExplanation) {
-        this.mcExplanation = mcExplanation;
-    }
     
     public MultipleChoice(QuestionType questionType) {
+        this.mcChoices = new ArrayList<>();
         setQuestionType(questionType);
     }
     

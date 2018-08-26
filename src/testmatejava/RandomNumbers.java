@@ -34,11 +34,11 @@ public class RandomNumbers {
     private int[] uniqueArray;
     
     public final int getIndexLocation() {
-        return this.indexLocation;
+        return indexLocation;
     }
     
     public final int[] getUniqueArray() {
-        return this.uniqueArray;
+        return uniqueArray;
     }
     
     public final void setIndexLocation(int indexLocation) {

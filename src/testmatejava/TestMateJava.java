@@ -28,7 +28,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import testmatejava.Constants.*;
 
 /**
@@ -36,7 +35,7 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class TestMateJava {
-    private static List<TestData> testData;
+    private static ArrayList<TestData> testData;
     
     /**
      * @param args the command line arguments
@@ -56,73 +55,50 @@ public class TestMateJava {
         System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
         System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
         s.setProvideFeedbackSetting(null);
-        /*
-        String test = "";
-        if(Utilities.isNullOrEmpty(test)) {
-            System.out.println("\nEmpty string!\n");
-        }
-        else {
-            System.out.println("\nString is not empty!\n");
-        }
-        */
         try {
-            /*
-            KeyTerm td = new KeyTerm(QuestionType.K, "La", MediaType.I, "bob.png", "A note to follow so.");
-            System.out.println(td.getMediaFileName());
-            td.setMediaFileName("bob.mp3");
-            System.out.println(td.getMediaFileName());
-
             readFile();
             for(int x = 0; x < testData.size(); x++) {
-                // TestData td = (TestData)testData.get(x);
-                switch(((TestData)testData.get(x)).getQuestionType()) {
+                TestData td = (TestData)testData.get(x);
+                switch(td.getQuestionType()) {
                     case K:
                         KeyTerm kt = (KeyTerm)testData.get(x);
-                        // Eventually move to readFile...
-                        kt.setKeyTerm(Utilities.fixEscapeCharacters(kt.getKeyTerm()));
-                        kt.setKTDefinition(Utilities.fixEscapeCharacters(kt.getKTDefinition()));
-                        System.out.println(kt.getKeyTerm() + ": " + kt.getKTDefinition());
+                        System.out.println(kt.getKeyTerm());
+                        System.out.println(kt.getKTDefinition());
+                        System.out.println(kt.getMediaType());
+                        System.out.println(kt.getMediaFileName());
+                        System.out.println(kt.getExplanation());
                         break;
                     case M:
                         MultipleChoice mc = (MultipleChoice)testData.get(x);
-                        // Eventually move to readFile...
-                        mc.setMCQuestion(Utilities.fixEscapeCharacters(mc.getMCQuestion()));
-                        mc.setMCExplanation(Utilities.fixEscapeCharacters(mc.getMCExplanation()));
                         System.out.println(mc.getMCQuestion());
+                        System.out.println(mc.getMediaType());
+                        System.out.println(mc.getMediaFileName());
                         int c = 0;
                         for(String choices : mc.getMCChoices()) {
-                            choices = Utilities.fixEscapeCharacters(choices);
                             System.out.println(Constants.LETTERS[c] + ". " + choices);
                             c++;
                         }
-                        System.out.println(mc.getMCExplanation());
+                        System.out.println(mc.getExplanation());
                         break;
                     case T:
                         TrueFalse tf = (TrueFalse)testData.get(x);
-                        // Eventually move to readFile...
-                        tf.setTFQuestion(Utilities.fixEscapeCharacters(tf.getTFQuestion()));
-                        tf.setTFExplanation(Utilities.fixEscapeCharacters(tf.getTFExplanation()));
                         System.out.println(tf.getTFQuestion());
+                        System.out.println(tf.getMediaType());
+                        System.out.println(tf.getMediaFileName());
                         System.out.println(tf.getTFAnswer());
-                        System.out.println(tf.getTFExplanation());
+                        System.out.println(tf.getExplanation());
                         break;
                     default:
                         break;
                 }
             }
-            */
-            for(int y = 0; y <= 10; y++) {
-                RandomNumbers rn = new RandomNumbers(40, 6);
-                Thread.sleep(1000);
-                for(int x = 0; x <= 3; x++) {
-                    System.out.print(x + ": " + rn.getUniqueArray()[x]);
-                    System.out.println((x == rn.getIndexLocation() ? " - here!" : ""));
-                }
-                System.out.println();
-            }
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
+        }
+        RandomNumbers rn = new RandomNumbers(10);
+        for(int x = 0; x < 10; x++) {
+            System.out.println(x + ". " + rn.getUniqueArray()[x]);
         }
     }
     
@@ -134,55 +110,54 @@ public class TestMateJava {
      * @throws IOException When file cannot be opened
      */    
     private static void readFile() throws FileNotFoundException, IOException {
-        String line;
+        // Due to MultipleChoice's fluctuating size, we will use getters and setters instead of a constructor for all question types
         testData = new ArrayList<>();
         FileReader fileReader = new FileReader(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            while((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
-                if(line.equals(QuestionType.K.toString())) {
-                    // MOVE Utilities.fixEscapeCharacters() to here eventually?
+            String firstLine;
+            while(!Utilities.isNullOrEmpty(firstLine = bufferedReader.readLine())) {
+                if(firstLine.equals(QuestionType.K.toString())) {
                     KeyTerm k = new KeyTerm(QuestionType.K);
-                    k.setKeyTerm(bufferedReader.readLine());
+                    k.setKeyTerm(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
                     String tempMF = bufferedReader.readLine();
                     k.validateAndSetMedia(tempMT, tempMF);
-                    k.setKTDefinition(bufferedReader.readLine());
+                    k.setKTDefinition(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
+                    k.setExplanation(k.getKeyTerm() + ": " + k.getKTDefinition());
                     testData.add(k);
                 }
-                else if(line.equals(QuestionType.M.toString())) {
-                    // MOVE Utilities.fixEscapeCharacters() to here eventually?
+                else if(firstLine.equals(QuestionType.M.toString())) {
                     MultipleChoice m = new MultipleChoice(QuestionType.M);
-                    m.setMCQuestion(bufferedReader.readLine());
+                    m.setMCQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
                     String tempMF = bufferedReader.readLine();
                     m.validateAndSetMedia(tempMT, tempMF);
                     m.setMCNumberOfChoices(Integer.parseInt(bufferedReader.readLine()));
                     for(int x = 0; x <= m.getMCNumberOfChoices(); x++) {
-                        m.getMCChoices().add(bufferedReader.readLine());
+                        m.getMCChoices().add(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     }
-                    String tempExplanation  = bufferedReader.readLine();
+                    String tempExplanation  = Utilities.fixEscapeCharacters(bufferedReader.readLine());
                     if(tempExplanation.toLowerCase().equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
-                        m.setMCExplanation("The answer is: " + m.getMCChoices().get(0));
+                        m.setExplanation("The answer is: " + m.getMCChoices().get(0));
                     }
                     else {
-                        m.setMCExplanation(tempExplanation);
+                        m.setExplanation(tempExplanation);
                     }
                     testData.add(m);
                 }
-                else if(line.equals(QuestionType.T.toString())) {
-                    // MOVE Utilities.fixEscapeCharacters() to here eventually?
+                else if(firstLine.equals(QuestionType.T.toString())) {
                     TrueFalse t = new TrueFalse(QuestionType.T);
-                    t.setTFQuestion(bufferedReader.readLine());
+                    t.setTFQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     MediaType tempMT = MediaType.valueOf(bufferedReader.readLine());
                     String tempMF = bufferedReader.readLine();
                     t.validateAndSetMedia(tempMT, tempMF);
                     t.setTFAnswer(Boolean.valueOf(bufferedReader.readLine()));
-                    String tempExplanation  = bufferedReader.readLine();
+                    String tempExplanation  = Utilities.fixEscapeCharacters(bufferedReader.readLine());
                     if(tempExplanation.toLowerCase().equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
-                        t.setTFExplanation("The answer is: " + t.getTFAnswer());
+                        t.setExplanation("The answer is: " + t.getTFAnswer());
                     }
                     else {
-                        t.setTFExplanation(tempExplanation);
+                        t.setExplanation(tempExplanation);
                     }
                     testData.add(t);
                 }

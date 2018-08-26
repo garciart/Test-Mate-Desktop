@@ -292,14 +292,14 @@ null
 false
 Constants are data fields or local variables whose value cannot be modified.
 T
-When an algorithm involves a large number of conditions, a(n) decision table is a compact and readable format for presenting the algorithm.
+When an algorithm involves a large number of conditions, a decision table is a compact and readable format for presenting the algorithm.
 N
 null
 true
-When an algorithm involves a large number of conditions, a(n) decision table is a compact and readable format for presenting the algorithm.
+When an algorithm involves a large number of conditions, a decision table is a compact and readable format for presenting the algorithm.
 T
-A(n) flowchart is a graphical representation of an algorithm.
+A flowchart is a graphical representation of an algorithm.
 N
 null
 true
-A(n) flowchart is a graphical representation of an algorithm.
+A flowchart is a graphical representation of an algorithm.

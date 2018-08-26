@@ -30,9 +30,10 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public abstract class TestData {
-    protected QuestionType questionType;
-    protected MediaType mediaType = MediaType.N;
-    protected String mediaFileName;
+    private QuestionType questionType;
+    private MediaType mediaType = MediaType.N;
+    private String mediaFileName = new String();
+    private String explanation = new String();
     
     public final QuestionType getQuestionType() {
         return questionType;
@@ -44,6 +45,10 @@ public abstract class TestData {
     
     public final String getMediaFileName() {
         return mediaFileName;
+    }
+    
+    public final String getExplanation() {
+        return explanation;
     }
     
     public final void setQuestionType(QuestionType questionType) {
@@ -58,6 +63,10 @@ public abstract class TestData {
     
     public final void setMediaFileName(String mediaFileName) {
         this.mediaFileName = mediaFileName;
+    }
+    
+    public final void setExplanation(String explanation) {
+        this.explanation = explanation;
     }
     
     protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {

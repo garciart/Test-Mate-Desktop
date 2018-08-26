@@ -30,9 +30,8 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class TrueFalse extends TestData {
-    private String tfQuestion = new String();;
-    private boolean tfAnswer = false;
-    private String tfExplanation = new String();;
+    private String tfQuestion;
+    private boolean tfAnswer;
     
     public final String getTFQuestion() {
         return tfQuestion;
@@ -42,10 +41,6 @@ public final class TrueFalse extends TestData {
         return tfAnswer;
     }
     
-    public final String getTFExplanation() {
-        return tfExplanation;
-    }
-    
     public final void setTFQuestion(String tfQuestion) {
         if(Utilities.isNullOrEmpty(tfQuestion)) throw new NullPointerException("True/False questions cannot be null or empty.");
         else this.tfQuestion = tfQuestion;
@@ -53,10 +48,6 @@ public final class TrueFalse extends TestData {
     
     public final void setTFAnswer(boolean tfAnswer) {
         this.tfAnswer = tfAnswer;
-    }
-
-    public final void setTFExplanation(String tfExplanation) {
-        this.tfExplanation = tfExplanation;
     }
     
     public TrueFalse(QuestionType questionType) {
