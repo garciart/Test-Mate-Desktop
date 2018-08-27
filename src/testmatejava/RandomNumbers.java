@@ -76,25 +76,26 @@ public class RandomNumbers {
         }
     }
     
-    public RandomNumbers(int max, int index) {
+    public RandomNumbers(int max, int index, int uniqueArraySize) {
         // EVERYTHING IS ZERO-BASED, INCLUDING THE ARGUMENTS
-        // Ensure both arguments are positive and that the index is less than or equal to the max value
-        if(max >= 0 && index >= 0 && max >= index) {
+        // Ensure all arguments are positive and that the max value is greater than or equal to the index and desired array size
+        if(max >= 0 && index >= 0 && uniqueArraySize >= 0 && max >= index && max >= uniqueArraySize) {
             // Seed the psuedo random number generator using the current time
             Random rand = new Random(System.currentTimeMillis());
             // Create a temporary array set to the max size
             int[] tempArray = new int[max + 1];
-            // Use when max value is between 0 and 3
-            if(max <= 3) {
+            // Use when the new unique array size and the max value are the same
+            if(max == uniqueArraySize) {
                 // Get ordered number set, INCLUDING the index number
                 for(int x = 0; x <= max; x++) {
                     tempArray[x] = x;
                 }
             }
             else {
+                // THE FOLLOWING CODE MITIGATES THE CHANCES OF THE LAST ANSWER FROM APPEARING IN THE NEXT QUESTION
                 int y = 1;
-                // Use when max value is between 4 and 7
-                if(max >= 4 && max <= 7) {
+                // Use when the difference between the new unique array size and the max value is less than or equal to 7
+                if(uniqueArraySize < max && (max - uniqueArraySize) <= 7) {
                     // Get ordered number set, EXCLUDING the index number
                     // Start at 1 to leave room for the index number later
                     for(int x = 1; x <= max; x++) {
@@ -107,8 +108,8 @@ public class RandomNumbers {
                     }
                 }
                 else {
-                    // Use when max value is greater or equal to 8
-                    // Get an ordered number set of 7 numbers starting at the index number + 1
+                    // Use when the difference between the new unique array size and the max value is greater or equal to 8
+                    // Get an ordered number set of numbers starting at the index number + 1
                     // Start at 1 to leave room for the index number later
                     for(int x = (index + 1); x <= (index + 7); x++) {
                         if(x <= max) {
@@ -122,7 +123,7 @@ public class RandomNumbers {
                     }
                 }
                 // Shuffle the set
-                for(int x = 1; x <= 7; x++) {
+                for(int x = 1; x < y; x++) {
                     // Get random numbers between 1 and 7
                     // 0 is inclusive, but 7 is exclusive, so add 1)
                     int r = rand.nextInt(7) + 1;
@@ -134,7 +135,7 @@ public class RandomNumbers {
                 tempArray[0] = index;
             }
             // Reshuffle the first four numbers, [0] to [3]. The index number at [0] will be in the new set
-            for(int x = 0; x <= 3; x++) {
+            for(int x = 0; x <= uniqueArraySize; x++) {
                 // Remember, 4 is exclusive
                 int r = rand.nextInt(4);
                 int temp = tempArray[x];
@@ -142,8 +143,8 @@ public class RandomNumbers {
                 tempArray[r] = temp;
             }
             // Get the location of the index and transfer the array
-            this.uniqueArray = new int[(max < 3 ? max : 3) + 1];
-            for(int x = 0; x <= (max < 3 ? max : 3); x++) {
+            this.uniqueArray = new int[uniqueArraySize + 1];
+            for(int x = 0; x <= uniqueArraySize; x++) {
                 if(tempArray[x] == index) setIndexLocation(x);
                 this.uniqueArray[x] = tempArray[x];
             }
@@ -151,6 +152,5 @@ public class RandomNumbers {
         else {
             throw new IllegalArgumentException("Ensure both arguments are positive and that the index is less than or equal to the max value.");
         }
-            
     }
 }

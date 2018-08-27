@@ -96,10 +96,13 @@ public class TestMateJava {
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
-        RandomNumbers rn = new RandomNumbers(10);
-        for(int x = 0; x < 10; x++) {
+        RandomNumbers rn = new RandomNumbers(50, 49, 3);
+        int total = 0;
+        for(int x = 0; x <= 3; x++) {
             System.out.println(x + ". " + rn.getUniqueArray()[x]);
+            total += rn.getUniqueArray()[x];
         }
+        System.out.println(total);
     }
     
     /**
