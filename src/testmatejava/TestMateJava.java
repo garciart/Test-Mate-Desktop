@@ -37,6 +37,7 @@ import testmatejava.Constants.*;
 public class TestMateJava {
     private static ArrayList<TestData> testData;
     
+    
     /**
      * @param args the command line arguments
      * @throws java.io.IOException When file cannot be opened
@@ -96,13 +97,13 @@ public class TestMateJava {
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
-        RandomNumbers rn = new RandomNumbers(50, 49, 3);
-        int total = 0;
-        for(int x = 0; x <= 3; x++) {
-            System.out.println(x + ". " + rn.getUniqueArray()[x]);
-            total += rn.getUniqueArray()[x];
+        for(int y = 0; y < 10; y++) {
+            RandomNumbers rn = new RandomNumbers(3, 0, 3);
+            for(int x = 0; x <= 3; x++) {
+                System.out.println(x + ". " + rn.getUniqueArray()[x] + (x == rn.getIndexLocation() ? " - HERE!" : ""));
+            }
+            System.out.println();
         }
-        System.out.println(total);
     }
     
     /**

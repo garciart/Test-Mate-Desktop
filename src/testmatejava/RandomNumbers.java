@@ -54,7 +54,7 @@ public class RandomNumbers {
         // Ensure the argument is positive and that there is more than one value to randomize
         if(max > 1) {
             // Seed the psuedo random number generator using the current time
-            Random rand = new Random(System.currentTimeMillis());
+            Random rand = new Random();
             // Initiate the array set to the max size
             this.uniqueArray = new int[max + 1];
             // Get ordered number set
@@ -81,7 +81,7 @@ public class RandomNumbers {
         // Ensure all arguments are positive and that the max value is greater than or equal to the index and desired array size
         if(max >= 0 && index >= 0 && uniqueArraySize >= 0 && max >= index && max >= uniqueArraySize) {
             // Seed the psuedo random number generator using the current time
-            Random rand = new Random(System.currentTimeMillis());
+            Random rand = new Random();
             // Create a temporary array set to the max size
             int[] tempArray = new int[max + 1];
             // Use when the new unique array size and the max value are the same

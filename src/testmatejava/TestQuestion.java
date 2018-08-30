@@ -34,18 +34,106 @@ public class TestQuestion {
     private QuestionType questionType;
     private String question;
     private MediaType mediaType;
-    private String mediaFile;
+    private String mediaFileName;
     private int numberOfChoices;
     private ArrayList<String> choices;
     private int correctAnswerIndex;
     private String explanation;
     
+    public final String getQuestion() {
+        return question;
+    }
+    
     public final QuestionType getQuestionType() {
         return questionType;
     }
+
+    public final MediaType getMediaType() {
+        return mediaType;
+    }
+    
+    public final String getMediaFileName() {
+        return mediaFileName;
+    }
+
+    public final int getNumberOfChoices() {
+        return numberOfChoices;
+    }
+    
+    public final ArrayList<String> getChoices() {
+        return choices;
+    }
+
+    public final int getCorrectAnswerIndex() {
+        return correctAnswerIndex;
+    }
+    
+    public final String getExplanation() {
+        return explanation;
+    }
+
+    public final void setQuestion(String question) {
+        if(Utilities.isNullOrEmpty(question)) throw new NullPointerException("Question cannot be null or empty.");
+        else this.question = question;
+    }
     
     public final void setQuestionType(QuestionType questionType) {
-        if(questionType == null) throw new NullPointerException("Question Type cannot be null.");
+        if(questionType == null) throw new NullPointerException("Question type cannot be null.");
         this.questionType = questionType;
+    }
+
+    public final void setMediaType(MediaType mediaType) {
+        if(mediaType == null) throw new NullPointerException("Media type cannot be null.");
+        this.mediaType = mediaType;
+    }
+
+    public final void setNumberOfChoices(int numberOfChoices) {
+        if(numberOfChoices <= 0) throw new IllegalArgumentException("The number of choices cannot be null or zero.");
+        else this.numberOfChoices = numberOfChoices;
+    }
+    
+    public final void setChoices(ArrayList<String> choices) {
+        if(choices == null) throw new NullPointerException("Questions must have at least one choice.");
+        else this.choices = choices;
+    }
+    
+    public final void setMediaFileName(String mediaFileName) {
+        this.mediaFileName = mediaFileName;
+    }
+
+    public final void setCorrectAnswerIndex(int correctAnswerIndex) {
+        if(correctAnswerIndex < 0) throw new IllegalArgumentException("The number of choices cannot less than zero.");
+        else this.correctAnswerIndex = correctAnswerIndex;
+    }
+    
+    public final void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+    
+    protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
+        if(mediaType == MediaType.N) {
+            if(!mediaFileName.toLowerCase().equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
+        }
+        else {
+            if(mediaFileName.toLowerCase().equals("null") || Utilities.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
+            switch(mediaType) {
+                case I: {
+                    if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    break;
+                }
+                case A: {
+                    if(!mediaFileName.matches("^[\\w\\- ]+(.mp3)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    break;
+                }
+                case V: {
+                    if(!mediaFileName.matches("^[\\w\\- ]+(.mpg|.mpeg|.mp4)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    break;
+                }
+                default: {
+                    throw new IllegalArgumentException("Unsupported media type.");
+                }
+            }
+            setMediaFileName(mediaFileName);
+        }
     }
 }
