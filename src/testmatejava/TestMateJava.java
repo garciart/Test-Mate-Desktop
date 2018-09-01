@@ -28,6 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import testmatejava.Constants.*;
 
 /**
@@ -35,7 +36,8 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class TestMateJava {
-    private static ArrayList<TestData> testData;
+    private static ArrayList<TestData> testData = new ArrayList<>();;
+    private static ArrayList<TestQuestion> testQuestion = new ArrayList<>();;
     
     
     /**
@@ -50,59 +52,88 @@ public class TestMateJava {
         catch(Exception ex) {
             System.out.println("Unable to read settings file: " + ex.toString());
             System.out.println("Applying default settings...");
-            s.saveSettingsToFile(QuestionOrder.DEFAULT, TermDisplay.TERMFIRST, ProvideFeedback.YES);
+            s.saveSettingsToFile(QuestionOrder.DEFAULT, TermDisplay.TERMISQUESTION, ProvideFeedback.YES);
         }
         System.out.println("questionOrderSetting = " + s.getQuestionOrderSetting());
         System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
         System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
         s.setProvideFeedbackSetting(null);
+        System.out.println();
         try {
             readFile();
+            ArrayList<Integer> ktIndex = new ArrayList<>();
             for(int x = 0; x < testData.size(); x++) {
-                TestData td = (TestData)testData.get(x);
-                switch(td.getQuestionType()) {
+                if(testData.get(x).getQuestionType() == QuestionType.K) {
+                    ktIndex.add(x);
+                }
+            }
+            int ktCount = 0;
+            for(int x = 0; x < testData.size(); x++) {
+                QuestionType qt = testData.get(x).getQuestionType();
+                RandomNumbers rn;
+                switch(qt) {
                     case K:
                         KeyTerm kt = (KeyTerm)testData.get(x);
-                        System.out.println(kt.getKeyTerm());
-                        System.out.println(kt.getKTDefinition());
-                        System.out.println(kt.getMediaType());
-                        System.out.println(kt.getMediaFileName());
-                        System.out.println(kt.getExplanation());
+                        ArrayList<String> ktTempChoices = new ArrayList<>();
+                        rn = new RandomNumbers((ktIndex.size() - 1), ktCount, 3);
+                        boolean displayTermAsQuestion = true;
+                        switch(s.getTermDisplaySetting()) {
+                            case DEFISQUESTION:
+                                displayTermAsQuestion = false;
+                                break;
+                            case MIXEDQUESTION:
+                                displayTermAsQuestion = new Random().nextBoolean();
+                                break;
+                            case TERMISQUESTION:
+                            default:
+                                break;
+                        }
+                        if(displayTermAsQuestion) {
+                            for(int y = 0; y <= 3; y++) {
+                                ktTempChoices.add(((KeyTerm)testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKTDefinition());
+                            }
+                            testQuestion.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                        }
+                        else {
+                            for(int y = 0; y <= 3; y++) {
+                                ktTempChoices.add(((KeyTerm)testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKeyTerm());
+                            }
+                            testQuestion.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                        }
+                        ktCount++;
                         break;
                     case M:
                         MultipleChoice mc = (MultipleChoice)testData.get(x);
-                        System.out.println(mc.getMCQuestion());
-                        System.out.println(mc.getMediaType());
-                        System.out.println(mc.getMediaFileName());
-                        int c = 0;
-                        for(String choices : mc.getMCChoices()) {
-                            System.out.println(Constants.LETTERS[c] + ". " + choices);
-                            c++;
+                        ArrayList<String> mcTempChoices = new ArrayList<>();
+                        rn = new RandomNumbers(3, 0, 3);
+                        for(int i = 0; i <= mc.getMCNumberOfChoices(); i++) {
+                            mcTempChoices.add(mc.getMCChoices().get(rn.getUniqueArray()[i]));
                         }
-                        System.out.println(mc.getExplanation());
+                        testQuestion.add(new TestQuestion(qt, mc.getMCQuestion(), mc.getMediaType(), mc.getMediaFileName(), mc.getMCNumberOfChoices(), mcTempChoices, rn.getIndexLocation(), mc.getExplanation()));
                         break;
                     case T:
                         TrueFalse tf = (TrueFalse)testData.get(x);
-                        System.out.println(tf.getTFQuestion());
-                        System.out.println(tf.getMediaType());
-                        System.out.println(tf.getMediaFileName());
-                        System.out.println(tf.getTFAnswer());
-                        System.out.println(tf.getExplanation());
+                        ArrayList<String> tfTempChoices = new ArrayList<>();
+                        tfTempChoices.add("true");
+                        tfTempChoices.add("false");
+                        testQuestion.add(new TestQuestion(qt, tf.getTFQuestion(), tf.getMediaType(), tf.getMediaFileName(), 1, tfTempChoices, (tf.getTFAnswer() ? 0 : 1) , tf.getExplanation()));
                         break;
                     default:
-                        break;
+                        throw new IllegalArgumentException("Corrupt data. Check structure and values.");
                 }
+            }
+            System.out.println();
+            for(int x = 0; x < testQuestion.size(); x++) {
+                System.out.println(testQuestion.get(x).getQuestion());
+                for(int y = 0; y <= testQuestion.get(x).getNumberOfChoices(); y++) {
+                    System.out.println(Constants.LETTERS[y] + ". " + testQuestion.get(x).getChoices().get(y) + (y == testQuestion.get(x).getCorrectAnswerIndex() ? " - HERE!" : ""));
+                }
+                System.out.println(testQuestion.get(x).getExplanation());
+                System.out.println();
             }
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
-        }
-        for(int y = 0; y < 10; y++) {
-            RandomNumbers rn = new RandomNumbers(3, 0, 3);
-            for(int x = 0; x <= 3; x++) {
-                System.out.println(x + ". " + rn.getUniqueArray()[x] + (x == rn.getIndexLocation() ? " - HERE!" : ""));
-            }
-            System.out.println();
         }
     }
     
@@ -115,7 +146,6 @@ public class TestMateJava {
      */    
     private static void readFile() throws FileNotFoundException, IOException {
         // Due to MultipleChoice's fluctuating size, we will use getters and setters instead of a constructor for all question types
-        testData = new ArrayList<>();
         FileReader fileReader = new FileReader(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             String firstLine;
@@ -166,7 +196,7 @@ public class TestMateJava {
                     testData.add(t);
                 }
                 else {
-                    throw new IllegalArgumentException("Corrunpt data file. Check structure and values.");
+                    throw new IllegalArgumentException("Corrupt data file. Check structure and values.");
                 }
             }
         } 

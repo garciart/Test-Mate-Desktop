@@ -40,13 +40,13 @@ public class Constants {
     }
 
     /** Term display settings
-     * TERMFIRST to display terms as question (Default),
-     * DEFFIRST to display definitions as question,
-     * MIXED to mix it up */
+     * TERMISQUESTION to display terms as question (Default),
+     * DEFISQUESTION to display definitions as question,
+     * MIXEDQUESTION to mix it up */
     public enum TermDisplay {
-        TERMFIRST,
-        DEFFIRST,
-        MIXED
+        TERMISQUESTION,
+        DEFISQUESTION,
+        MIXEDQUESTION
     }
 
     /** Provide feedback settings

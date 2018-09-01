@@ -40,6 +40,42 @@ public class TestQuestion {
     private int correctAnswerIndex;
     private String explanation;
     
+    /**
+     * Overloaded constructor for adding key terms
+     * @param mediaType
+     * @param mediaFileName
+     * @param numberOfChoices
+     * @param explanation 
+     */
+    public TestQuestion(QuestionType questionType, MediaType mediaType, String mediaFileName, int numberOfChoices, String explanation) {
+        this.setQuestionType(questionType);
+        this.setMediaType(mediaType);
+        this.setMediaFileName(mediaFileName);
+        this.setNumberOfChoices(numberOfChoices);
+        this.setExplanation(explanation);
+    }
+
+    /**
+     * Overloaded constructor for adding multiple choice and true/false questions
+     * @param question
+     * @param mediaType
+     * @param mediaFileName
+     * @param numberOfChoices
+     * @param choices
+     * @param correctAnswerIndex
+     * @param explanation 
+     */
+    public TestQuestion(QuestionType questionType, String question, MediaType mediaType, String mediaFileName, int numberOfChoices, ArrayList<String> choices, int correctAnswerIndex, String explanation) {
+        this.setQuestionType(questionType);
+        this.setQuestion(question);
+        this.setMediaType(mediaType);
+        this.setMediaFileName(mediaFileName);
+        this.setNumberOfChoices(numberOfChoices);
+        this.setChoices(choices);
+        this.setCorrectAnswerIndex(correctAnswerIndex);
+        this.setExplanation(explanation);
+    }
+    
     public final String getQuestion() {
         return question;
     }

@@ -41,7 +41,7 @@ public final class Settings {
     /** Display questions as read from the file (0 = default) or randomize the order (1) */
     private QuestionOrder questionOrderSetting = QuestionOrder.DEFAULT;
     /** Display terms as question (0 = default), definitions as question (1), or mix it up (2) */
-    private TermDisplay termDisplaySetting = TermDisplay.TERMFIRST;
+    private TermDisplay termDisplaySetting = TermDisplay.TERMISQUESTION;
     /** Provide feedback after each answer (0 = default) or wait until the end of the test (1) */
     private ProvideFeedback provideFeedbackSetting = ProvideFeedback.YES;
     
@@ -58,9 +58,9 @@ public final class Settings {
     }
 
     /** Term display setting getter
-     * @return TERMFIRST - Display terms as question (Default)),
-     *         DEFFIRST - Display definition as question,
-     *         MIXED - Mix it up */
+     * @return TERMISQUESTION - Display terms as question (Default)),
+     *         DEFISQUESTION - Display definition as question,
+     *         MIXEDQUESTION - Mix it up */
     public TermDisplay getTermDisplaySetting() {
         return termDisplaySetting;
     }
@@ -79,7 +79,7 @@ public final class Settings {
     }
 
     /** Term display setting setter
-     * @param td TERMFIRST to display terms as question (Default), DEFFIRST to display definitions as question, MIXED to mix it up */
+     * @param td TERMISQUESTION to display terms as question (Default), DEFISQUESTION to display definitions as question, MIXEDQUESTION to mix it up */
     public void setTermDisplaySetting(TermDisplay td) {
         this.termDisplaySetting = td;
     }
@@ -114,7 +114,7 @@ public final class Settings {
     /**
      * Save test settings to file
      * @param qo DEFAULT to display questions as read from the file or RANDOM to randomize the order
-     * @param td TERMFIRST to display terms as question (Default), DEFFIRST to display definitions as question, MIXED to mix it up
+     * @param td TERMISQUESTION to display terms as question (Default), DEFISQUESTION to display definitions as question, MIXEDQUESTION to mix it up
      * @param pf YES to to provide feedback after each answer (Default), NO to wait until the end of the test to provide feedback
      * @throws java.io.IOException When file cannot be opened
      */

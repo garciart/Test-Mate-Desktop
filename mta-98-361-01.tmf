@@ -1,148 +1,148 @@
 K
-algorithm
+Algorithm
 N
 null
-a set of ordered and finite steps to solve a given problem.
+A set of ordered and finite steps to solve a given problem (p2).
 K
-array
+Flowchart
 N
 null
-a collection of items in which each item can be accessed by using a unique index.
+A graphical representation of an algorithm (p2).
 K
-binary code
+Decision table
 N
 null
-A computer program written using only two symbols, 0 and 1.
+A compact and readable format for presenting the algorithm (p3).
 K
-binary number system
+Computer programs (programs)
 N
 null
-At the most basic level, the system which computers use to represent information and code using only two symbols, 0 and 1.
+A set of precise and complete instructions to accomplish a task (p4).
 K
-case
+Binary number system
 N
 null
-statements contained in a switch block.
+At the most basic level, the system which computers use to represent information and code using only two symbols, 0 and 1 (p4).
 K
-class
+Binary code
 N
 null
-a set of data and methods defined between an opening brace ({) and a closing brace (}).
+A computer program written using only two symbols, 0 and 1 (p4).
 K
-computer programs (programs)
+High-level language
 N
 null
-a set of precise and complete instructions to accomplish a task.
+Languages such as C#, Visual Basic, or Java that allow you to write precise instructions in a human-readable form (p4).
 K
-constant
+Class
 N
 null
-data fields or local variables whose value cannot be modified.
+A set of data and methods defined between an opening brace ({) and a closing brace (}) (p7).
 K
-data types
+Variable
 N
 null
-specifies the type of data that you work with in a program, defining the size of memory needed to store the data and the kinds of operations that can be performed on the data.
+Temporary storage for values during the execution of a program (p8).
 K
-decision structures
+Constant
 N
 null
-introduce decision-making ability into a program, enabling you to branch to different sections of the code depending on the truth value of a Boolean expression.
+Data fields or local variables whose value cannot be modified (p8).
 K
-decision table
+Data types
 N
 null
-a compact and readable format for presenting the algorithm.
+Specifies the type of data that you work with in a program, defining the size of memory needed to store the data and the kinds of operations that can be performed on the data (p8).
 K
-default statement
+Array
 N
 null
-used when an expression does not match any of the cases in a switch block.
+A collection of items in which each item can be accessed by using a unique index (p9).
 K
-do-while loop
+Operator
 N
 null
-repeatedly executes a block of statements until a specified Boolean expression evaluates to false, but tests the condition at the bottom of the loop.
+A symbol that specifies which operation to perform on the operands before returning a result (p10).
 K
-exception
+Methods
 N
 null
-an error condition that occurs during the execution of a C# program.
+Code blocks containing a series of statements, which can receive input via arguments and can return a value to the caller (p11).
 K
-finally block
+Decision structures
 N
 null
-used in association with the try block, and is always executed regardless of whether an exception is thrown; often used to write clean-up code.
+Introduce decision-making ability into a program, enabling you to branch to different sections of the code depending on the truth value of a Boolean expression (p11).
 K
-flowchart
+If statement
 N
 null
-a graphical representation of an algorithm.
+Executes a given sequence of statements only if the corresponding Boolean expression evaluates to true (p11).
 K
-for loop
+If-else statement
 N
 null
-combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code.
+Allows your program to perform one action if the Boolean expression evaluates to true and a different action if the Boolean expression evaluates to false (p13).
 K
-foreach loop
+Switch statement
 N
 null
-useful for iterating through the elements of a collection.
+Allows multi-way branching, and, in many cases, it can simplify a complex combination of if-else statements (p15).
 K
-high-level language
+Switch block
 N
 null
-Languages such as C#, Visual Basic, or Java that allow you to write precise instructions in a human-readable form. 
+Can include one or more case statements or a default statement (p15).
 K
-if statement
+Case
 N
 null
-executes a given sequence of statements only if the corresponding Boolean expression evaluates to true.
+Statements contained in a switch block (p15).
 K
-if-else statement
+Default statement
 N
 null
-allows your program to perform one action if the Boolean expression evaluates to true and a different action if the Boolean expression evaluates to false.
+Used when an expression does not match any of the cases in a switch block (p15).
 K
-methods
+While loop
 N
 null
-code blocks containing a series of statements, which can receive input via arguments and can return a value to the caller.
+Repeatedly executes a block of statements until a specified Boolean expression evaluates to false (p17).
 K
-operator
+Do-while loop
 N
 null
-a symbol that specifies which operation to perform on the operands before returning a result.
+Repeatedly executes a block of statements until a specified Boolean expression evaluates to false, but tests the condition at the bottom of the loop (p19).
 K
-recursion
+For loop
 N
 null
-a programming technique that causes a method to call itself in order to compute a result.
+Combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code (p20).
 K
-switch block
+Foreach loop
 N
 null
-can include one or more case statements or a default statement.
+Useful for iterating through the elements of a collection (p21).
 K
-switch statement
+Recursion
 N
 null
-allows multi-way branching, and, in many cases, it can simplify a complex combination of if-else statements.
+A programming technique that causes a method to call itself in order to compute a result (p22).
 K
-try-catch-finally block
+Exception
 N
 null
-a code block that throws and handles exceptions to prevent program execution from terminating.
+An error condition that occurs during the execution of a C# program (p24).
 K
-variable
+Finally block
 N
 null
-temporary storage for values during the execution of a program.
+Used in association with the try block, and is always executed regardless of whether an exception is thrown; often used to write clean-up code (p25).
 K
-while loop
+Try-catch-finally block
 N
 null
-repeatedly executes a block of statements until a specified Boolean expression evaluates to false.
+A code block that throws and handles exceptions to prevent program execution from terminating (p25).
 M
 Review the following code snippet:\nint n = 20;\nint d = n++ + 5;\nWhat will be the value of d after this code snippet is executed?
 N
@@ -168,10 +168,10 @@ Review the following code snippet:\nint number1 = 10;\nint number2 = 20;\nif (nu
 N
 null
 3
-number1\nnumber2
+\nnumber1\nnumber2
 number1
 number2
-number2\nnumber1
+\nnumber2\nnumber1
 Since the condition is true and Console.WriteLine("number2"); is not part of the if statement, the answer is:\nnumber1\nnumber2
 M
 In a switch statement, if none of the case statements match the switch expression, then control is transferred to which statement?
@@ -188,9 +188,9 @@ You need to write code that closes a connection to a database and you need to ma
 N
 null
 3
+Within a finally block
 Within a try block
 Within a catch block
-Within a finally block
 Within the Main method
 The finally block is always executed regardless of whether an exception is thrown.
 M
@@ -247,7 +247,7 @@ T
 The switch statement selects for execution a statement list having an associated label that corresponds to the value of an expression.
 N
 null
-false
+true
 The switch statement selects for execution a statement list having an associated label that corresponds to the value of an expression.
 T
 The if-else loop tests the condition at the bottom of the loop instead of at the top.
