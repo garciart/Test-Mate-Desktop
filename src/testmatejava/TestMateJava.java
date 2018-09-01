@@ -57,7 +57,6 @@ public class TestMateJava {
         System.out.println("questionOrderSetting = " + s.getQuestionOrderSetting());
         System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
         System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
-        s.setProvideFeedbackSetting(null);
         System.out.println();
         try {
             readFile();
@@ -123,14 +122,20 @@ public class TestMateJava {
                 }
             }
             System.out.println();
+            RandomNumbers qoArray = new RandomNumbers(testQuestion.size() - 1);
+            int[] qo = new int[testQuestion.size()];
             for(int x = 0; x < testQuestion.size(); x++) {
-                System.out.println(testQuestion.get(x).getQuestion());
-                for(int y = 0; y <= testQuestion.get(x).getNumberOfChoices(); y++) {
-                    System.out.println(Constants.LETTERS[y] + ". " + testQuestion.get(x).getChoices().get(y) + (y == testQuestion.get(x).getCorrectAnswerIndex() ? " - HERE!" : ""));
+                qo[x] = (s.getQuestionOrderSetting() == QuestionOrder.DEFAULT ? x : qoArray.getUniqueArray()[x]);
+            }
+            for(int x = 0; x < testQuestion.size(); x++) {
+                System.out.println(x + ". " + testQuestion.get(qo[x]).getQuestion());
+                for(int y = 0; y <= testQuestion.get(qo[x]).getNumberOfChoices(); y++) {
+                    System.out.println(Constants.LETTERS[y] + ". " + testQuestion.get(qo[x]).getChoices().get(y) + (y == testQuestion.get(qo[x]).getCorrectAnswerIndex() ? " - HERE!" : ""));
                 }
-                System.out.println(testQuestion.get(x).getExplanation());
+                if(s.getProvideFeedbackSetting() == ProvideFeedback.YES) System.out.println(testQuestion.get(qo[x]).getExplanation());
                 System.out.println();
             }
+
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());

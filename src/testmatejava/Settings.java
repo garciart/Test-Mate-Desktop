@@ -36,8 +36,6 @@ import testmatejava.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class Settings {
-
-    
     /** Display questions as read from the file (0 = default) or randomize the order (1) */
     private QuestionOrder questionOrderSetting = QuestionOrder.DEFAULT;
     /** Display terms as question (0 = default), definitions as question (1), or mix it up (2) */
@@ -45,11 +43,6 @@ public final class Settings {
     /** Provide feedback after each answer (0 = default) or wait until the end of the test (1) */
     private ProvideFeedback provideFeedbackSetting = ProvideFeedback.YES;
     
-    /** Basic constructor */
-    public Settings() {
-
-    }
-
     /** Question order setting getter
      * @return DEFAULT - Display questions as read from the file,
      *         RANDOM - Randomize the order */

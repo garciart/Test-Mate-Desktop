@@ -2,147 +2,147 @@ K
 Algorithm
 N
 null
-A set of ordered and finite steps to solve a given problem (p2).
+A set of ordered and finite steps to solve a given problem (p.2).
 K
 Flowchart
 N
 null
-A graphical representation of an algorithm (p2).
+A graphical representation of an algorithm (p.2).
 K
 Decision table
 N
 null
-A compact and readable format for presenting the algorithm (p3).
+A compact and readable format for presenting the algorithm (p.3).
 K
 Computer programs (programs)
 N
 null
-A set of precise and complete instructions to accomplish a task (p4).
+A set of precise and complete instructions to accomplish a task (p.4).
 K
 Binary number system
 N
 null
-At the most basic level, the system which computers use to represent information and code using only two symbols, 0 and 1 (p4).
+At the most basic level, the system which computers use to represent information and code using only two symbols, 0 and 1 (p.4).
 K
 Binary code
 N
 null
-A computer program written using only two symbols, 0 and 1 (p4).
+A computer program written using only two symbols, 0 and 1 (p.4).
 K
 High-level language
 N
 null
-Languages such as C#, Visual Basic, or Java that allow you to write precise instructions in a human-readable form (p4).
+Languages such as C#, Visual Basic, or Java that allow you to write precise instructions in a human-readable form (p.4).
 K
 Class
 N
 null
-A set of data and methods defined between an opening brace ({) and a closing brace (}) (p7).
+A set of data and methods defined between an opening brace ({) and a closing brace (}) (p.7).
 K
 Variable
 N
 null
-Temporary storage for values during the execution of a program (p8).
+Temporary storage for values during the execution of a program (p.8).
 K
 Constant
 N
 null
-Data fields or local variables whose value cannot be modified (p8).
+Data fields or local variables whose value cannot be modified (p.8).
 K
 Data types
 N
 null
-Specifies the type of data that you work with in a program, defining the size of memory needed to store the data and the kinds of operations that can be performed on the data (p8).
+Specifies the type of data that you work with in a program, defining the size of memory needed to store the data and the kinds of operations that can be performed on the data (p.8).
 K
 Array
 N
 null
-A collection of items in which each item can be accessed by using a unique index (p9).
+A collection of items in which each item can be accessed by using a unique index (p.9).
 K
 Operator
 N
 null
-A symbol that specifies which operation to perform on the operands before returning a result (p10).
+A symbol that specifies which operation to perform on the operands before returning a result (p.10).
 K
 Methods
 N
 null
-Code blocks containing a series of statements, which can receive input via arguments and can return a value to the caller (p11).
+Code blocks containing a series of statements, which can receive input via arguments and can return a value to the caller (p.11).
 K
 Decision structures
 N
 null
-Introduce decision-making ability into a program, enabling you to branch to different sections of the code depending on the truth value of a Boolean expression (p11).
+Introduce decision-making ability into a program, enabling you to branch to different sections of the code depending on the truth value of a Boolean expression (p.11).
 K
 If statement
 N
 null
-Executes a given sequence of statements only if the corresponding Boolean expression evaluates to true (p11).
+Executes a given sequence of statements only if the corresponding Boolean expression evaluates to true (p.11).
 K
 If-else statement
 N
 null
-Allows your program to perform one action if the Boolean expression evaluates to true and a different action if the Boolean expression evaluates to false (p13).
+Allows your program to perform one action if the Boolean expression evaluates to true and a different action if the Boolean expression evaluates to false (p.13).
 K
 Switch statement
 N
 null
-Allows multi-way branching, and, in many cases, it can simplify a complex combination of if-else statements (p15).
+Allows multi-way branching, and, in many cases, it can simplify a complex combination of if-else statements (p.15).
 K
 Switch block
 N
 null
-Can include one or more case statements or a default statement (p15).
+Can include one or more case statements or a default statement (p.15).
 K
 Case
 N
 null
-Statements contained in a switch block (p15).
+Statements contained in a switch block (p.15).
 K
 Default statement
 N
 null
-Used when an expression does not match any of the cases in a switch block (p15).
+Used when an expression does not match any of the cases in a switch block (p.15).
 K
 While loop
 N
 null
-Repeatedly executes a block of statements until a specified Boolean expression evaluates to false (p17).
+Repeatedly executes a block of statements until a specified Boolean expression evaluates to false (p.17).
 K
 Do-while loop
 N
 null
-Repeatedly executes a block of statements until a specified Boolean expression evaluates to false, but tests the condition at the bottom of the loop (p19).
+Repeatedly executes a block of statements until a specified Boolean expression evaluates to false, but tests the condition at the bottom of the loop (p.19).
 K
 For loop
 N
 null
-Combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code (p20).
+Combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code (p.20).
 K
 Foreach loop
 N
 null
-Useful for iterating through the elements of a collection (p21).
+Useful for iterating through the elements of a collection (p.21).
 K
 Recursion
 N
 null
-A programming technique that causes a method to call itself in order to compute a result (p22).
+A programming technique that causes a method to call itself in order to compute a result (p.22).
 K
 Exception
 N
 null
-An error condition that occurs during the execution of a C# program (p24).
+An error condition that occurs during the execution of a C# program (p.24).
 K
 Finally block
 N
 null
-Used in association with the try block, and is always executed regardless of whether an exception is thrown; often used to write clean-up code (p25).
+Used in association with the try block, and is always executed regardless of whether an exception is thrown; often used to write clean-up code (p.25).
 K
 Try-catch-finally block
 N
 null
-A code block that throws and handles exceptions to prevent program execution from terminating (p25).
+A code block that throws and handles exceptions to prevent program execution from terminating (p.25).
 M
 Review the following code snippet:\nint n = 20;\nint d = n++ + 5;\nWhat will be the value of d after this code snippet is executed?
 N
