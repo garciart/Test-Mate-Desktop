@@ -21,64 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package testmatejava;
+package testmatedesktop;
 
-import java.util.ArrayList;
-import testmatejava.Constants.*;
+import testmatedesktop.Constants.*;
 
 /**
- *
+ * TestMate model abstract class for test data objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class TestQuestion {
+public abstract class TestData {
     private QuestionType questionType;
-    private String question;
-    private MediaType mediaType;
-    private String mediaFileName;
-    private int numberOfChoices;
-    private ArrayList<String> choices;
-    private int correctAnswerIndex;
-    private String explanation;
-    
-    /**
-     * Overloaded constructor for adding key terms
-     * @param mediaType
-     * @param mediaFileName
-     * @param numberOfChoices
-     * @param explanation 
-     */
-    public TestQuestion(QuestionType questionType, MediaType mediaType, String mediaFileName, int numberOfChoices, String explanation) {
-        this.setQuestionType(questionType);
-        this.setMediaType(mediaType);
-        this.setMediaFileName(mediaFileName);
-        this.setNumberOfChoices(numberOfChoices);
-        this.setExplanation(explanation);
-    }
-
-    /**
-     * Overloaded constructor for adding multiple choice and true/false questions
-     * @param question
-     * @param mediaType
-     * @param mediaFileName
-     * @param numberOfChoices
-     * @param choices
-     * @param correctAnswerIndex
-     * @param explanation 
-     */
-    public TestQuestion(QuestionType questionType, String question, MediaType mediaType, String mediaFileName, int numberOfChoices, ArrayList<String> choices, int correctAnswerIndex, String explanation) {
-        this.setQuestionType(questionType);
-        this.setQuestion(question);
-        this.setMediaType(mediaType);
-        this.setMediaFileName(mediaFileName);
-        this.setNumberOfChoices(numberOfChoices);
-        this.setChoices(choices);
-        this.setCorrectAnswerIndex(correctAnswerIndex);
-        this.setExplanation(explanation);
-    }
-    
-    public final String getQuestion() {
-        return question;
-    }
+    private MediaType mediaType = MediaType.N;
+    private String mediaFileName = new String();
+    private String explanation = new String();
     
     public final QuestionType getQuestionType() {
         return questionType;
@@ -91,26 +46,9 @@ public class TestQuestion {
     public final String getMediaFileName() {
         return mediaFileName;
     }
-
-    public final int getNumberOfChoices() {
-        return numberOfChoices;
-    }
-    
-    public final ArrayList<String> getChoices() {
-        return choices;
-    }
-
-    public final int getCorrectAnswerIndex() {
-        return correctAnswerIndex;
-    }
     
     public final String getExplanation() {
         return explanation;
-    }
-
-    public final void setQuestion(String question) {
-        if(Utilities.isNullOrEmpty(question)) throw new NullPointerException("Question cannot be null or empty.");
-        else this.question = question;
     }
     
     public final void setQuestionType(QuestionType questionType) {
@@ -122,24 +60,9 @@ public class TestQuestion {
         if(mediaType == null) throw new NullPointerException("Media type cannot be null.");
         this.mediaType = mediaType;
     }
-
-    public final void setNumberOfChoices(int numberOfChoices) {
-        if(numberOfChoices <= 0) throw new IllegalArgumentException("The number of choices cannot be null or zero.");
-        else this.numberOfChoices = numberOfChoices;
-    }
-    
-    public final void setChoices(ArrayList<String> choices) {
-        if(choices == null) throw new NullPointerException("Questions must have at least one choice.");
-        else this.choices = choices;
-    }
     
     public final void setMediaFileName(String mediaFileName) {
         this.mediaFileName = mediaFileName;
-    }
-
-    public final void setCorrectAnswerIndex(int correctAnswerIndex) {
-        if(correctAnswerIndex < 0) throw new IllegalArgumentException("The number of choices cannot less than zero.");
-        else this.correctAnswerIndex = correctAnswerIndex;
     }
     
     public final void setExplanation(String explanation) {

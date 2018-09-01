@@ -21,51 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package testmatejava;
+package testmatedesktop;
+
+import testmatedesktop.Constants.*;
 
 /**
- * TestMate model class for common constants
+ *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Constants {
-    public static final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
-    protected static final char[] LETTERS = {'A', 'B', 'C', 'D'};
+public final class KeyTerm extends TestData {
+    private String keyTerm;
+    private String ktDefinition;
     
-    /** Question order settings
-     * DEFAULT to display questions as read from the file
-     * RANDOM to randomize the order */
-    public enum QuestionOrder {
-        DEFAULT,
-        RANDOM;
+    public final String getKeyTerm() {
+        return keyTerm;
     }
 
-    /** Term display settings
-     * TERMISQUESTION to display terms as question (Default),
-     * DEFISQUESTION to display definitions as question,
-     * MIXEDQUESTION to mix it up */
-    public enum TermDisplay {
-        TERMISQUESTION,
-        DEFISQUESTION,
-        MIXEDQUESTION
-    }
-
-    /** Provide feedback settings
-     * YES to to provide feedback after each answer (Default),
-     * NO to wait until the end of the test to provide feedback */
-    public enum ProvideFeedback {
-        YES,
-        NO
+    public final String getKTDefinition() {
+        return ktDefinition;
     }
     
-    /** Question type constants
-     * K for Key Term, M for Multiple Choice, T for True or False */    
-    public enum QuestionType {
-        K, M, T
+    public final void setKeyTerm(String keyTerm) {
+        if(Utilities.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
+        else this.keyTerm = keyTerm;
     }
     
-    /** Media flag constants
-     * N for none, I for images, A for audio files, and V for video files */    
-    public enum MediaType {
-        N, I, A, V
+    public final void setKTDefinition(String ktDefinition) {
+        if(Utilities.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
+        else this.ktDefinition = ktDefinition;
     }
+    
+    public KeyTerm(QuestionType questionType) {
+        setQuestionType(questionType);
+    }
+    
+    /*
+    public KeyTerm(QuestionType questionType, String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
+        setQuestionType(questionType);
+        setKeyTerm(keyTerm);
+        validateAndSetMedia(mediaType, mediaFileName);
+        setKTDefinition(ktDefinition);
+    }
+    */
 }

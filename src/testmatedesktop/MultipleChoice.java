@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package testmatejava;
+package testmatedesktop;
 
 import java.util.ArrayList;
-import testmatejava.Constants.*;
+import testmatedesktop.Constants.*;
 
 /**
  *

@@ -21,46 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package testmatejava;
+package testmatedesktop;
 
-import testmatejava.Constants.*;
+import testmatedesktop.Constants.*;
 
 /**
  *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public final class KeyTerm extends TestData {
-    private String keyTerm;
-    private String ktDefinition;
+public final class TrueFalse extends TestData {
+    private String tfQuestion;
+    private boolean tfAnswer;
     
-    public final String getKeyTerm() {
-        return keyTerm;
+    public final String getTFQuestion() {
+        return tfQuestion;
     }
 
-    public final String getKTDefinition() {
-        return ktDefinition;
+    public final boolean getTFAnswer() {
+        return tfAnswer;
     }
     
-    public final void setKeyTerm(String keyTerm) {
-        if(Utilities.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
-        else this.keyTerm = keyTerm;
+    public final void setTFQuestion(String tfQuestion) {
+        if(Utilities.isNullOrEmpty(tfQuestion)) throw new NullPointerException("True/False questions cannot be null or empty.");
+        else this.tfQuestion = tfQuestion;
     }
     
-    public final void setKTDefinition(String ktDefinition) {
-        if(Utilities.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
-        else this.ktDefinition = ktDefinition;
+    public final void setTFAnswer(boolean tfAnswer) {
+        this.tfAnswer = tfAnswer;
     }
     
-    public KeyTerm(QuestionType questionType) {
+    public TrueFalse(QuestionType questionType) {
         setQuestionType(questionType);
     }
     
     /*
-    public KeyTerm(QuestionType questionType, String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
+    public TrueFalse(QuestionType questionType, String tfQuestion, MediaType mediaType, String mediaFileName, boolean tfAnswer, String tfExplanation) {
         setQuestionType(questionType);
-        setKeyTerm(keyTerm);
+        setTFQuestion(tfQuestion);
         validateAndSetMedia(mediaType, mediaFileName);
-        setKTDefinition(ktDefinition);
+        setTFAnswer(tfAnswer);
+        setTFExplanation(tfExplanation);
     }
     */
 }

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package testmatejava;
+package testmatedesktop;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -29,13 +29,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import testmatejava.Constants.*;
+import testmatedesktop.Constants.*;
 
 /**
  * TestMate controller class
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class TestMateJava {
+public class TestMateDesktop {
     private static ArrayList<TestData> testData = new ArrayList<>();;
     private static ArrayList<TestQuestion> testQuestion = new ArrayList<>();;
     
