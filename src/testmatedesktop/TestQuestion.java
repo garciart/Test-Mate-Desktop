@@ -41,22 +41,8 @@ public class TestQuestion {
     private String explanation;
     
     /**
-     * Overloaded constructor for adding key terms
-     * @param mediaType
-     * @param mediaFileName
-     * @param numberOfChoices
-     * @param explanation 
-     */
-    public TestQuestion(QuestionType questionType, MediaType mediaType, String mediaFileName, int numberOfChoices, String explanation) {
-        this.setQuestionType(questionType);
-        this.setMediaType(mediaType);
-        this.setMediaFileName(mediaFileName);
-        this.setNumberOfChoices(numberOfChoices);
-        this.setExplanation(explanation);
-    }
-
-    /**
      * Overloaded constructor for adding multiple choice and true/false questions
+     * @param questionType
      * @param question
      * @param mediaType
      * @param mediaFileName

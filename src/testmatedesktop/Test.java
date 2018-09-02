@@ -35,14 +35,18 @@ import java.util.Random;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class Test {
-    private ArrayList<TestData> testData = new ArrayList<>();
     private ArrayList<TestQuestion> testQuestion = new ArrayList<>();
-    
-    public void Test() {
-        
+
+    public final ArrayList<TestQuestion> getTestQuestions() {
+        return testQuestion;
     }
 
-    public void myCheck() throws IOException {
+    public final void setTestQuestions(ArrayList<TestQuestion> testQuestion) {
+        if(testQuestion == null) throw new NullPointerException("Questions must have at least one choice.");
+        else this.testQuestion = testQuestion;
+    }
+
+    public Test(String testFileName) throws IOException {
         Settings s = new Settings();
         try {
             s.getSettingsFromFile();
@@ -52,12 +56,8 @@ public class Test {
             System.out.println("Applying default settings...");
             s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
         }
-        System.out.println("questionOrderSetting = " + s.getQuestionOrderSetting());
-        System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
-        System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
-        System.out.println();
         try {
-            readFile();
+            ArrayList<TestData> testData = readFile(testFileName);
             ArrayList<Integer> ktIndex = new ArrayList<>();
             for(int x = 0; x < testData.size(); x++) {
                 if(testData.get(x).getQuestionType() == Constants.QuestionType.K) {
@@ -119,21 +119,14 @@ public class Test {
                         throw new IllegalArgumentException("Corrupt data. Check structure and values.");
                 }
             }
-            System.out.println();
-            RandomNumbers qoArray = new RandomNumbers(testQuestion.size() - 1);
-            int[] qo = new int[testQuestion.size()];
-            for(int x = 0; x < testQuestion.size(); x++) {
-                qo[x] = (s.getQuestionOrderSetting() == Constants.QuestionOrder.DEFAULT ? x : qoArray.getUniqueArray()[x]);
-            }
-            for(int x = 0; x < testQuestion.size(); x++) {
-                System.out.println(x + ". " + testQuestion.get(qo[x]).getQuestion());
-                for(int y = 0; y <= testQuestion.get(qo[x]).getNumberOfChoices(); y++) {
-                    System.out.println(Constants.LETTERS[y] + ". " + testQuestion.get(qo[x]).getChoices().get(y) + (y == testQuestion.get(qo[x]).getCorrectAnswerIndex() ? " - HERE!" : ""));
+            if(s.getQuestionOrderSetting() == Constants.QuestionOrder.RANDOM) {
+                RandomNumbers qoArray = new RandomNumbers(testQuestion.size() - 1);
+                for(int x = 0; x < testQuestion.size(); x++) {
+                    TestQuestion temp = testQuestion.get(x);
+                    testQuestion.set(x, testQuestion.get(qoArray.getUniqueArray()[x]));
+                    testQuestion.set(qoArray.getUniqueArray()[x], temp);
                 }
-                if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(testQuestion.get(qo[x]).getExplanation());
-                System.out.println();
             }
-
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
@@ -147,9 +140,10 @@ public class Test {
      * @throws FileNotFoundException When file cannot be found
      * @throws IOException When file cannot be opened
      */    
-    private void readFile() throws FileNotFoundException, IOException {
+    private ArrayList<TestData> readFile(String testFileName) throws FileNotFoundException, IOException {
         // Due to MultipleChoice's fluctuating size, we will use getters and setters instead of a constructor for all question types
-        FileReader fileReader = new FileReader(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
+        ArrayList<TestData> testData = new ArrayList<>();
+        FileReader fileReader = new FileReader(testFileName);
         try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             String firstLine;
             while(!Utilities.isNullOrEmpty(firstLine = bufferedReader.readLine())) {
@@ -202,6 +196,7 @@ public class Test {
                     throw new IllegalArgumentException("Corrupt data file. Check structure and values.");
                 }
             }
-        } 
+        }
+        return testData;
     }
 }

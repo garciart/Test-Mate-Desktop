@@ -24,6 +24,7 @@
 package testmatedesktop;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,12 +45,36 @@ public class TestMateDesktop extends Application {
      */
     public static void main(String[] args) throws IOException {
         // System.out.println("Here!");
-        Test t = new Test();
         launch(args);
     }
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+        Test t = new Test(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
+        Settings s = new Settings();
+        try {
+            s.getSettingsFromFile();
+        }
+        catch(Exception ex) {
+            System.out.println("Unable to read settings file: " + ex.toString());
+            System.out.println("Applying default settings...");
+            s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
+        }
+        System.out.println("questionOrderSetting = " + s.getQuestionOrderSetting());
+        System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
+        System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
+        System.out.println();
+        ArrayList<TestQuestion> tq = t.getTestQuestions();
+
+        for(int x = 0; x < tq.size(); x++) {
+            System.out.println(x + ". " + tq.get(x).getQuestion());
+            for(int y = 0; y <= tq.get(x).getNumberOfChoices(); y++) {
+                System.out.println(Constants.LETTERS[y] + ". " + tq.get(x).getChoices().get(y) + (y == tq.get(x).getCorrectAnswerIndex() ? " - HERE!" : ""));
+            }
+            if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(tq.get(x).getExplanation());
+            System.out.println();
+        }
+        
         primaryStage.setTitle("Hello World!");
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
