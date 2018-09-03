@@ -50,7 +50,6 @@ public class TestMateDesktop extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Test t = new Test(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
         Settings s = new Settings();
         try {
             s.getSettingsFromFile();
@@ -64,7 +63,8 @@ public class TestMateDesktop extends Application {
         System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
         System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
         System.out.println();
-        ArrayList<TestQuestion> tq = t.getTestQuestions();
+        Test t = new Test();
+        ArrayList<TestQuestion> tq = t.getTestQuestions(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
 
         for(int x = 0; x < tq.size(); x++) {
             System.out.println(x + ". " + tq.get(x).getQuestion());

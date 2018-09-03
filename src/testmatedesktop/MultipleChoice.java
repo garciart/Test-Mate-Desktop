@@ -24,52 +24,78 @@
 package testmatedesktop;
 
 import java.util.ArrayList;
-import testmatedesktop.Constants.*;
 
 /**
- *
+ * TestMate model class for multiple choice data objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class MultipleChoice extends TestData {
-    private String mcQuestion;
-    private int mcNumberOfChoices;
-    private ArrayList<String> mcChoices;
+    private String mcQuestion = new String();
+    private int mcNumberOfChoices = 0;
+    private ArrayList<String> mcChoices = new ArrayList<>();
     
+    /**
+     * Multiple choice question getter
+     * @return the multiple choice question
+     */
     public final String getMCQuestion() {
         return mcQuestion;
     }
 
+    /**
+     * Number of possible answers to the multiple choice question getter
+     * @return the number of possible answers to the multiple choice question
+     */
     public final int getMCNumberOfChoices() {
         return mcNumberOfChoices;
     }
     
+    /**
+     * Possible answers to the multiple choice question getter
+     * @return possible answers to the multiple choice question
+     */
     public final ArrayList<String> getMCChoices() {
         return mcChoices;
     }
     
+    /**
+     * Multiple choice question setter
+     * @param mcQuestion the multiple choice question
+     */
     public final void setMCQuestion(String mcQuestion) {
         if(Utilities.isNullOrEmpty(mcQuestion)) throw new NullPointerException("Multiple choice questions cannot be null or empty.");
         else this.mcQuestion = mcQuestion;
     }
     
+    /**
+     * Number of possible answers to the multiple choice question setter
+     * @param mcNumberOfChoices
+     */
     public final void setMCNumberOfChoices(int mcNumberOfChoices) {
         if(mcNumberOfChoices <= 0) throw new IllegalArgumentException("The number of multiple choice answers cannot be null or zero.");
         else this.mcNumberOfChoices = mcNumberOfChoices;
     }
     
+    /**
+     * Possible answers to the multiple choice question setter
+     * @param mcChoices possible answers to the multiple choice question
+     */
     public final void setMCChoices(ArrayList<String> mcChoices) {
         if(mcChoices == null) throw new NullPointerException("Multiple choice questions must have at least one choice.");
         else this.mcChoices = mcChoices;
     }
     
-    public MultipleChoice(QuestionType questionType) {
+    /**
+     * Multiple choice class constructor 
+     */
+    public MultipleChoice() {
         this.mcChoices = new ArrayList<>();
-        setQuestionType(questionType);
+        setQuestionType(Constants.QuestionType.M);
     }
     
     /*
-    public MultipleChoice(QuestionType questionType, String mcQuestion, MediaType mediaType, String mediaFileName, int mcNumberOfChoices,  ArrayList<String> mcChoices, String mcExplanation) {
-        setQuestionType(questionType);
+    public MultipleChoice(String mcQuestion, MediaType mediaType, String mediaFileName, int mcNumberOfChoices,  ArrayList<String> mcChoices, String mcExplanation) {
+        setQuestionType(Constants.QuestionType.M);
         setMCQuestion(mcQuestion);
         validateAndSetMedia(mediaType, mediaFileName);
         setMCNumberOfChoices(mcNumberOfChoices);

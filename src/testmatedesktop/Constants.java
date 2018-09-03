@@ -28,7 +28,11 @@ package testmatedesktop;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class Constants {
+
+    /** Permanent location of settings file */
     public static final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
+    
+    /** Used to convert the user's choice to an index */
     protected static final char[] LETTERS = {'A', 'B', 'C', 'D'};
     
     /** Question order settings

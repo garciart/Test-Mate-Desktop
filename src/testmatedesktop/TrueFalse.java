@@ -26,37 +26,56 @@ package testmatedesktop;
 import testmatedesktop.Constants.*;
 
 /**
- *
+ * TestMate model class for true/false data objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class TrueFalse extends TestData {
-    private String tfQuestion;
-    private boolean tfAnswer;
+    private String tfQuestion = new String();
+    private boolean tfAnswer = true;
     
+    /**
+     * True/false question getter
+     * @return the true/false question
+     */
     public final String getTFQuestion() {
         return tfQuestion;
     }
 
+    /**
+     * True/false answer getter
+     * @return the true/false answer
+     */
     public final boolean getTFAnswer() {
         return tfAnswer;
     }
     
+    /**
+     * True/false question setter
+     * @param tfQuestion the true/false question
+     */
     public final void setTFQuestion(String tfQuestion) {
         if(Utilities.isNullOrEmpty(tfQuestion)) throw new NullPointerException("True/False questions cannot be null or empty.");
         else this.tfQuestion = tfQuestion;
     }
     
+    /**
+     * True/false answer setter
+     * @param tfAnswer the true/false answer
+     */
     public final void setTFAnswer(boolean tfAnswer) {
         this.tfAnswer = tfAnswer;
     }
-    
-    public TrueFalse(QuestionType questionType) {
-        setQuestionType(questionType);
+
+    /**
+     * True/false class constructor 
+     */
+    public TrueFalse() {
+        setQuestionType(Constants.QuestionType.T);
     }
     
     /*
-    public TrueFalse(QuestionType questionType, String tfQuestion, MediaType mediaType, String mediaFileName, boolean tfAnswer, String tfExplanation) {
-        setQuestionType(questionType);
+    public TrueFalse(String tfQuestion, MediaType mediaType, String mediaFileName, boolean tfAnswer, String tfExplanation) {
+        setQuestionType(Constants.QuestionType.T);
         setTFQuestion(tfQuestion);
         validateAndSetMedia(mediaType, mediaFileName);
         setTFAnswer(tfAnswer);

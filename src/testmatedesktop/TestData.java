@@ -30,7 +30,7 @@ import testmatedesktop.Constants.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public abstract class TestData {
-    private QuestionType questionType;
+    private QuestionType questionType = QuestionType.K;
     private MediaType mediaType = MediaType.N;
     private String mediaFileName = new String();
     private String explanation = new String();

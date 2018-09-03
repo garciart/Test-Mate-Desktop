@@ -35,18 +35,28 @@ import java.util.Random;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class Test {
-    private ArrayList<TestQuestion> testQuestion = new ArrayList<>();
+    /*
+    private final ArrayList<TestQuestion> testQuestion;
 
-    public final ArrayList<TestQuestion> getTestQuestions() {
-        return testQuestion;
-    }
-
-    public final void setTestQuestions(ArrayList<TestQuestion> testQuestion) {
-        if(testQuestion == null) throw new NullPointerException("Questions must have at least one choice.");
-        else this.testQuestion = testQuestion;
+    public Test() {
+        this.testQuestion = new ArrayList<>();
     }
 
     public Test(String testFileName) throws IOException {
+
+    }
+
+    public final int getListSize() {
+        return testQuestion.size();
+    }
+    
+    public final TestQuestion getTestQuestionByIndex(int index) {
+        return this.testQuestion.get(index);
+    }
+    */
+    
+    public final ArrayList<TestQuestion> getTestQuestions(String testFileName) throws IOException {
+        ArrayList<TestQuestion> testQuestion = new ArrayList<>();
         Settings s = new Settings();
         try {
             s.getSettingsFromFile();
@@ -131,7 +141,9 @@ public class Test {
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
+        return testQuestion;
     }
+    
     
     /**
      * Method to read file data and create an ArrayList of Animal objects
@@ -148,7 +160,7 @@ public class Test {
             String firstLine;
             while(!Utilities.isNullOrEmpty(firstLine = bufferedReader.readLine())) {
                 if(firstLine.equals(Constants.QuestionType.K.toString())) {
-                    KeyTerm k = new KeyTerm(Constants.QuestionType.K);
+                    KeyTerm k = new KeyTerm();
                     k.setKeyTerm(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     Constants.MediaType tempMT = Constants.MediaType.valueOf(bufferedReader.readLine());
                     String tempMF = bufferedReader.readLine();
@@ -158,7 +170,7 @@ public class Test {
                     testData.add(k);
                 }
                 else if(firstLine.equals(Constants.QuestionType.M.toString())) {
-                    MultipleChoice m = new MultipleChoice(Constants.QuestionType.M);
+                    MultipleChoice m = new MultipleChoice();
                     m.setMCQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     Constants.MediaType tempMT = Constants.MediaType.valueOf(bufferedReader.readLine());
                     String tempMF = bufferedReader.readLine();
@@ -177,7 +189,7 @@ public class Test {
                     testData.add(m);
                 }
                 else if(firstLine.equals(Constants.QuestionType.T.toString())) {
-                    TrueFalse t = new TrueFalse(Constants.QuestionType.T);
+                    TrueFalse t = new TrueFalse();
                     t.setTFQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     Constants.MediaType tempMT = Constants.MediaType.valueOf(bufferedReader.readLine());
                     String tempMF = bufferedReader.readLine();

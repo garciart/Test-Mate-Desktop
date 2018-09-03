@@ -26,29 +26,49 @@ package testmatedesktop;
 import java.util.Random;
 
 /**
- *
+ * TestMate model class to generate unique sets of random numbers
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class RandomNumbers {
     private int indexLocation = 0;
     private int[] uniqueArray;
     
+    /**
+     * Index location for key value getter
+     * @return the location of a key value in the array
+     */
     public final int getIndexLocation() {
         return indexLocation;
     }
     
+    /**
+     * Unique array getter
+     * @return an integer array of unique numbers in random order
+     */
     public final int[] getUniqueArray() {
         return uniqueArray;
     }
     
+    /**
+     * Index location for key value setter
+     * @param indexLocation the location of a key value in the array 
+     */
     public final void setIndexLocation(int indexLocation) {
         this.indexLocation = indexLocation;
     }
     
+    /**
+     * Unique array setter
+     * @param uniqueArray an integer array of unique numbers in random order
+     */
     public final void setUniqueArray(int[] uniqueArray) {
         this.uniqueArray = uniqueArray;
     }
     
+    /**
+     * (Overloaded) RandomNumbers constructor
+     * @param max the max value to return (0 is the min value)
+     */
     public RandomNumbers(int max) {
         // EVERYTHING IS ZERO-BASED, INCLUDING THE ARGUMENTS
         // Ensure the argument is positive and that there is more than one value to randomize
@@ -76,6 +96,12 @@ public class RandomNumbers {
         }
     }
     
+    /**
+     * (Overloaded) RandomNumbers constructor
+     * @param max the max value to return
+     * @param index the key value that must appear in the array
+     * @param uniqueArraySize the number of elements to return
+     */
     public RandomNumbers(int max, int index, int uniqueArraySize) {
         // EVERYTHING IS ZERO-BASED, INCLUDING THE ARGUMENTS
         // Ensure all arguments are positive and that the max value is greater than or equal to the index and desired array size

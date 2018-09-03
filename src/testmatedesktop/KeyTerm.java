@@ -23,41 +23,58 @@
  */
 package testmatedesktop;
 
-import testmatedesktop.Constants.*;
-
 /**
- *
+ * TestMate model class for key term data objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class KeyTerm extends TestData {
-    private String keyTerm;
-    private String ktDefinition;
+    private String keyTerm = new String();
+    private String ktDefinition = new String();
     
+    /**
+     * Key term getter
+     * @return the key term
+     */
     public final String getKeyTerm() {
         return keyTerm;
     }
 
+    /**
+     * Key term definition getter
+     * @return the key term definition
+     */
     public final String getKTDefinition() {
         return ktDefinition;
     }
     
+    /**
+     * Key term setter
+     * @param keyTerm the key term
+     */
     public final void setKeyTerm(String keyTerm) {
         if(Utilities.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
         else this.keyTerm = keyTerm;
     }
     
+    /**
+     * Key term definition setter
+     * @param ktDefinition the key term definition
+     */
     public final void setKTDefinition(String ktDefinition) {
         if(Utilities.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
         else this.ktDefinition = ktDefinition;
     }
-    
-    public KeyTerm(QuestionType questionType) {
-        setQuestionType(questionType);
+
+    /**
+     * Key term class constructor 
+     */
+    public KeyTerm() {
+        setQuestionType(Constants.QuestionType.K);
     }
     
     /*
-    public KeyTerm(QuestionType questionType, String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
-        setQuestionType(questionType);
+    public KeyTerm(String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
+        setQuestionType(Constants.QuestionType.K);
         setKeyTerm(keyTerm);
         validateAndSetMedia(mediaType, mediaFileName);
         setKTDefinition(ktDefinition);
