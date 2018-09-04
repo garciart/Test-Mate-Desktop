@@ -67,7 +67,7 @@ public class TestMateDesktop extends Application {
         ArrayList<TestQuestion> tq = t.getTestQuestions(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
 
         for(int x = 0; x < tq.size(); x++) {
-            System.out.println(x + ". " + tq.get(x).getQuestion());
+            System.out.println((x + 1) + ". " + tq.get(x).getQuestion());
             for(int y = 0; y <= tq.get(x).getNumberOfChoices(); y++) {
                 System.out.println(Constants.LETTERS[y] + ". " + tq.get(x).getChoices().get(y) + (y == tq.get(x).getCorrectAnswerIndex() ? " - HERE!" : ""));
             }
