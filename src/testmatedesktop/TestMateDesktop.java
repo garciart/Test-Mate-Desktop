@@ -24,45 +24,28 @@
 package testmatedesktop;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  * TestMate controller class
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class TestMateDesktop extends Application {
+public class TestMateDesktop {
 
     /**
      *
      * @param args
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        // System.out.println("Here!");
-        launch(args);
-    }
-    
-    @Override
-    public void start(Stage primaryStage) throws IOException {
         Settings s = new Settings();
         try {
             s.getSettingsFromFile();
         }
-        catch(Exception ex) {
+        catch(IOException ex) {
             System.out.println("Unable to read settings file: " + ex.toString());
             System.out.println("Applying default settings...");
             s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
         }
-        System.out.println("questionOrderSetting = " + s.getQuestionOrderSetting());
-        System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
-        System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
-        System.out.println();
         Test t = new Test(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
 
         for(int x = 0; x < t.getListSize(); x++) {
@@ -74,19 +57,5 @@ public class TestMateDesktop extends Application {
             if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(tq.getExplanation());
             System.out.println();
         }
-        
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
     }
 }

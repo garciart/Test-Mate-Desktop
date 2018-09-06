@@ -37,12 +37,17 @@ import java.util.Random;
 public class Test {
     private final ArrayList<TestQuestion> testQuestions = new ArrayList<>();
 
+    /**
+     * Class constructor
+     * @param testFileName the name of the test data file
+     * @throws IOException When file cannot be opened
+     */
     public Test(String testFileName) throws IOException {
         Settings s = new Settings();
         try {
             s.getSettingsFromFile();
         }
-        catch(Exception ex) {
+        catch(IOException ex) {
             System.out.println("Unable to read settings file: " + ex.toString());
             System.out.println("Applying default settings...");
             s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
@@ -119,15 +124,24 @@ public class Test {
                 }
             }
         }
-        catch (Exception ex) {
+        catch (IOException | IllegalArgumentException ex) {
             System.out.println("Error: " + ex.toString());
         }
     }
 
+    /**
+     * Get the number of questions (1-based)
+     * @return the size of the testQuestion arraylist
+     */
     public final int getListSize() {
         return testQuestions.size();
     }
 
+    /**
+     * 
+     * @param index the index of the testQuestion
+     * @return the testQuestion object
+     */
     public final TestQuestion getTestQuestionByIndex(int index) {
         if(index >= testQuestions.size()) {
             return null;
