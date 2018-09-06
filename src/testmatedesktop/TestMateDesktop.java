@@ -63,15 +63,15 @@ public class TestMateDesktop extends Application {
         System.out.println("termDisplaySetting = " + s.getTermDisplaySetting());
         System.out.println("provideFeedbackSetting = " + s.getProvideFeedbackSetting());
         System.out.println();
-        Test t = new Test();
-        ArrayList<TestQuestion> tq = t.getTestQuestions(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
+        Test t = new Test(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
 
-        for(int x = 0; x < tq.size(); x++) {
-            System.out.println((x + 1) + ". " + tq.get(x).getQuestion());
-            for(int y = 0; y <= tq.get(x).getNumberOfChoices(); y++) {
-                System.out.println(Constants.LETTERS[y] + ". " + tq.get(x).getChoices().get(y) + (y == tq.get(x).getCorrectAnswerIndex() ? " - HERE!" : ""));
+        for(int x = 0; x < t.getListSize(); x++) {
+            TestQuestion tq = t.getTestQuestionByIndex(x);
+            System.out.println((x + 1) + ". " + tq.getQuestion());
+            for(int y = 0; y <= tq.getNumberOfChoices(); y++) {
+                System.out.println(Constants.LETTERS[y] + ". " + tq.getChoices().get(y) + (y == tq.getCorrectAnswerIndex() ? " - HERE!" : ""));
             }
-            if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(tq.get(x).getExplanation());
+            if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(tq.getExplanation());
             System.out.println();
         }
         

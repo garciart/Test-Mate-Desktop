@@ -168,10 +168,10 @@ Review the following code snippet:\nint number1 = 10;\nint number2 = 20;\nif (nu
 N
 null
 3
-\nnumber1\nnumber2
-number1
-number2
-\nnumber2\nnumber1
+\tnumber1\n\tnumber2
+\tnumber1
+\tnumber2
+\tnumber2\n\tnumber1
 Since the condition is true and Console.WriteLine("number2"); is not part of the if statement, the answer is:\nnumber1\nnumber2
 M
 In a switch statement, if none of the case statements match the switch expression, then control is transferred to which statement?

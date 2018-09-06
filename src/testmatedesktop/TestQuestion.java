@@ -94,45 +94,45 @@ public class TestQuestion {
         return explanation;
     }
 
-    public final void setQuestion(String question) {
+    private void setQuestion(String question) {
         if(Utilities.isNullOrEmpty(question)) throw new NullPointerException("Question cannot be null or empty.");
         else this.question = question;
     }
     
-    public final void setQuestionType(QuestionType questionType) {
+    private void setQuestionType(QuestionType questionType) {
         if(questionType == null) throw new NullPointerException("Question type cannot be null.");
         this.questionType = questionType;
     }
 
-    public final void setMediaType(MediaType mediaType) {
+    private void setMediaType(MediaType mediaType) {
         if(mediaType == null) throw new NullPointerException("Media type cannot be null.");
         this.mediaType = mediaType;
     }
 
-    public final void setNumberOfChoices(int numberOfChoices) {
+    private void setNumberOfChoices(int numberOfChoices) {
         if(numberOfChoices <= 0) throw new IllegalArgumentException("The number of choices cannot be null or zero.");
         else this.numberOfChoices = numberOfChoices;
     }
     
-    public final void setChoices(ArrayList<String> choices) {
+    private void setChoices(ArrayList<String> choices) {
         if(choices == null) throw new NullPointerException("Questions must have at least one choice.");
         else this.choices = choices;
     }
     
-    public final void setMediaFileName(String mediaFileName) {
+    private void setMediaFileName(String mediaFileName) {
         this.mediaFileName = mediaFileName;
     }
 
-    public final void setCorrectAnswerIndex(int correctAnswerIndex) {
+    private void setCorrectAnswerIndex(int correctAnswerIndex) {
         if(correctAnswerIndex < 0) throw new IllegalArgumentException("The number of choices cannot less than zero.");
         else this.correctAnswerIndex = correctAnswerIndex;
     }
     
-    public final void setExplanation(String explanation) {
+    private void setExplanation(String explanation) {
         this.explanation = explanation;
     }
     
-    protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
+    private void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
         if(mediaType == MediaType.N) {
             if(!mediaFileName.toLowerCase().equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
         }

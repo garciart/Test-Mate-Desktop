@@ -35,28 +35,9 @@ import java.util.Random;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class Test {
-    /*
-    private final ArrayList<TestQuestion> testQuestion;
-
-    public Test() {
-        this.testQuestion = new ArrayList<>();
-    }
+    private final ArrayList<TestQuestion> testQuestions = new ArrayList<>();
 
     public Test(String testFileName) throws IOException {
-
-    }
-
-    public final int getListSize() {
-        return testQuestion.size();
-    }
-    
-    public final TestQuestion getTestQuestionByIndex(int index) {
-        return this.testQuestion.get(index);
-    }
-    */
-    
-    public final ArrayList<TestQuestion> getTestQuestions(String testFileName) throws IOException {
-        ArrayList<TestQuestion> testQuestion = new ArrayList<>();
         Settings s = new Settings();
         try {
             s.getSettingsFromFile();
@@ -99,13 +80,13 @@ public class Test {
                             for(int y = 0; y <= 3; y++) {
                                 ktTempChoices.add(((KeyTerm)testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKTDefinition());
                             }
-                            testQuestion.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                            testQuestions.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
                         }
                         else {
                             for(int y = 0; y <= 3; y++) {
                                 ktTempChoices.add(((KeyTerm)testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKeyTerm());
                             }
-                            testQuestion.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                            testQuestions.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
                         }
                         ktCount++;
                         break;
@@ -116,34 +97,45 @@ public class Test {
                         for(int i = 0; i <= mc.getMCNumberOfChoices(); i++) {
                             mcTempChoices.add(mc.getMCChoices().get(rn.getUniqueArray()[i]));
                         }
-                        testQuestion.add(new TestQuestion(qt, mc.getMCQuestion(), mc.getMediaType(), mc.getMediaFileName(), mc.getMCNumberOfChoices(), mcTempChoices, rn.getIndexLocation(), mc.getExplanation()));
+                        testQuestions.add(new TestQuestion(qt, mc.getMCQuestion(), mc.getMediaType(), mc.getMediaFileName(), mc.getMCNumberOfChoices(), mcTempChoices, rn.getIndexLocation(), mc.getExplanation()));
                         break;
                     case T:
                         TrueFalse tf = (TrueFalse)testData.get(x);
                         ArrayList<String> tfTempChoices = new ArrayList<>();
                         tfTempChoices.add("true");
                         tfTempChoices.add("false");
-                        testQuestion.add(new TestQuestion(qt, tf.getTFQuestion(), tf.getMediaType(), tf.getMediaFileName(), 1, tfTempChoices, (tf.getTFAnswer() ? 0 : 1) , tf.getExplanation()));
+                        testQuestions.add(new TestQuestion(qt, tf.getTFQuestion(), tf.getMediaType(), tf.getMediaFileName(), 1, tfTempChoices, (tf.getTFAnswer() ? 0 : 1) , tf.getExplanation()));
                         break;
                     default:
                         throw new IllegalArgumentException("Corrupt data. Check structure and values.");
                 }
             }
             if(s.getQuestionOrderSetting() == Constants.QuestionOrder.RANDOM) {
-                RandomNumbers qoArray = new RandomNumbers(testQuestion.size() - 1);
-                for(int x = 0; x < testQuestion.size(); x++) {
-                    TestQuestion temp = testQuestion.get(x);
-                    testQuestion.set(x, testQuestion.get(qoArray.getUniqueArray()[x]));
-                    testQuestion.set(qoArray.getUniqueArray()[x], temp);
+                RandomNumbers qoArray = new RandomNumbers(testQuestions.size() - 1);
+                for(int x = 0; x < testQuestions.size(); x++) {
+                    TestQuestion temp = testQuestions.get(x);
+                    testQuestions.set(x, testQuestions.get(qoArray.getUniqueArray()[x]));
+                    testQuestions.set(qoArray.getUniqueArray()[x], temp);
                 }
             }
         }
         catch (Exception ex) {
             System.out.println("Error: " + ex.toString());
         }
-        return testQuestion;
     }
-    
+
+    public final int getListSize() {
+        return testQuestions.size();
+    }
+
+    public final TestQuestion getTestQuestionByIndex(int index) {
+        if(index >= testQuestions.size()) {
+            return null;
+        }
+        else {
+            return testQuestions.get(index);
+        }
+    }
     
     /**
      * Method to read file data and create an ArrayList of Animal objects
