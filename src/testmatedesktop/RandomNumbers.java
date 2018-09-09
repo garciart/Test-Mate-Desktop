@@ -23,13 +23,14 @@
  */
 package testmatedesktop;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
  * TestMate model class to generate unique sets of random numbers
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class RandomNumbers {
+public final class RandomNumbers {
     private int indexLocation = 0;
     private int[] uniqueArray;
     
@@ -46,7 +47,7 @@ public class RandomNumbers {
      * @return an integer array of unique numbers in random order
      */
     public final int[] getUniqueArray() {
-        return uniqueArray;
+        return Arrays.copyOf(uniqueArray, uniqueArray.length);
     }
     
     /**
@@ -62,7 +63,7 @@ public class RandomNumbers {
      * @param uniqueArray an integer array of unique numbers in random order
      */
     public final void setUniqueArray(int[] uniqueArray) {
-        this.uniqueArray = uniqueArray;
+        this.uniqueArray = Arrays.copyOf(uniqueArray, uniqueArray.length);
     }
     
     /**

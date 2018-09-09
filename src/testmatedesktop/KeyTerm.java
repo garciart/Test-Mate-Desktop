@@ -28,8 +28,8 @@ package testmatedesktop;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class KeyTerm extends TestData {
-    private String keyTerm = new String();
-    private String ktDefinition = new String();
+    private String keyTerm = "";
+    private String ktDefinition = "";
     
     /**
      * Key term getter
@@ -71,13 +71,4 @@ public final class KeyTerm extends TestData {
     public KeyTerm() {
         setQuestionType(Constants.QuestionType.K);
     }
-    
-    /*
-    public KeyTerm(String keyTerm, MediaType mediaType, String mediaFileName, String definition) {
-        setQuestionType(Constants.QuestionType.K);
-        setKeyTerm(keyTerm);
-        validateAndSetMedia(mediaType, mediaFileName);
-        setKTDefinition(ktDefinition);
-    }
-    */
 }

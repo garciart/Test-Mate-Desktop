@@ -23,14 +23,12 @@
  */
 package testmatedesktop;
 
-import testmatedesktop.Constants.*;
-
 /**
  * TestMate model class for true/false data objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class TrueFalse extends TestData {
-    private String tfQuestion = new String();
+    private String tfQuestion = "";
     private boolean tfAnswer = true;
     
     /**
@@ -72,14 +70,4 @@ public final class TrueFalse extends TestData {
     public TrueFalse() {
         setQuestionType(Constants.QuestionType.T);
     }
-    
-    /*
-    public TrueFalse(String tfQuestion, MediaType mediaType, String mediaFileName, boolean tfAnswer, String tfExplanation) {
-        setQuestionType(Constants.QuestionType.T);
-        setTFQuestion(tfQuestion);
-        validateAndSetMedia(mediaType, mediaFileName);
-        setTFAnswer(tfAnswer);
-        setTFExplanation(tfExplanation);
-    }
-    */
 }

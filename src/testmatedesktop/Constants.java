@@ -27,49 +27,60 @@ package testmatedesktop;
  * TestMate model class for common constants
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Constants {
+public final class Constants {
 
     /** Permanent location of settings file */
     public static final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
     
     /** Used to convert the user's choice to an index */
-    protected static final char[] LETTERS = {'A', 'B', 'C', 'D'};
+    static final char[] LETTERS = {'A', 'B', 'C', 'D'};
     
-    /** Question order settings
-     * DEFAULT to display questions as read from the file
-     * RANDOM to randomize the order */
+    /** Question order settings */
     public enum QuestionOrder {
+        /** DEFAULT to display questions as read from the file */
         DEFAULT,
+        /** RANDOM to randomize the order */
         RANDOM;
     }
 
-    /** Term display settings
-     * TERMISQUESTION to display terms as question (Default),
-     * DEFISQUESTION to display definitions as question,
-     * MIXEDQUESTION to mix it up */
+    /** Term display settings */
     public enum TermDisplay {
+        /** TERMISQUESTION to display terms as question (Default) */
         TERMISQUESTION,
+        /** DEFISQUESTION to display definitions as question */
         DEFISQUESTION,
+        /** MIXEDQUESTION to mix it up */
         MIXEDQUESTION
     }
 
-    /** Provide feedback settings
-     * YES to to provide feedback after each answer (Default),
-     * NO to wait until the end of the test to provide feedback */
+    /** Provide feedback settings */
     public enum ProvideFeedback {
+        /** YES to to provide feedback after each answer (Default) */
         YES,
+        /** NO to wait until the end of the test to provide feedback */
         NO
     }
     
-    /** Question type constants
-     * K for Key Term, M for Multiple Choice, T for True or False */    
+    /** Question type constants */
+     
     public enum QuestionType {
-        K, M, T
+        /** K for Key Term */
+        K,
+        /** M for Multiple Choice */
+        M,
+        /** T for True or False */
+        T
     }
     
-    /** Media flag constants
-     * N for none, I for images, A for audio files, and V for video files */    
+    /** Media flag constants */
     public enum MediaType {
-        N, I, A, V
+        /** N for none */
+        N,
+        /** I for images */
+        I,
+        /** A for audio files */
+        A,
+        /** V for video files */
+        V    
     }
 }

@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import testmatedesktop.Constants.*;
 
 /**
- *
+ * TestMate model class for test question objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class TestQuestion {
+public final class TestQuestion {
     private QuestionType questionType;
     private String question;
     private MediaType mediaType;
@@ -41,7 +41,7 @@ public class TestQuestion {
     private String explanation;
     
     /**
-     * Overloaded constructor for adding multiple choice and true/false questions
+     * Constructor for adding multiple choice and true/false questions
      * @param questionType
      * @param question
      * @param mediaType
@@ -62,100 +62,137 @@ public class TestQuestion {
         this.setExplanation(explanation);
     }
     
+    /**
+     * Test question getter
+     * @return the test question
+     */
     public final String getQuestion() {
         return question;
     }
     
+    /**
+     * Question type getter
+     * @return the question type; K for Key Term, M for Multiple Choice, T for True or False
+     */
     public final QuestionType getQuestionType() {
         return questionType;
     }
 
+    /**
+     * Media type getter
+     * @return the media type; N for none, I for images, A for audio files, and V for video files
+     */
     public final MediaType getMediaType() {
         return mediaType;
     }
     
+    /**
+     * Media file name getter
+     * @return the media file name
+     */
     public final String getMediaFileName() {
         return mediaFileName;
     }
 
+    /**
+     * Number of possible answers to the test question getter
+     * @return the number of possible answers to the test question
+     */
     public final int getNumberOfChoices() {
         return numberOfChoices;
     }
     
+    /**
+     * Possible answers to the test question getter
+     * @return possible answers to the test question
+     */
     public final ArrayList<String> getChoices() {
         return choices;
     }
 
+    /**
+     * The index number of the correct answer getter
+     * @return the location of the correct answer in the array
+     */
     public final int getCorrectAnswerIndex() {
         return correctAnswerIndex;
     }
     
+    /**
+     * Question explanation getter
+     * @return the explanation of the answer
+     */
     public final String getExplanation() {
         return explanation;
     }
 
+    /**
+     * Test question setter
+     * @param question the test question
+     */
     private void setQuestion(String question) {
         if(Utilities.isNullOrEmpty(question)) throw new NullPointerException("Question cannot be null or empty.");
         else this.question = question;
     }
     
+    /**
+     * Question type setter
+     * @param questionType the question type; K for Key Term, M for Multiple Choice, T for True or False
+     */
     private void setQuestionType(QuestionType questionType) {
         if(questionType == null) throw new NullPointerException("Question type cannot be null.");
         this.questionType = questionType;
     }
 
+    /**
+     * Media type setter
+     * @param mediaType the media type; N for none, I for images, A for audio files, and V for video files
+     */
     private void setMediaType(MediaType mediaType) {
         if(mediaType == null) throw new NullPointerException("Media type cannot be null.");
         this.mediaType = mediaType;
     }
-
+    
+    /**
+     * Media file name setter
+     * @param mediaFileName the media file name
+     */
+    private void setMediaFileName(String mediaFileName) {
+        this.mediaFileName = mediaFileName;
+    }
+    
+    /**
+     * Number of possible answers to the test question setter
+     * @param numberOfChoices
+     */
     private void setNumberOfChoices(int numberOfChoices) {
         if(numberOfChoices <= 0) throw new IllegalArgumentException("The number of choices cannot be null or zero.");
         else this.numberOfChoices = numberOfChoices;
     }
     
+    /**
+     * Possible answers to the test question setter
+     * @param choices possible answers to the test question
+     */
     private void setChoices(ArrayList<String> choices) {
         if(choices == null) throw new NullPointerException("Questions must have at least one choice.");
         else this.choices = choices;
     }
-    
-    private void setMediaFileName(String mediaFileName) {
-        this.mediaFileName = mediaFileName;
-    }
 
+    /**
+     * The index number of the correct answer setter
+     * @param the location of the correct answer in the array
+     */
     private void setCorrectAnswerIndex(int correctAnswerIndex) {
         if(correctAnswerIndex < 0) throw new IllegalArgumentException("The number of choices cannot less than zero.");
         else this.correctAnswerIndex = correctAnswerIndex;
     }
     
+    /**
+     * Question explanation setter
+     * @param explanation the explanation of the answer
+     */
     private void setExplanation(String explanation) {
         this.explanation = explanation;
-    }
-    
-    private void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
-        if(mediaType == MediaType.N) {
-            if(!mediaFileName.toLowerCase().equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
-        }
-        else {
-            if(mediaFileName.toLowerCase().equals("null") || Utilities.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
-            switch(mediaType) {
-                case I: {
-                    if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
-                    break;
-                }
-                case A: {
-                    if(!mediaFileName.matches("^[\\w\\- ]+(.mp3)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
-                    break;
-                }
-                case V: {
-                    if(!mediaFileName.matches("^[\\w\\- ]+(.mpg|.mpeg|.mp4)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
-                    break;
-                }
-                default: {
-                    throw new IllegalArgumentException("Unsupported media type.");
-                }
-            }
-            setMediaFileName(mediaFileName);
-        }
     }
 }

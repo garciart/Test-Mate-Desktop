@@ -24,34 +24,35 @@
 package testmatedesktop;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 /**
  * TestMate model class for test objects
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Test {
-    private final ArrayList<TestQuestion> testQuestions = new ArrayList<>();
-
+public final class Test {
+    // Initiate RANDOM at the beginning, and then only once, or it will regenerate the same set of numbers
+    private static final Random RANDOM = new Random();
+    
     /**
-     * Class constructor
+     * Creates an array list of test questions
      * @param testFileName the name of the test data file
+     * @param questionOrder the question order setting: DEFAULT to display questions as read from the file or RANDOM to randomize the order
+     * @param termDisplay the term display setting: TERMISQUESTION to display terms as question (Default), DEFISQUESTION to display definitions as question, MIXEDQUESTION to mix it up
+     * @return a formatted list of test questions created from test data objects
      * @throws IOException When file cannot be opened
      */
-    public Test(String testFileName) throws IOException {
-        Settings s = new Settings();
-        try {
-            s.getSettingsFromFile();
-        }
-        catch(IOException ex) {
-            System.out.println("Unable to read settings file: " + ex.toString());
-            System.out.println("Applying default settings...");
-            s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
-        }
+    public ArrayList<TestQuestion> getTest(String testFileName, Constants.QuestionOrder questionOrder, Constants.TermDisplay termDisplay) throws IOException {
+        ArrayList<TestQuestion> testQuestions = new ArrayList<>();
         try {
             ArrayList<TestData> testData = readFile(testFileName);
             ArrayList<Integer> ktIndex = new ArrayList<>();
@@ -70,12 +71,12 @@ public class Test {
                         ArrayList<String> ktTempChoices = new ArrayList<>();
                         rn = new RandomNumbers((ktIndex.size() - 1), ktCount, 3);
                         boolean displayTermAsQuestion = true;
-                        switch(s.getTermDisplaySetting()) {
+                        switch(termDisplay) {
                             case DEFISQUESTION:
                                 displayTermAsQuestion = false;
                                 break;
                             case MIXEDQUESTION:
-                                displayTermAsQuestion = new Random().nextBoolean();
+                                displayTermAsQuestion = RANDOM.nextBoolean();
                                 break;
                             case TERMISQUESTION:
                             default:
@@ -115,7 +116,7 @@ public class Test {
                         throw new IllegalArgumentException("Corrupt data. Check structure and values.");
                 }
             }
-            if(s.getQuestionOrderSetting() == Constants.QuestionOrder.RANDOM) {
+            if(questionOrder == Constants.QuestionOrder.RANDOM) {
                 RandomNumbers qoArray = new RandomNumbers(testQuestions.size() - 1);
                 for(int x = 0; x < testQuestions.size(); x++) {
                     TestQuestion temp = testQuestions.get(x);
@@ -127,30 +128,9 @@ public class Test {
         catch (IOException | IllegalArgumentException ex) {
             System.out.println("Error: " + ex.toString());
         }
+        return testQuestions;
     }
 
-    /**
-     * Get the number of questions (1-based)
-     * @return the size of the testQuestion arraylist
-     */
-    public final int getListSize() {
-        return testQuestions.size();
-    }
-
-    /**
-     * 
-     * @param index the index of the testQuestion
-     * @return the testQuestion object
-     */
-    public final TestQuestion getTestQuestionByIndex(int index) {
-        if(index >= testQuestions.size()) {
-            return null;
-        }
-        else {
-            return testQuestions.get(index);
-        }
-    }
-    
     /**
      * Method to read file data and create an ArrayList of Animal objects
      * @return The Animal list
@@ -161,16 +141,16 @@ public class Test {
     private ArrayList<TestData> readFile(String testFileName) throws FileNotFoundException, IOException {
         // Due to MultipleChoice's fluctuating size, we will use getters and setters instead of a constructor for all question types
         ArrayList<TestData> testData = new ArrayList<>();
-        FileReader fileReader = new FileReader(testFileName);
-        try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+        InputStream inputStream = new FileInputStream(testFileName);
+        Reader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        try (BufferedReader bufferedReader = new BufferedReader(isr)) {
             String firstLine;
             while(!Utilities.isNullOrEmpty(firstLine = bufferedReader.readLine())) {
+                firstLine = firstLine.toUpperCase(Locale.ENGLISH);
                 if(firstLine.equals(Constants.QuestionType.K.toString())) {
                     KeyTerm k = new KeyTerm();
                     k.setKeyTerm(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
-                    Constants.MediaType tempMT = Constants.MediaType.valueOf(bufferedReader.readLine());
-                    String tempMF = bufferedReader.readLine();
-                    k.validateAndSetMedia(tempMT, tempMF);
+                    k.validateAndSetMedia(Constants.MediaType.valueOf(bufferedReader.readLine().toUpperCase(Locale.ENGLISH)), bufferedReader.readLine());
                     k.setKTDefinition(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     k.setExplanation(k.getKeyTerm() + ": " + k.getKTDefinition());
                     testData.add(k);
@@ -178,15 +158,13 @@ public class Test {
                 else if(firstLine.equals(Constants.QuestionType.M.toString())) {
                     MultipleChoice m = new MultipleChoice();
                     m.setMCQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
-                    Constants.MediaType tempMT = Constants.MediaType.valueOf(bufferedReader.readLine());
-                    String tempMF = bufferedReader.readLine();
-                    m.validateAndSetMedia(tempMT, tempMF);
+                    m.validateAndSetMedia(Constants.MediaType.valueOf(bufferedReader.readLine().toUpperCase(Locale.ENGLISH)), bufferedReader.readLine());
                     m.setMCNumberOfChoices(Integer.parseInt(bufferedReader.readLine()));
                     for(int x = 0; x <= m.getMCNumberOfChoices(); x++) {
                         m.getMCChoices().add(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     }
                     String tempExplanation  = Utilities.fixEscapeCharacters(bufferedReader.readLine());
-                    if(tempExplanation.toLowerCase().equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
+                    if(tempExplanation.toLowerCase(Locale.ENGLISH).equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
                         m.setExplanation("The answer is: " + m.getMCChoices().get(0));
                     }
                     else {
@@ -197,12 +175,10 @@ public class Test {
                 else if(firstLine.equals(Constants.QuestionType.T.toString())) {
                     TrueFalse t = new TrueFalse();
                     t.setTFQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
-                    Constants.MediaType tempMT = Constants.MediaType.valueOf(bufferedReader.readLine());
-                    String tempMF = bufferedReader.readLine();
-                    t.validateAndSetMedia(tempMT, tempMF);
+                    t.validateAndSetMedia(Constants.MediaType.valueOf(bufferedReader.readLine().toUpperCase(Locale.ENGLISH)), bufferedReader.readLine());
                     t.setTFAnswer(Boolean.valueOf(bufferedReader.readLine()));
                     String tempExplanation  = Utilities.fixEscapeCharacters(bufferedReader.readLine());
-                    if(tempExplanation.toLowerCase().equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
+                    if(tempExplanation.toLowerCase(Locale.ENGLISH).equals("null") || Utilities.isNullOrEmpty(tempExplanation)) {
                         t.setExplanation("The answer is: " + t.getTFAnswer());
                     }
                     else {

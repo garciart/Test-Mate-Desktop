@@ -23,6 +23,7 @@
  */
 package testmatedesktop;
 
+import java.util.Locale;
 import testmatedesktop.Constants.*;
 
 /**
@@ -32,8 +33,8 @@ import testmatedesktop.Constants.*;
 public abstract class TestData {
     private QuestionType questionType = QuestionType.K;
     private MediaType mediaType = MediaType.N;
-    private String mediaFileName = new String();
-    private String explanation = new String();
+    private String mediaFileName = "";
+    private String explanation = "";
     
     /**
      * Question type getter
@@ -108,10 +109,10 @@ public abstract class TestData {
      */
     protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
         if(mediaType == MediaType.N) {
-            if(!mediaFileName.toLowerCase().equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
+            if(!mediaFileName.toLowerCase(Locale.ENGLISH).equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
         }
         else {
-            if(mediaFileName.toLowerCase().equals("null") || Utilities.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
+            if(mediaFileName.toLowerCase(Locale.ENGLISH).equals("null") || Utilities.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
             switch(mediaType) {
                 case I: {
                     if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");

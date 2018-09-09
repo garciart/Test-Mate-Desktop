@@ -25,10 +25,15 @@ package testmatedesktop;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import testmatedesktop.Constants.*;
 
 /**
@@ -90,8 +95,7 @@ public final class Settings {
      */
     public final void getSettingsFromFile() throws FileNotFoundException, IOException {
         String line;
-        FileReader fileReader = new FileReader(Constants.SETTINGSFILE);
-        try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(Constants.SETTINGSFILE), StandardCharsets.UTF_8))) {
             if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
                 setQuestionOrderSetting(QuestionOrder.valueOf(line));
             }
@@ -112,14 +116,14 @@ public final class Settings {
      * @throws java.io.IOException When file cannot be opened
      */
     public final void saveSettingsToFile(QuestionOrder qo, TermDisplay td, ProvideFeedback pf) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Constants.SETTINGSFILE))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(Constants.SETTINGSFILE), StandardCharsets.UTF_8))) {
             bw.write(qo.toString());
             bw.newLine();
             bw.write(td.toString());
             bw.newLine();
             bw.write(pf.toString());
         }
-        catch (Exception ex) {
+        catch (IOException ex) {
             throw new IOException("Unable to update file! " + ex.toString());
         }
     }

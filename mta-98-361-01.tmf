@@ -5,8 +5,8 @@ null
 A set of ordered and finite steps to solve a given problem (p.2).
 K
 Flowchart
-N
-null
+I
+image.jpg
 A graphical representation of an algorithm (p.2).
 K
 Decision table
@@ -100,8 +100,8 @@ null
 Statements contained in a switch block (p.15).
 K
 Default statement
-N
-null
+A
+audio.mp3
 Used when an expression does not match any of the cases in a switch block (p.15).
 K
 While loop
@@ -120,8 +120,8 @@ null
 Combines the three elements of iteration—the initialization expression, the termination condition expression, and the counting expression—into a more readable code (p.20).
 K
 Foreach loop
-N
-null
+V
+video.mp4
 Useful for iterating through the elements of a collection (p.21).
 K
 Recursion
@@ -155,8 +155,8 @@ null
 The answer is 25, since n is incremented only after the assignment (d = n + 5) is completed.
 M
 Review the following code snippet:\nprivate static void WhileTest() {\n\tint i = 1;\n\twhile (i < 5) {\n\t\tConsole.WriteLine("The value of i = {0}", i);\n\t\ti++;\n\t}\n}\nHow many times will the while loop be executed in this code snippet?
-N
-null
+A
+maudio.mp3
 3
 4
 0
@@ -175,8 +175,8 @@ null
 Since the condition is true and Console.WriteLine("number2"); is not part of the if statement, the answer is:\nnumber1\nnumber2
 M
 In a switch statement, if none of the case statements match the switch expression, then control is transferred to which statement?
-N
-null
+V
+mvideo.mpg
 3
 default
 break
@@ -185,8 +185,8 @@ return
 Control is transfered to the default statement.
 M
 You need to write code that closes a connection to a database and you need to make sure this code is always executed regardless of whether an exception is thrown. Where should you write this code?
-N
-null
+I
+mimage.png
 3
 Within a finally block
 Within a try block
@@ -269,8 +269,8 @@ true
 The foreach loop is the most compact way to iterate through the items in a collection.
 T
 On a 32-bit computer, a variable of int data type takes two bytes of memory.
-N
-null
+I
+timage.jpg
 true
 On a 32-bit computer, a variable of int data type takes two bytes of memory.
 T
@@ -281,8 +281,8 @@ false
 To access the first element of an array, you use an index of 0.
 T
 Recursion is a programming technique that causes a method to call itself in order to compute a result.
-N
-null
+V
+tvideo.mpeg
 true
 Recursion is a programming technique that causes a method to call itself in order to compute a result.
 T
@@ -293,8 +293,8 @@ false
 Constants are data fields or local variables whose value cannot be modified.
 T
 When an algorithm involves a large number of conditions, a decision table is a compact and readable format for presenting the algorithm.
-N
-null
+A
+taudio.mp3
 true
 When an algorithm involves a large number of conditions, a decision table is a compact and readable format for presenting the algorithm.
 T

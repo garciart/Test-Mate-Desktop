@@ -24,15 +24,15 @@
 package testmatedesktop;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * TestMate controller class
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class TestMateDesktop {
-
+public final class TestMateDesktop {
     /**
-     *
+     * Main method
      * @param args
      * @throws java.io.IOException
      */
@@ -46,15 +46,13 @@ public class TestMateDesktop {
             System.out.println("Applying default settings...");
             s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
         }
-        Test t = new Test(System.getProperty("user.dir") + "\\mta-98-361-01.tmf");
-
-        for(int x = 0; x < t.getListSize(); x++) {
-            TestQuestion tq = t.getTestQuestionByIndex(x);
-            System.out.println((x + 1) + ". " + tq.getQuestion());
-            for(int y = 0; y <= tq.getNumberOfChoices(); y++) {
-                System.out.println(Constants.LETTERS[y] + ". " + tq.getChoices().get(y) + (y == tq.getCorrectAnswerIndex() ? " - HERE!" : ""));
+        ArrayList<TestQuestion> testQuestion = (new Test()).getTest((System.getProperty("user.dir") + "\\mta-98-361-01.tmf"), s.getQuestionOrderSetting(), s.getTermDisplaySetting());
+        for(int x = 0; x < testQuestion.size(); x++) {
+            System.out.println((x + 1) + ". " + testQuestion.get(x).getQuestion());
+            for(int y = 0; y <= testQuestion.get(x).getNumberOfChoices(); y++) {
+                System.out.println(Constants.LETTERS[y] + ". " + testQuestion.get(x).getChoices().get(y) + (y == testQuestion.get(x).getCorrectAnswerIndex() ? " - HERE!" : ""));
             }
-            if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(tq.getExplanation());
+            if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(testQuestion.get(x).getExplanation());
             System.out.println();
         }
     }

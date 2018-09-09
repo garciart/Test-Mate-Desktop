@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class MultipleChoice extends TestData {
-    private String mcQuestion = new String();
+    private String mcQuestion = "";
     private int mcNumberOfChoices = 0;
     private ArrayList<String> mcChoices = new ArrayList<>();
     
@@ -92,15 +92,4 @@ public final class MultipleChoice extends TestData {
         this.mcChoices = new ArrayList<>();
         setQuestionType(Constants.QuestionType.M);
     }
-    
-    /*
-    public MultipleChoice(String mcQuestion, MediaType mediaType, String mediaFileName, int mcNumberOfChoices,  ArrayList<String> mcChoices, String mcExplanation) {
-        setQuestionType(Constants.QuestionType.M);
-        setMCQuestion(mcQuestion);
-        validateAndSetMedia(mediaType, mediaFileName);
-        setMCNumberOfChoices(mcNumberOfChoices);
-        setMCChoices(mcChoices);
-        setMCExplanation(mcExplanation);
-    }
-    */
 }

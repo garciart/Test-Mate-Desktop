@@ -27,7 +27,7 @@ package testmatedesktop;
  * TestMate model class holding common and useful functions
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public class Utilities {
+public final class Utilities {
 
     /**
      * Check if a string is null or empty
