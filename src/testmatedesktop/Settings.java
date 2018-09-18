@@ -29,10 +29,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import testmatedesktop.Constants.*;
 
@@ -115,13 +113,13 @@ public final class Settings {
      * @param pf YES to to provide feedback after each answer (Default), NO to wait until the end of the test to provide feedback
      * @throws java.io.IOException When file cannot be opened
      */
-    public final void saveSettingsToFile(QuestionOrder qo, TermDisplay td, ProvideFeedback pf) throws IOException {
+    public final void saveSettingsToFile() throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(Constants.SETTINGSFILE), StandardCharsets.UTF_8))) {
-            bw.write(qo.toString());
+            bw.write(getQuestionOrderSetting().toString());
             bw.newLine();
-            bw.write(td.toString());
+            bw.write(getTermDisplaySetting().toString());
             bw.newLine();
-            bw.write(pf.toString());
+            bw.write(getProvideFeedbackSetting().toString());
         }
         catch (IOException ex) {
             throw new IOException("Unable to update file! " + ex.toString());
