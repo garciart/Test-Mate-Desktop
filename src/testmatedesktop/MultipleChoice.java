@@ -44,7 +44,7 @@ public final class MultipleChoice extends TestData {
 
     /**
      * Number of possible answers to the multiple choice question getter
-     * @return the number of possible answers to the multiple choice question
+     * @return the number of possible answers to the multiple choice question; must be less than six
      */
     public final int getMCNumberOfChoices() {
         return mcNumberOfChoices;
@@ -52,7 +52,7 @@ public final class MultipleChoice extends TestData {
     
     /**
      * Possible answers to the multiple choice question getter
-     * @return possible answers to the multiple choice question
+     * @return the possible answers to the multiple choice question
      */
     public final ArrayList<String> getMCChoices() {
         return mcChoices;
@@ -69,10 +69,11 @@ public final class MultipleChoice extends TestData {
     
     /**
      * Number of possible answers to the multiple choice question setter
-     * @param mcNumberOfChoices
+     * @param mcNumberOfChoices the number of possible answers to the multiple choice question; must be less than six
      */
     public final void setMCNumberOfChoices(int mcNumberOfChoices) {
         if(mcNumberOfChoices <= 0) throw new IllegalArgumentException("The number of multiple choice answers cannot be null or zero.");
+        if(mcNumberOfChoices > 6) throw new IllegalArgumentException("The number of multiple choice answers cannot be greater than six.");
         else this.mcNumberOfChoices = mcNumberOfChoices;
     }
     

@@ -41,25 +41,11 @@ public final class TestQuestion {
     private String explanation;
     
     /**
-     * Constructor for adding multiple choice and true/false questions
-     * @param questionType
-     * @param question
-     * @param mediaType
-     * @param mediaFileName
-     * @param numberOfChoices
-     * @param choices
-     * @param correctAnswerIndex
-     * @param explanation 
+     * Question type getter
+     * @return the question type; K for Key Term, M for Multiple Choice, T for True or False
      */
-    public TestQuestion(QuestionType questionType, String question, MediaType mediaType, String mediaFileName, int numberOfChoices, ArrayList<String> choices, int correctAnswerIndex, String explanation) {
-        this.setQuestionType(questionType);
-        this.setQuestion(question);
-        this.setMediaType(mediaType);
-        this.setMediaFileName(mediaFileName);
-        this.setNumberOfChoices(numberOfChoices);
-        this.setChoices(choices);
-        this.setCorrectAnswerIndex(correctAnswerIndex);
-        this.setExplanation(explanation);
+    public final QuestionType getQuestionType() {
+        return questionType;
     }
     
     /**
@@ -70,14 +56,6 @@ public final class TestQuestion {
         return question;
     }
     
-    /**
-     * Question type getter
-     * @return the question type; K for Key Term, M for Multiple Choice, T for True or False
-     */
-    public final QuestionType getQuestionType() {
-        return questionType;
-    }
-
     /**
      * Media type getter
      * @return the media type; N for none, I for images, A for audio files, and V for video files
@@ -96,7 +74,7 @@ public final class TestQuestion {
 
     /**
      * Number of possible answers to the test question getter
-     * @return the number of possible answers to the test question
+     * @return the number of possible answers to the test question; must be less than six
      */
     public final int getNumberOfChoices() {
         return numberOfChoices;
@@ -104,7 +82,7 @@ public final class TestQuestion {
     
     /**
      * Possible answers to the test question getter
-     * @return possible answers to the test question
+     * @return the possible answers to the test question
      */
     public final ArrayList<String> getChoices() {
         return choices;
@@ -125,15 +103,6 @@ public final class TestQuestion {
     public final String getExplanation() {
         return explanation;
     }
-
-    /**
-     * Test question setter
-     * @param question the test question
-     */
-    private void setQuestion(String question) {
-        if(Utilities.isNullOrEmpty(question)) throw new NullPointerException("Question cannot be null or empty.");
-        else this.question = question;
-    }
     
     /**
      * Question type setter
@@ -142,6 +111,15 @@ public final class TestQuestion {
     private void setQuestionType(QuestionType questionType) {
         if(questionType == null) throw new NullPointerException("Question type cannot be null.");
         this.questionType = questionType;
+    }
+    
+    /**
+     * Test question setter
+     * @param question the test question
+     */
+    private void setQuestion(String question) {
+        if(Utilities.isNullOrEmpty(question)) throw new NullPointerException("Question cannot be null or empty.");
+        else this.question = question;
     }
 
     /**
@@ -163,16 +141,17 @@ public final class TestQuestion {
     
     /**
      * Number of possible answers to the test question setter
-     * @param numberOfChoices
+     * @param numberOfChoices the number of possible answers to the test question; must be less than six
      */
     private void setNumberOfChoices(int numberOfChoices) {
         if(numberOfChoices <= 0) throw new IllegalArgumentException("The number of choices cannot be null or zero.");
+        if(numberOfChoices > 6) throw new IllegalArgumentException("The number of multiple choice answers cannot be greater than six.");
         else this.numberOfChoices = numberOfChoices;
     }
     
     /**
      * Possible answers to the test question setter
-     * @param choices possible answers to the test question
+     * @param choices the possible answers to the test question
      */
     private void setChoices(ArrayList<String> choices) {
         if(choices == null) throw new NullPointerException("Questions must have at least one choice.");
@@ -181,7 +160,7 @@ public final class TestQuestion {
 
     /**
      * The index number of the correct answer setter
-     * @param the location of the correct answer in the array
+     * @param correctAnswerIndex the location of the correct answer in the array
      */
     private void setCorrectAnswerIndex(int correctAnswerIndex) {
         if(correctAnswerIndex < 0) throw new IllegalArgumentException("The number of choices cannot less than zero.");
@@ -194,5 +173,28 @@ public final class TestQuestion {
      */
     private void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+    
+    
+    /**
+     * Constructor for adding multiple choice and true/false questions
+     * @param questionType the question type; K for Key Term, M for Multiple Choice, T for True or False
+     * @param question the test question
+     * @param mediaType the media type; N for none, I for images, A for audio files, and V for video files
+     * @param mediaFileName the media file name
+     * @param numberOfChoices the number of possible answers to the test question; must be less than six
+     * @param choices the possible answers to the test question
+     * @param correctAnswerIndex the location of the correct answer in the array
+     * @param explanation the explanation of the answer
+     */
+    public TestQuestion(QuestionType questionType, String question, MediaType mediaType, String mediaFileName, int numberOfChoices, ArrayList<String> choices, int correctAnswerIndex, String explanation) {
+        this.setQuestionType(questionType);
+        this.setQuestion(question);
+        this.setMediaType(mediaType);
+        this.setMediaFileName(mediaFileName);
+        this.setNumberOfChoices(numberOfChoices);
+        this.setChoices(choices);
+        this.setCorrectAnswerIndex(correctAnswerIndex);
+        this.setExplanation(explanation);
     }
 }

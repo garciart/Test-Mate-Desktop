@@ -46,6 +46,36 @@ public final class TestMateDesktop {
             System.out.println("Applying default settings...");
             s.saveSettingsToFile(Constants.QuestionOrder.DEFAULT, Constants.TermDisplay.TERMISQUESTION, Constants.ProvideFeedback.YES);
         }
+        
+        TestMateView tv = new TestMateView();
+        tv.introduction();
+        int choice = 0;
+        while(choice != 5) {
+            choice = tv.mainMenu();
+            System.out.println();
+            switch (choice) {
+                case 1:
+                    ArrayList<TestQuestion> testQuestion = (new Test()).getTest((System.getProperty("user.dir") + "\\mta-98-361-01.tmf"), s.getQuestionOrderSetting(), s.getTermDisplaySetting());
+                    for(int x = 0; x < testQuestion.size(); x++) {
+                        boolean result = ((tv.askQuestion(x, testQuestion.get(x)) - 1) == testQuestion.get(x).getCorrectAnswerIndex());
+                        System.out.println(result ? "Correct." : "Incorrect.");
+                        if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(testQuestion.get(x).getExplanation());
+                        System.out.println();
+                    }
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    tv.aboutView();
+                    break;
+                default:
+                    break;
+            }
+            System.out.println();
+        }
+        /*
         ArrayList<TestQuestion> testQuestion = (new Test()).getTest((System.getProperty("user.dir") + "\\mta-98-361-01.tmf"), s.getQuestionOrderSetting(), s.getTermDisplaySetting());
         for(int x = 0; x < testQuestion.size(); x++) {
             System.out.println((x + 1) + ". " + testQuestion.get(x).getQuestion());
@@ -55,5 +85,7 @@ public final class TestMateDesktop {
             if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) System.out.println(testQuestion.get(x).getExplanation());
             System.out.println();
         }
+        */
     }
 }
+    
