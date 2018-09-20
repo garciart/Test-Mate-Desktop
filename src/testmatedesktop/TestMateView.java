@@ -23,8 +23,12 @@
  */
 package testmatedesktop;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -33,6 +37,7 @@ import java.util.Scanner;
 public class TestMateView {
     public void introduction() {
         System.out.println("Welcome to TestMate!");
+        System.out.println();
     }
     
     /**
@@ -49,13 +54,36 @@ public class TestMateView {
         System.out.print("Enter your choice here: ");
         return getAndValidateChoice(5, false);
     }
+
+    public String fileView(String extension) {
+        System.out.println("Please select from one of the following tests...");        
+        File dir = new File(System.getProperty("user.dir") + "\\");
+        File[] files = dir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase(Locale.ENGLISH).endsWith(extension);
+            }
+        });
+        for(int x = 0; x < files.length; x++) {
+            System.out.println("[" + (x + 1) + "] " + files[x].getName());
+        }
+        System.out.print("Enter your choice here or [0] to return to Main Menu: ");
+        int result = getAndValidateChoice(files.length, false);
+        return (result != 0 ? files[result - 1].toString() : null);
+    }
+    
+    public void testLoadedView() {
+        System.out.println("Test loaded! Press [ENTER] to start...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
     
     public int askQuestionView(int questionNumber, TestQuestion tq) {
         System.out.println((questionNumber + 1) + ". " + tq.getQuestion());
         for(int y = 0; y <= tq.getNumberOfChoices(); y++) {
             System.out.println(Constants.LETTERS[y] + ". " + tq.getChoices().get(y) + (y == tq.getCorrectAnswerIndex() ? " - HERE!" : ""));
         }
-        System.out.print("Enter your choice or [0] to exit the test: ");
+        System.out.print("Enter your choice here or [0] to exit the test: ");
         // numberOfChoices is zero-based and getAndValidateChoice is one-based
         // Add one to use getAndValidateChoice and subtract 1 to return the correct index
         return (getAndValidateChoice(tq.getNumberOfChoices() + 1, true) - 1);
@@ -67,12 +95,39 @@ public class TestMateView {
         System.out.println();
     }
     
+    public void resultView(int totalQuestions, int totalCorrectAnswers, long elapsedTime) {
+        System.out.println("You have completed your test!");
+        System.out.println("You answered " + totalCorrectAnswers + " out of " + totalQuestions + " for a score of 100% in " +
+                String.format("%02d:%02d.", TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                        TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
+        System.out.println("Press [ENTER] to continue...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+    
+    public void resultView(int totalQuestions, int totalCorrectAnswers, long elapsedTime, String userResults[][]) {
+        System.out.println("You have completed your test!");
+        System.out.println("You answered " + totalCorrectAnswers + " out of " + totalQuestions + " for a score of 100% in " +
+                String.format("%02d:%02d.", TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                        TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
+        System.out.println("Your results...");
+        for(int x = 0; x < userResults.length; x++) {
+            System.out.println((x + 1) + ". " + userResults[x][0]);
+            System.out.println(userResults[x][1]);
+            System.out.println(userResults[x][2]);
+            System.out.println();
+        }
+        System.out.println("Press [ENTER] to continue...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
+    
     public int settingsMenuView(String qo, String td, String pf) {
         System.out.println("Please select which setting to change...");
         System.out.println("[1] Question Order: " + qo);
         System.out.println("[2] Term Display: " + td);
         System.out.println("[3] Provide Feedback: " + pf);
-        System.out.print("Enter your choice here or [0] to return to Settings Menu: ");
+        System.out.print("Enter your choice here or [0] to return to Main Menu: ");
         return getAndValidateChoice(3, false);
     }
     
@@ -100,7 +155,7 @@ public class TestMateView {
         System.out.println("Please select which setting to change...");
         System.out.println("[1] Provide feedback after each answer (Default)");
         System.out.println("[2] Wait until the end of the test");
-        System.out.print("Enter your choice here or [0] to return to Main Menu: ");
+        System.out.print("Enter your choice here or [0] to return to Settings Menu: ");
         return getAndValidateChoice(2, false);
     }
     
@@ -113,9 +168,10 @@ public class TestMateView {
     
     public boolean exitView() {
         System.out.println("Are you sure you want to leave?");
-        System.out.print("Enter [1] for Yes or [2] for No: ");
-        boolean result = (getAndValidateChoice(2, false) == 1);
+        System.out.print("Enter [Y] for Yes or [N] for No: ");
+        boolean result = (getAndValidateYesNo() == 1);
         if(result) System.out.println("Goodbye!");
+        System.out.println();
         return result;
     }
     
@@ -123,6 +179,7 @@ public class TestMateView {
         System.out.println("Oops! Something went wrong!");
         System.out.println(message);
         System.out.println("We've been notified and will start fixing the problem right away!\n");
+        System.out.println();
         return -1;
     }
     
@@ -154,5 +211,27 @@ public class TestMateView {
         }
         System.out.println();
         return choice;
+    }
+    
+    private int getAndValidateYesNo() {
+        boolean validChoice = false;
+        char choice = 0;
+        while (!validChoice) {
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.hasNext()) {
+                choice = scanner.next().toLowerCase(Locale.ENGLISH).charAt(0); 
+                if (choice != 'y' && choice != 'n') {
+                    System.out.print("That choice is not available. Please try again: ");
+                }
+                else {
+                    validChoice = true;
+                }
+            }
+            else {
+                System.out.print("Invalid input. Please try again: ");
+            }
+        }
+        System.out.println();
+        return (choice != 'y' ? 0 : 1);
     }
 }

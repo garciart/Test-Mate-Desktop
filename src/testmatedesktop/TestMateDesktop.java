@@ -55,17 +55,37 @@ public final class TestMateDesktop {
             int choice = tv.mainMenuView();
             switch (choice) {
                 case 1:
-                    ArrayList<TestQuestion> testQuestion = (new Test()).getTest((System.getProperty("user.dir") + "\\mta-98-361-01.tmf"), s.getQuestionOrderSetting(), s.getTermDisplaySetting());
-                    for(int x = 0; x < testQuestion.size(); x++) {
-                        int userChoice = tv.askQuestionView(x, testQuestion.get(x));
-                        if(userChoice >= 0) {
-                            boolean result = (userChoice == testQuestion.get(x).getCorrectAnswerIndex());
-                            if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) tv.feedbackView(result, testQuestion.get(x).getExplanation());
+                    String testName = tv.fileView(".tmf");
+                    if(testName == null) break;
+                    else {
+                        tv.testLoadedView();
+                        int correctAnswerCount = 0;
+                        long startTime = System.nanoTime();
+                        ArrayList<TestQuestion> testQuestion = (new Test()).getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
+                        String userResults[][] = new String[testQuestion.size()][3]; 
+                        for(int x = 0; x < testQuestion.size(); x++) {
+                            int userChoice = tv.askQuestionView(x, testQuestion.get(x));
+                            if(userChoice >= 0) {
+                                boolean result = (userChoice == testQuestion.get(x).getCorrectAnswerIndex());
+                                if(result) correctAnswerCount++;
+                                if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) {
+                                    tv.feedbackView(result, testQuestion.get(x).getExplanation());
+                                }
+                                else {
+                                    userResults[x][0] = (result == true) ? "Correct." : "Incorrect.";
+                                    userResults[x][1] = testQuestion.get(x).getQuestion();
+                                    userResults[x][2] = testQuestion.get(x).getExplanation();
+                                }
+                            }
+                            else {
+                                if(tv.exitView()) break;
+                                else x--;
+                            }
                         }
-                        else {
-                            if(tv.exitView()) break;
-                            else x--;
-                        }
+                        long endTime = System.nanoTime();
+                        long elapsedTime = endTime - startTime;
+                        if(s.getProvideFeedbackSetting() == Constants.ProvideFeedback.NO) tv.resultView(testQuestion.size(), correctAnswerCount, elapsedTime, userResults);
+                        else tv.resultView(testQuestion.size(), correctAnswerCount, elapsedTime);
                     }
                     break;
                 case 2:
