@@ -25,62 +25,122 @@ package testmatedesktop;
 
 /**
  * TestMate model class for common constants
+ *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class Constants {
 
-    /** Permanent location of settings file */
+    /**
+     * Permanent location of settings file
+     */
     public static final String SETTINGSFILE = System.getProperty("user.dir") + "\\settings.tm";
-    
-    /** Used to convert the user's choice to an index */
+
+    /**
+     * Used to convert the user's choice to an index
+     */
     static final char[] LETTERS = {'A', 'B', 'C', 'D'};
-    
-    /** Question order settings */
+
+    /**
+     * Question order settings
+     */
     public enum QuestionOrder {
-        /** DEFAULT to display questions as read from the file */
+        /**
+         * DEFAULT to display questions as read from the file
+         */
         DEFAULT,
-        /** RANDOM to randomize the order */
+        /**
+         * RANDOM to randomize the order
+         */
         RANDOM;
     }
 
-    /** Term display settings */
+    /**
+     * Term display settings
+     */
     public enum TermDisplay {
-        /** TERMISQUESTION to display terms as question (Default) */
+        /**
+         * TERMISQUESTION to display terms as question (Default)
+         */
         TERMISQUESTION,
-        /** DEFISQUESTION to display definitions as question */
+        /**
+         * DEFISQUESTION to display definitions as question
+         */
         DEFISQUESTION,
-        /** MIXEDQUESTION to mix it up */
+        /**
+         * MIXEDQUESTION to mix it up
+         */
         MIXEDQUESTION
     }
 
-    /** Provide feedback settings */
+    /**
+     * Provide feedback settings
+     */
     public enum ProvideFeedback {
-        /** YES to to provide feedback after each answer (Default) */
+        /**
+         * YES to to provide feedback after each answer (Default)
+         */
         YES,
-        /** NO to wait until the end of the test to provide feedback */
+        /**
+         * NO to wait until the end of the test to provide feedback
+         */
         NO
     }
-    
-    /** Question type constants */
-     
+
+    /**
+     * Question type constants
+     */
     public enum QuestionType {
-        /** K for Key Term */
+        /**
+         * K for Key Term
+         */
         K,
-        /** M for Multiple Choice */
+        /**
+         * M for Multiple Choice
+         */
         M,
-        /** T for True or False */
+        /**
+         * T for True or False
+         */
         T
     }
-    
-    /** Media flag constants */
+
+    /**
+     * Media flag constants
+     */
     public enum MediaType {
-        /** N for none */
+        /**
+         * N for none
+         */
         N,
-        /** I for images */
+        /**
+         * I for images
+         */
         I,
-        /** A for audio files */
+        /**
+         * A for audio files
+         */
         A,
-        /** V for video files */
-        V    
+        /**
+         * V for video files
+         */
+        V
+    }
+
+    /**
+     * Input flag constants
+     */
+    public enum InputType {
+        /**
+         * Alpha for choices listed by letter
+         */
+        Alpha,
+        /**
+         * Numeric for choices listed by number
+         */
+        Numeric,
+        /**
+         * Yes or no choices
+         */
+        YesNo
     }
 }

@@ -25,14 +25,17 @@ package testmatedesktop;
 
 /**
  * TestMate model class for key term data objects
+ *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class KeyTerm extends TestData {
+
     private String keyTerm = "";
     private String ktDefinition = "";
-    
+
     /**
      * Key term getter
+     *
      * @return the key term
      */
     public final String getKeyTerm() {
@@ -41,32 +44,41 @@ public final class KeyTerm extends TestData {
 
     /**
      * Key term definition getter
+     *
      * @return the key term definition
      */
     public final String getKTDefinition() {
         return ktDefinition;
     }
-    
+
     /**
      * Key term setter
+     *
      * @param keyTerm the key term
      */
     public final void setKeyTerm(String keyTerm) {
-        if(Utilities.isNullOrEmpty(keyTerm)) throw new NullPointerException("Key terms cannot be null or empty.");
-        else this.keyTerm = keyTerm;
-    }
-    
-    /**
-     * Key term definition setter
-     * @param ktDefinition the key term definition
-     */
-    public final void setKTDefinition(String ktDefinition) {
-        if(Utilities.isNullOrEmpty(ktDefinition)) throw new NullPointerException("Key term definitions cannot be null or empty.");
-        else this.ktDefinition = ktDefinition;
+        if (Utilities.isNullOrEmpty(keyTerm)) {
+            throw new NullPointerException("Key terms cannot be null or empty.");
+        } else {
+            this.keyTerm = keyTerm;
+        }
     }
 
     /**
-     * Key term class constructor 
+     * Key term definition setter
+     *
+     * @param ktDefinition the key term definition
+     */
+    public final void setKTDefinition(String ktDefinition) {
+        if (Utilities.isNullOrEmpty(ktDefinition)) {
+            throw new NullPointerException("Key term definitions cannot be null or empty.");
+        } else {
+            this.ktDefinition = ktDefinition;
+        }
+    }
+
+    /**
+     * Key term class constructor
      */
     public KeyTerm() {
         setQuestionType(Constants.QuestionType.K);

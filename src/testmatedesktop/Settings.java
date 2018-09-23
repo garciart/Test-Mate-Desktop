@@ -36,81 +36,112 @@ import testmatedesktop.Constants.*;
 
 /**
  * TestMate model class for test settings
+ *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public final class Settings {
-    /** Display questions as read from the file (0 = default) or randomize the order (1) */
+
+    /**
+     * Display questions as read from the file (0 = default) or randomize the
+     * order (1)
+     */
     private QuestionOrder questionOrderSetting = QuestionOrder.DEFAULT;
-    /** Display terms as question (0 = default), definitions as question (1), or mix it up (2) */
+    /**
+     * Display terms as question (0 = default), definitions as question (1), or
+     * mix it up (2)
+     */
     private TermDisplay termDisplaySetting = TermDisplay.TERMISQUESTION;
-    /** Provide feedback after each answer (0 = default) or wait until the end of the test (1) */
+    /**
+     * Provide feedback after each answer (0 = default) or wait until the end of
+     * the test (1)
+     */
     private ProvideFeedback provideFeedbackSetting = ProvideFeedback.YES;
-    
-    /** Question order setting getter
-     * @return DEFAULT - Display questions as read from the file,
-     *         RANDOM - Randomize the order */
+
+    /**
+     * Question order setting getter
+     *
+     * @return DEFAULT - Display questions as read from the file, RANDOM -
+     * Randomize the order
+     */
     public QuestionOrder getQuestionOrderSetting() {
         return questionOrderSetting;
     }
 
-    /** Term display setting getter
+    /**
+     * Term display setting getter
+     *
      * @return TERMISQUESTION - Display terms as question (Default)),
-     *         DEFISQUESTION - Display definition as question,
-     *         MIXEDQUESTION - Mix it up */
+     * DEFISQUESTION - Display definition as question, MIXEDQUESTION - Mix it up
+     */
     public TermDisplay getTermDisplaySetting() {
         return termDisplaySetting;
     }
 
-    /** Provide feedback setting getter
-     * @return YES - Provide feedback after each answer (Default),
-     *         NO - Wait until the end of the test to provide feedback */
+    /**
+     * Provide feedback setting getter
+     *
+     * @return YES - Provide feedback after each answer (Default), NO - Wait
+     * until the end of the test to provide feedback
+     */
     public ProvideFeedback getProvideFeedbackSetting() {
         return provideFeedbackSetting;
     }
 
-    /** Question order setting setter
-     * @param qo DEFAULT to display questions as read from the file or RANDOM to randomize the order */
+    /**
+     * Question order setting setter
+     *
+     * @param qo DEFAULT to display questions as read from the file or RANDOM to
+     * randomize the order
+     */
     public void setQuestionOrderSetting(QuestionOrder qo) {
         this.questionOrderSetting = qo;
     }
 
-    /** Term display setting setter
-     * @param td TERMISQUESTION to display terms as question (Default), DEFISQUESTION to display definitions as question, MIXEDQUESTION to mix it up */
+    /**
+     * Term display setting setter
+     *
+     * @param td TERMISQUESTION to display terms as question (Default),
+     * DEFISQUESTION to display definitions as question, MIXEDQUESTION to mix it
+     * up
+     */
     public void setTermDisplaySetting(TermDisplay td) {
         this.termDisplaySetting = td;
     }
 
-    /** Provide feedback setting setter
-     * @param pf YES to to provide feedback after each answer (Default), NO to wait until the end of the test to provide feedback */
+    /**
+     * Provide feedback setting setter
+     *
+     * @param pf YES to to provide feedback after each answer (Default), NO to
+     * wait until the end of the test to provide feedback
+     */
     public void setProvideFeedbackSetting(ProvideFeedback pf) {
         this.provideFeedbackSetting = pf;
     }
-    
+
     /**
      * Get saved test settings from file
+     *
      * @throws FileNotFoundException When file cannot be found
      * @throws IOException When file cannot be opened
      */
     public final void getSettingsFromFile() throws FileNotFoundException, IOException {
         String line;
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(Constants.SETTINGSFILE), StandardCharsets.UTF_8))) {
-            if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
+            if ((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
                 setQuestionOrderSetting(QuestionOrder.valueOf(line));
             }
-            if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
+            if ((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
                 setTermDisplaySetting(TermDisplay.valueOf(line));
             }
-            if((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
+            if ((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
                 setProvideFeedbackSetting(ProvideFeedback.valueOf(line));
             }
         }
     }
-    
+
     /**
      * Save test settings to file
-     * @param qo DEFAULT to display questions as read from the file or RANDOM to randomize the order
-     * @param td TERMISQUESTION to display terms as question (Default), DEFISQUESTION to display definitions as question, MIXEDQUESTION to mix it up
-     * @param pf YES to to provide feedback after each answer (Default), NO to wait until the end of the test to provide feedback
+     *
      * @throws java.io.IOException When file cannot be opened
      */
     public final void saveSettingsToFile() throws IOException {
@@ -120,8 +151,7 @@ public final class Settings {
             bw.write(getTermDisplaySetting().toString());
             bw.newLine();
             bw.write(getProvideFeedbackSetting().toString());
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new IOException("Unable to update file! " + ex.toString());
         }
     }

@@ -28,17 +28,21 @@ import testmatedesktop.Constants.*;
 
 /**
  * TestMate model abstract class for test data objects
+ *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public abstract class TestData {
+
     private QuestionType questionType = QuestionType.K;
     private MediaType mediaType = MediaType.N;
     private String mediaFileName = "";
     private String explanation = "";
-    
+
     /**
      * Question type getter
-     * @return the question type; K for Key Term, M for Multiple Choice, T for True or False
+     *
+     * @return the question type; K for Key Term, M for Multiple Choice, T for
+     * True or False
      */
     public final QuestionType getQuestionType() {
         return questionType;
@@ -46,84 +50,109 @@ public abstract class TestData {
 
     /**
      * Media type getter
-     * @return the media type; N for none, I for images, A for audio files, and V for video files
+     *
+     * @return the media type; N for none, I for images, A for audio files, and
+     * V for video files
      */
     public final MediaType getMediaType() {
         return mediaType;
     }
-    
+
     /**
      * Media file name getter
+     *
      * @return the media file name
      */
     public final String getMediaFileName() {
         return mediaFileName;
     }
-    
+
     /**
      * Question explanation getter
+     *
      * @return the explanation of the answer
      */
     public final String getExplanation() {
         return explanation;
     }
-    
+
     /**
      * Question type setter
-     * @param questionType the question type; K for Key Term, M for Multiple Choice, T for True or False
+     *
+     * @param questionType the question type; K for Key Term, M for Multiple
+     * Choice, T for True or False
      */
     public final void setQuestionType(QuestionType questionType) {
-        if(questionType == null) throw new NullPointerException("Question type cannot be null.");
+        if (questionType == null) {
+            throw new NullPointerException("Question type cannot be null.");
+        }
         this.questionType = questionType;
     }
 
     /**
      * Media type setter
-     * @param mediaType the media type; N for none, I for images, A for audio files, and V for video files
+     *
+     * @param mediaType the media type; N for none, I for images, A for audio
+     * files, and V for video files
      */
     public final void setMediaType(MediaType mediaType) {
-        if(mediaType == null) throw new NullPointerException("Media type cannot be null.");
+        if (mediaType == null) {
+            throw new NullPointerException("Media type cannot be null.");
+        }
         this.mediaType = mediaType;
     }
-    
+
     /**
      * Media file name setter
+     *
      * @param mediaFileName the media file name
      */
     public final void setMediaFileName(String mediaFileName) {
         this.mediaFileName = mediaFileName;
     }
-    
+
     /**
      * Question explanation setter
+     *
      * @param explanation the explanation of the answer
      */
     public final void setExplanation(String explanation) {
         this.explanation = explanation;
     }
-    
+
     /**
      * Method to validate the media can be read by the application
-     * @param mediaType the media type; N for none, I for images, A for audio files, and V for video files
+     *
+     * @param mediaType the media type; N for none, I for images, A for audio
+     * files, and V for video files
      * @param mediaFileName the media file name
      */
     protected final void validateAndSetMedia(MediaType mediaType, String mediaFileName) {
-        if(mediaType == MediaType.N) {
-            if(!mediaFileName.toLowerCase(Locale.ENGLISH).equals("null")) throw new IllegalArgumentException("Filename should be NULL.");
-        }
-        else {
-            if(mediaFileName.toLowerCase(Locale.ENGLISH).equals("null") || Utilities.isNullOrEmpty(mediaFileName)) throw new IllegalArgumentException("Missing media file name.");
-            switch(mediaType) {
+        if (mediaType == MediaType.N) {
+            if (!mediaFileName.toLowerCase(Locale.ENGLISH).equals("null")) {
+                throw new IllegalArgumentException("Filename should be NULL.");
+            }
+        } else {
+            if (mediaFileName.toLowerCase(Locale.ENGLISH).equals("null") || Utilities.isNullOrEmpty(mediaFileName)) {
+                throw new IllegalArgumentException("Missing media file name.");
+            }
+            switch (mediaType) {
                 case I: {
-                    if(!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    if (!mediaFileName.matches("^[\\w\\- ]+(.jpg|.png)$")) {
+                        throw new IllegalArgumentException("Media format not supported for that media type.");
+                    }
                     break;
                 }
                 case A: {
-                    if(!mediaFileName.matches("^[\\w\\- ]+(.mp3)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    if (!mediaFileName.matches("^[\\w\\- ]+(.mp3)$")) {
+                        throw new IllegalArgumentException("Media format not supported for that media type.");
+                    }
                     break;
                 }
                 case V: {
-                    if(!mediaFileName.matches("^[\\w\\- ]+(.mpg|.mpeg|.mp4)$")) throw new IllegalArgumentException("Media format not supported for that media type.");
+                    if (!mediaFileName.matches("^[\\w\\- ]+(.mpg|.mpeg|.mp4)$")) {
+                        throw new IllegalArgumentException("Media format not supported for that media type.");
+                    }
                     break;
                 }
                 default: {
