@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="ap" prefHeight="480" prefWidth="640" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testmatedesktop.TestMateDesktopController">
+    <stylesheets>
+        <URL value="@testmatedesktop.css"/>
+    </stylesheets>
+    <children>
+        <Button fx:id="button" layoutX="280.0" layoutY="367.0" onAction="#handleButtonAction" text="Click Me!" />
+        <Label fx:id="label" layoutX="286.0" layoutY="230.0" minHeight="16" minWidth="69" />
+        <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Main">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#startNewTest" text="Start a New Test..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#exitTestMate" text="Exit Test Mate">
+                            <accelerator>
+                                <KeyCodeCombination alt="DOWN" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                            </accelerator>
+                        </MenuItem>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Options">
+                    <items>
+                        <CheckMenuItem mnemonicParsing="false" selected="true" text="Keep Test Mate on Top" />
+                        <Menu mnemonicParsing="false" text="Key Term Display">
+                            <items>
+                                <RadioMenuItem mnemonicParsing="false" selected="true" text="List the Terms as Choices">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="KeyTermDisplay" />
+                                    </toggleGroup>
+                                </RadioMenuItem>
+                                <RadioMenuItem mnemonicParsing="false" text="List the Definitions as Choices" toggleGroup="$KeyTermDisplay" />
+                                <RadioMenuItem mnemonicParsing="false" text="Randomize the display of choices" toggleGroup="$KeyTermDisplay" />
+                            </items>
+                        </Menu>
+                        <CheckMenuItem mnemonicParsing="false" selected="true" text="Provide Feedback After Answering" />
+                        <CheckMenuItem mnemonicParsing="false" text="Randomize the Question Order" />
+                        <CheckMenuItem mnemonicParsing="false" selected="true" text="Show the Clock" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Help Topics" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="About Test Mate..." />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </children>
+</AnchorPane>

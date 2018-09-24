@@ -1,3 +1,5 @@
+package testmatedesktop;
+
 /*
  * The MIT License
  *
@@ -21,123 +23,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package testmatedesktop;
-
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Optional;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
- * TestMate controller class
  *
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
-public final class TestMateDesktop {
+public class TestMateDesktop extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("TestMateDesktop.fxml"));
+
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Test Mate!");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                exitTestMate(we);
+            }
+        });
+    }
+
+    private void exitTestMate(WindowEvent we) {
+        // new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to leave?").showAndWait();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to leave?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Platform.exit();
+        } else {
+            we.consume();
+        }
+    }
 
     /**
-     * Main method
-     *
-     * @param args
-     * @throws java.io.IOException
+     * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
-        TestMateConsoleView tv = new TestMateConsoleView();
-        Settings s = new Settings();
-        try {
-            s.getSettingsFromFile();
-        } catch (IOException ex) {
-            tv.errorView("Unable to read settings file: " + ex.toString() + "\nApplying default settings...");
-            s.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
-            s.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
-            s.setProvideFeedbackSetting(Constants.ProvideFeedback.NO);
-            s.saveSettingsToFile();
-        }
-        tv.introduction();
-        boolean exitFlag = false;
-        while (!exitFlag) {
-            int choice = tv.mainMenuView();
-            switch (choice) {
-                case 1:
-                    String testName = tv.fileView(".tmf");
-                    if (testName == null) {
-                        break;
-                    } else {
-                        tv.testLoadedView();
-                        int correctAnswerCount = 0;
-                        long startTime = System.nanoTime();
-                        ArrayList<TestQuestion> testQuestion = (new Test()).getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
-                        String userResults[][] = new String[testQuestion.size()][3];
-                        for (int x = 0; x < testQuestion.size(); x++) {
-                            int userChoice = tv.askQuestionView(x, testQuestion.get(x));
-                            if (userChoice >= 0) {
-                                boolean result = (userChoice == testQuestion.get(x).getCorrectAnswerIndex());
-                                if (result) {
-                                    correctAnswerCount++;
-                                }
-                                if (s.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) {
-                                    tv.feedbackView(result, testQuestion.get(x).getExplanation());
-                                } else {
-                                    userResults[x][0] = (result == true) ? "Correct." : "Incorrect.";
-                                    userResults[x][1] = testQuestion.get(x).getQuestion();
-                                    userResults[x][2] = testQuestion.get(x).getExplanation();
-                                }
-                            } else {
-                                if (tv.exitView()) {
-                                    break;
-                                } else {
-                                    x--;
-                                }
-                            }
-                        }
-                        long endTime = System.nanoTime();
-                        long elapsedTime = endTime - startTime;
-                        if (s.getProvideFeedbackSetting() == Constants.ProvideFeedback.NO) {
-                            tv.resultView(testQuestion.size(), correctAnswerCount, elapsedTime, userResults);
-                        } else {
-                            tv.resultView(testQuestion.size(), correctAnswerCount, elapsedTime);
-                        }
-                    }
-                    break;
-                case 2:
-                    int userChoice = 1;
-                    while (userChoice != 0) {
-                        userChoice = tv.settingsMenuView(s.getQuestionOrderSetting().name(), s.getTermDisplaySetting().name(), s.getProvideFeedbackSetting().name());
-                        switch (userChoice) {
-                            case 1:
-                                int settingChoice = (tv.questionOrderSettingView(s.getQuestionOrderSetting().name())) - 1;
-                                if (settingChoice >= 0 && s.getQuestionOrderSetting().ordinal() != settingChoice) {
-                                    s.setQuestionOrderSetting(Constants.QuestionOrder.values()[settingChoice]);
-                                    s.saveSettingsToFile();
-                                }
-                                break;
-                            case 2:
-                                settingChoice = (tv.termDisplaySettingView(s.getTermDisplaySetting().name())) - 1;
-                                if (settingChoice >= 0 && s.getTermDisplaySetting().ordinal() != settingChoice) {
-                                    s.setTermDisplaySetting(Constants.TermDisplay.values()[settingChoice]);
-                                    s.saveSettingsToFile();
-                                }
-                                break;
-                            case 3:
-                                settingChoice = (tv.provideFeedbackSettingView(s.getProvideFeedbackSetting().name())) - 1;
-                                if (settingChoice >= 0 && s.getProvideFeedbackSetting().ordinal() != settingChoice) {
-                                    s.setProvideFeedbackSetting(Constants.ProvideFeedback.values()[settingChoice]);
-                                    s.saveSettingsToFile();
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                case 3:
-                    tv.aboutView();
-                    break;
-                case 0:
-                case 4:
-                    exitFlag = tv.exitView();
-                    break;
-                default:
-                    break;
-            }
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }
