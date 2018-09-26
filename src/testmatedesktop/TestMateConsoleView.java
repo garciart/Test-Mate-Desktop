@@ -183,7 +183,7 @@ public final class TestMateConsoleView {
     public int errorView(String message) {
         System.out.println("Oops! Something went wrong!");
         System.out.println(message);
-        System.out.println("We've been notified and will start fixing the problem right away!\n");
+        System.out.println("We've been notified and will start fixing the problem right away!");
         System.out.println();
         return -1;
     }
