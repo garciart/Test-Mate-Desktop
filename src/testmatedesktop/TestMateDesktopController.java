@@ -26,10 +26,21 @@ package testmatedesktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import javafx.util.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,29 +70,36 @@ public class TestMateDesktopController implements Initializable {
     public boolean takingTest = false;
     private int count = 0;
 
-    @FXML private AnchorPane ap;
-    @FXML private SplitPane sp;
-    @FXML private AnchorPane leftAP;
-    @FXML private ScrollPane questionPane;
-    @FXML private Label questionLabel;
-    @FXML private AnchorPane rightAP;
-    @FXML private ScrollPane choicePane;
-    @FXML private VBox choiceBox;
-    @FXML private Button reviewButton;
-    @FXML private Button scoreButton;
-    @FXML private Button nextButton;
-    @FXML private Label label;
-
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        try {
-            System.out.println("You clicked me!");
-            label.setText("Hello World!");
-        }
-        catch (Exception ex) {
-            errorMessage(ex.toString());
-        }
-    }
+    private AnchorPane ap;
+    @FXML
+    private Label testTimeLabel;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private Label questionNumberLabel;
+    @FXML
+    private SplitPane sp;
+    @FXML
+    private AnchorPane leftAP;
+    @FXML
+    private ScrollPane questionPane;
+    @FXML
+    private Label questionLabel;
+    @FXML
+    private AnchorPane rightAP;
+    @FXML
+    private ScrollPane choicePane;
+    @FXML
+    private VBox choiceBox;
+    @FXML
+    private Button reviewButton;
+    @FXML
+    private Button scoreButton;
+    @FXML
+    private Button mediaButton;
+    @FXML
+    private Button nextButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -116,42 +134,35 @@ public class TestMateDesktopController implements Initializable {
                     long startTime = System.nanoTime();
                     final ArrayList<TestQuestion> testQuestion = (new Test()).getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
                     String userResults[][] = new String[testQuestion.size()][3];
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent t) {
+                            long elapsedTime = System.nanoTime() - startTime;
+                            testTimeLabel.setText(String.format("%02d:%02d",
+                                    TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                                    TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
+                        }
+                    }));
+                    timeline.setCycleCount(Timeline.INDEFINITE);
+                    timeline.play();
+                    askQuestion(count, testQuestion.get(count));
+                    questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
                     nextButton.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override public void handle(ActionEvent e) {
-                            if(count < testQuestion.size()) {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            count++;
+                            if (count < testQuestion.size()) {
+                                questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
                                 askQuestion(count, testQuestion.get(count));
-
-                                count++;
-                            }
-                            else {
+                            } else {
                                 nextButton.setDisable(true);
                                 count = 0;
                             }
                         }
                     });
-
-                    
-                        /*
-                        String testText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-                        questionLabel.setText(testText);
-                        ToggleGroup choiceGroup = new ToggleGroup();
-                        for(int x = 0; x < 4; x++) {
-                            RadioButton rb = new RadioButton("Question " + x + ". " + testText);
-                            rb.setToggleGroup(choiceGroup);
-                            rb.setId("rb" + x);
-                            rb.setWrapText(true);
-                            rb.setAlignment(Pos.TOP_LEFT);
-                            choiceBox.getChildren().add(rb);
-                            // toggleBox.getChildren().add(((new RadioButton("Question " + x)).setToggleGroup(choiceGroup)));
-                        }
-                        */
-
-
-
                     // System.out.println();
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 errorMessage(ex.toString());
             }
         }
@@ -173,9 +184,10 @@ public class TestMateDesktopController implements Initializable {
         Stage stage = (Stage) ap.getScene().getWindow();
         stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
-    
+
     public int askQuestion(int questionNumber, TestQuestion tq) {
-        questionLabel.setText((questionNumber + 1) + ". " + tq.getQuestion());
+        choiceBox.getChildren().clear();
+        questionLabel.setText(tq.getQuestion());
         ToggleGroup choiceGroup = new ToggleGroup();
         for (int y = 0; y <= tq.getNumberOfChoices(); y++) {
             RadioButton rb = new RadioButton(tq.getChoices().get(y));
@@ -190,7 +202,7 @@ public class TestMateDesktopController implements Initializable {
         // Add one to use getAndValidateChoice and subtract 1 to return the correct index
         return 1;
     }
-    
+
     public void errorMessage(String errorMessage) {
         new Alert(AlertType.ERROR, ("Oops! Something went wrong!\n\n" + errorMessage + "\n\nWe've been notified and will start fixing the problem right away!"), ButtonType.OK).showAndWait();
     }

@@ -63,14 +63,21 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Label fx:id="label" contentDisplay="CENTER" layoutX="237.0" layoutY="32.0" text="Welcome to Test Mate!" textAlignment="CENTER">
+        <Label fx:id="testTimeLabel" layoutX="14.0" layoutY="32.0" AnchorPane.leftAnchor="15.0">
             <padding>
                 <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
             </padding>
         </Label>
-        <Button fx:id="reviewButton" contentDisplay="CENTER" disable="true" layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="&lt; Review" />
-        <Button fx:id="scoreButton" contentDisplay="CENTER" disable="true" layoutX="272.0" layoutY="435.0" onAction="#handleButtonAction" text="Show Score" textAlignment="CENTER" />
-        <Button fx:id="nextButton" contentDisplay="CENTER" disable="true" layoutX="561.0" layoutY="435.0" mnemonicParsing="false" text="Next &gt;" />
+        <Label fx:id="titleLabel" contentDisplay="CENTER" layoutX="237.0" layoutY="32.0" text="Welcome to Test Mate!" textAlignment="CENTER">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
+        <Label fx:id="questionNumberLabel" layoutX="605.0" layoutY="32.0" AnchorPane.rightAnchor="15.0">
+            <padding>
+                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+            </padding>
+        </Label>
         <SplitPane fx:id="sp" dividerPositions="0.4" focusTraversable="true" layoutX="11.0" layoutY="65.0" prefHeight="360.0" prefWidth="620.0">
             <items>
                 <AnchorPane fx:id="leftAP" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -79,26 +86,29 @@
                             <padding>
                                 <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                             </padding>
-                     <content>
-                        <Label fx:id="questionLabel" text="Label" wrapText="true" />
-                     </content>
+                            <content>
+                                <Label fx:id="questionLabel" wrapText="true" />
+                            </content>
                         </ScrollPane>
                     </children>
                 </AnchorPane>
                 <AnchorPane fx:id="rightAP" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                     <children>
-                  <ScrollPane fx:id="choicePane" fitToWidth="true" prefHeight="358.0" prefWidth="430.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <padding>
-                        <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
-                     </padding>
-                     <content>
-                        <VBox fx:id="choiceBox" spacing="10.0" />
-                     </content>
-                  </ScrollPane>
+                        <ScrollPane fx:id="choicePane" fitToWidth="true" prefHeight="358.0" prefWidth="430.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <padding>
+                                <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                            </padding>
+                            <content>
+                                <VBox fx:id="choiceBox" spacing="10.0" />
+                            </content>
+                        </ScrollPane>
                     </children>
                 </AnchorPane>
             </items>
         </SplitPane>
-
+        <Button fx:id="reviewButton" contentDisplay="CENTER" disable="true" layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="&lt; Review" />
+        <Button fx:id="scoreButton" contentDisplay="CENTER" disable="true" layoutX="189.0" layoutY="435.0" mnemonicParsing="false" text="Show Score" textAlignment="CENTER" />
+        <Button fx:id="mediaButton" contentDisplay="CENTER" disable="true" layoutX="372.0" layoutY="435.0" mnemonicParsing="false" text="Media" />
+        <Button fx:id="nextButton" contentDisplay="CENTER" disable="true" layoutX="561.0" layoutY="435.0" mnemonicParsing="false" text="Next &gt;" />
     </children>
 </AnchorPane>
