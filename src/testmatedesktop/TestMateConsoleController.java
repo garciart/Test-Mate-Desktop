@@ -64,7 +64,8 @@ public final class TestMateConsoleController {
                         tcv.testLoadedView();
                         int correctAnswerCount = 0;
                         long startTime = System.nanoTime();
-                        ArrayList<TestQuestion> testQuestion = (new Test()).getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
+                        Test test = new Test();
+                        final ArrayList<TestQuestion> testQuestion = test.getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
                         String userResults[][] = new String[testQuestion.size()][3];
                         for (int x = 0; x < testQuestion.size(); x++) {
                             int userChoice = tcv.askQuestionView(x, testQuestion.get(x));

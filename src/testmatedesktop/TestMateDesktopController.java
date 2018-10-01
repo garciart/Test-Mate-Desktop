@@ -28,19 +28,12 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.util.Duration;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,13 +42,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -100,6 +93,8 @@ public class TestMateDesktopController implements Initializable {
     private Button mediaButton;
     @FXML
     private Button nextButton;
+    @FXML
+    private CheckMenuItem onTopMenuItem;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -132,14 +127,17 @@ public class TestMateDesktopController implements Initializable {
                     String testName = file.toString();
                     int correctAnswerCount = 0;
                     long startTime = System.nanoTime();
-                    final ArrayList<TestQuestion> testQuestion = (new Test()).getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
+                    Test test = new Test();
+                    final ArrayList<TestQuestion> testQuestion = test.getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
+                    titleLabel.setText(test.getTestTitle());
                     String userResults[][] = new String[testQuestion.size()][3];
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent t) {
                             long elapsedTime = System.nanoTime() - startTime;
-                            testTimeLabel.setText(String.format("%02d:%02d",
+                            testTimeLabel.setText(String.format("%02d:%02d:%02d",
                                     TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                                    TimeUnit.NANOSECONDS.toMinutes(elapsedTime),
                                     TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
                         }
                     }));
@@ -201,6 +199,12 @@ public class TestMateDesktopController implements Initializable {
         // numberOfChoices is zero-based and getAndValidateChoice is one-based
         // Add one to use getAndValidateChoice and subtract 1 to return the correct index
         return 1;
+    }
+    
+    @FXML
+    void menuOnTop() {
+        Stage stage = (Stage) ap.getScene().getWindow();
+        stage.setAlwaysOnTop(onTopMenuItem.isSelected());
     }
 
     public void errorMessage(String errorMessage) {

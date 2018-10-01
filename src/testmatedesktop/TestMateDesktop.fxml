@@ -37,7 +37,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Options">
                     <items>
-                        <CheckMenuItem mnemonicParsing="false" selected="true" text="Keep Test Mate on Top" />
+                        <CheckMenuItem fx:id="onTopMenuItem" mnemonicParsing="false" selected="false" text="Keep Test Mate on Top" onAction="#menuOnTop" />
                         <Menu mnemonicParsing="false" text="Key Term Display">
                             <items>
                                 <RadioMenuItem mnemonicParsing="false" selected="true" text="List the Terms as Choices">

@@ -44,6 +44,7 @@ public final class Test {
 
     // Initiate RANDOM at the beginning, and then only once, or it will regenerate the same set of numbers
     private static final Random RANDOM = new Random();
+    private String testTitle;
 
     /**
      * Creates an array list of test questions
@@ -149,17 +150,18 @@ public final class Test {
         InputStream inputStream = new FileInputStream(testFileName);
         Reader isr = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         try (BufferedReader bufferedReader = new BufferedReader(isr)) {
-            String firstLine;
-            while (!Utilities.isNullOrEmpty(firstLine = bufferedReader.readLine())) {
-                firstLine = firstLine.toUpperCase(Locale.ENGLISH);
-                if (firstLine.equals(Constants.QuestionType.K.toString())) {
+            setTestTitle(bufferedReader.readLine());
+            String qTypeFromFile;
+            while (!Utilities.isNullOrEmpty(qTypeFromFile = bufferedReader.readLine())) {
+                qTypeFromFile = qTypeFromFile.toUpperCase(Locale.ENGLISH);
+                if (qTypeFromFile.equals(Constants.QuestionType.K.toString())) {
                     KeyTerm k = new KeyTerm();
                     k.setKeyTerm(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     k.validateAndSetMedia(Constants.MediaType.valueOf(bufferedReader.readLine().toUpperCase(Locale.ENGLISH)), bufferedReader.readLine());
                     k.setKTDefinition(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     k.setExplanation(k.getKeyTerm() + ": " + k.getKTDefinition());
                     testData.add(k);
-                } else if (firstLine.equals(Constants.QuestionType.M.toString())) {
+                } else if (qTypeFromFile.equals(Constants.QuestionType.M.toString())) {
                     MultipleChoice m = new MultipleChoice();
                     m.setMCQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     m.validateAndSetMedia(Constants.MediaType.valueOf(bufferedReader.readLine().toUpperCase(Locale.ENGLISH)), bufferedReader.readLine());
@@ -174,7 +176,7 @@ public final class Test {
                         m.setExplanation(tempExplanation);
                     }
                     testData.add(m);
-                } else if (firstLine.equals(Constants.QuestionType.T.toString())) {
+                } else if (qTypeFromFile.equals(Constants.QuestionType.T.toString())) {
                     TrueFalse t = new TrueFalse();
                     t.setTFQuestion(Utilities.fixEscapeCharacters(bufferedReader.readLine()));
                     t.validateAndSetMedia(Constants.MediaType.valueOf(bufferedReader.readLine().toUpperCase(Locale.ENGLISH)), bufferedReader.readLine());
@@ -192,5 +194,21 @@ public final class Test {
             }
         }
         return testData;
+    }
+    
+    /**
+     * Test title getter
+     * @return the Test Title
+     */
+    public String getTestTitle() {
+        return this.testTitle;
+    }
+    
+    /**
+     * Test title setter
+     * @param testTitle the test title
+     */
+    public void setTestTitle(String testTitle) {
+        this.testTitle = testTitle;
     }
 }
