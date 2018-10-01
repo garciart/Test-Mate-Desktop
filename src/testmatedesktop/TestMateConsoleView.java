@@ -111,8 +111,10 @@ public final class TestMateConsoleView {
         System.out.println("You have completed your test!");
         String score = String.format("%02d", ((totalCorrectAnswers / totalQuestions) * 100));
         System.out.println("You answered " + totalCorrectAnswers + " out of " + totalQuestions + " for a score of " + score + "% in "
-                + String.format("%02d:%02d.", TimeUnit.NANOSECONDS.toHours(elapsedTime),
-                        TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
+                + String.format("%02d:%02d:%02d",
+                                    TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                                    TimeUnit.NANOSECONDS.toMinutes(elapsedTime),
+                                    TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
         System.out.println("Your results...");
         for (int x = 0; x < userResults.length; x++) {
             System.out.println((x + 1) + ". " + userResults[x][0]);
@@ -163,7 +165,7 @@ public final class TestMateConsoleView {
     }
 
     public void aboutView() {
-        System.out.println("Test Mate");
+        System.out.println("Test Mate!");
         System.out.println("Copyright 1993-" + Calendar.getInstance().get(Calendar.YEAR) + " Robert Garcia");
         System.out.println("Test Mate is a mobile self-study system, designed to assist you in achieving your educational and professional goals by allowing you to study what you want, when and where you want. Why study alone?");
         System.out.println();

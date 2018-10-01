@@ -13,7 +13,6 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -24,41 +23,37 @@
     <children>
         <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
-                <Menu mnemonicParsing="false" text="Main">
+                <Menu text="Main">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#startNewTest" text="Start a New Test..." />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#exitTestMate" text="Exit Test Mate">
-                            <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="X" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
+                        <MenuItem onAction="#startNewTest" text="Start a New Test" mnemonicParsing="true" accelerator="Shortcut+N" />
+                        <SeparatorMenuItem />
+                        <MenuItem onAction="#exitTestMate" text="Exit Test Mate" mnemonicParsing="true" accelerator="Shortcut+X" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Options">
+                <Menu text="Options">
                     <items>
-                        <CheckMenuItem fx:id="onTopMenuItem" mnemonicParsing="false" selected="false" text="Keep Test Mate on Top" onAction="#menuOnTop" />
-                        <Menu mnemonicParsing="false" text="Key Term Display">
+                        <CheckMenuItem fx:id="onTopMenuItem" onAction="#menuOnTop" selected="false" text="Keep Test Mate on Top" accelerator="Shortcut+T" />
+                        <Menu text="Key Term Display">
                             <items>
-                                <RadioMenuItem mnemonicParsing="false" selected="true" text="List the Terms as Choices">
+                                <RadioMenuItem fx:id="termChoiceMenuItem" selected="true" text="List the Terms as Choices">
                                     <toggleGroup>
                                         <ToggleGroup fx:id="KeyTermDisplay" />
                                     </toggleGroup>
                                 </RadioMenuItem>
-                                <RadioMenuItem mnemonicParsing="false" text="List the Definitions as Choices" toggleGroup="$KeyTermDisplay" />
-                                <RadioMenuItem mnemonicParsing="false" text="Randomize the display of choices" toggleGroup="$KeyTermDisplay" />
+                                <RadioMenuItem fx:id="defChoiceMenuItem" text="List the Definitions as Choices" toggleGroup="$KeyTermDisplay" />
+                                <RadioMenuItem fx:id="mixedChoiceMenuItem" text="Randomize the display of choices" toggleGroup="$KeyTermDisplay" />
                             </items>
                         </Menu>
-                        <CheckMenuItem mnemonicParsing="false" selected="true" text="Provide Feedback After Answering" />
-                        <CheckMenuItem mnemonicParsing="false" text="Randomize the Question Order" />
-                        <CheckMenuItem mnemonicParsing="false" selected="true" text="Show the Clock" />
+                        <CheckMenuItem fx:id="provideFeedbackMenuItem" selected="true" text="Provide Feedback After Answering" accelerator="Shortcut+F" />
+                        <CheckMenuItem fx:id="randomOrderMenuItem" text="Randomize the Question Order" accelerator="Shortcut+O" />
+                        <CheckMenuItem fx:id="hideClockMenuItem" onAction="#menuHideClock" selected="true" text="Show the Clock" accelerator="Shortcut+C" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Help Topics" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="About Test Mate..." />
+                        <MenuItem text="Help Topics" mnemonicParsing="true" accelerator="Shortcut+F1" />
+                        <SeparatorMenuItem />
+                        <MenuItem text="About Test Mate..." mnemonicParsing="true" accelerator="Shortcut+A" onAction="#menuAbout" />
                     </items>
                 </Menu>
             </menus>
@@ -106,9 +101,9 @@
                 </AnchorPane>
             </items>
         </SplitPane>
-        <Button fx:id="reviewButton" contentDisplay="CENTER" disable="true" layoutX="14.0" layoutY="435.0" mnemonicParsing="false" text="&lt; Review" />
-        <Button fx:id="scoreButton" contentDisplay="CENTER" disable="true" layoutX="189.0" layoutY="435.0" mnemonicParsing="false" text="Show Score" textAlignment="CENTER" />
-        <Button fx:id="mediaButton" contentDisplay="CENTER" disable="true" layoutX="372.0" layoutY="435.0" mnemonicParsing="false" text="Media" />
-        <Button fx:id="nextButton" contentDisplay="CENTER" disable="true" layoutX="561.0" layoutY="435.0" mnemonicParsing="false" text="Next &gt;" />
+        <Button fx:id="reviewButton" contentDisplay="CENTER" disable="true" layoutX="14.0" layoutY="435.0" text="&lt; Review" />
+        <Button fx:id="scoreButton" contentDisplay="CENTER" disable="true" layoutX="189.0" layoutY="435.0" text="Show Score" textAlignment="CENTER" />
+        <Button fx:id="mediaButton" contentDisplay="CENTER" disable="true" layoutX="372.0" layoutY="435.0" text="Media" />
+        <Button fx:id="nextButton" contentDisplay="CENTER" disable="true" layoutX="561.0" layoutY="435.0" text="Next &gt;" />
     </children>
 </AnchorPane>

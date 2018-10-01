@@ -33,6 +33,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -49,6 +50,7 @@ public class TestMateDesktop extends Application {
         Scene scene = new Scene(root);
         primaryStage.setTitle("Test Mate!");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("file:tmicon48a.png"));
         primaryStage.show();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override

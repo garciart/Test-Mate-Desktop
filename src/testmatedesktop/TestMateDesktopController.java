@@ -25,14 +25,22 @@ package testmatedesktop;
 
 import java.io.File;
 import java.io.IOException;
+import static java.lang.System.exit;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import javafx.util.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -48,6 +56,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -95,6 +105,8 @@ public class TestMateDesktopController implements Initializable {
     private Button nextButton;
     @FXML
     private CheckMenuItem onTopMenuItem;
+    @FXML
+    private CheckMenuItem hideClockMenuItem;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,7 +114,7 @@ public class TestMateDesktopController implements Initializable {
     }
 
     public void startNewTest() throws IOException {
-        if (checkTestStatus()) {
+            if (checkTestStatus()) {
             Settings s = new Settings();
             try {
                 s.getSettingsFromFile();
@@ -111,7 +123,12 @@ public class TestMateDesktopController implements Initializable {
                 s.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
                 s.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
                 s.setProvideFeedbackSetting(Constants.ProvideFeedback.NO);
-                s.saveSettingsToFile();
+                try {
+                    s.saveSettingsToFile();
+                } catch (IOException ex1) {
+                    errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                    exit(0);
+                }
             }
             try {
                 Stage stage = (Stage) ap.getScene().getWindow();
@@ -195,7 +212,6 @@ public class TestMateDesktopController implements Initializable {
             rb.setAlignment(Pos.TOP_LEFT);
             choiceBox.getChildren().add(rb);
         }
-
         // numberOfChoices is zero-based and getAndValidateChoice is one-based
         // Add one to use getAndValidateChoice and subtract 1 to return the correct index
         return 1;
@@ -205,6 +221,53 @@ public class TestMateDesktopController implements Initializable {
     void menuOnTop() {
         Stage stage = (Stage) ap.getScene().getWindow();
         stage.setAlwaysOnTop(onTopMenuItem.isSelected());
+    }
+
+    @FXML
+    void menuProvideFeedback() {
+        Settings s = new Settings();
+        try {
+            s.getSettingsFromFile();
+        } catch (IOException ex) {
+            errorMessage("Unable to read settings file: " + ex.toString() + "\nApplying default settings...");
+            s.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
+            s.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
+            s.setProvideFeedbackSetting(Constants.ProvideFeedback.NO);
+            try {
+                s.saveSettingsToFile();
+            } catch (IOException ex1) {
+                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                exit(0);
+            }
+        }
+    }
+    
+    @FXML
+    void menuQuestionOrder() {
+
+    }
+    
+    @FXML
+    void menuHideClock() {
+        testTimeLabel.setVisible(hideClockMenuItem.isSelected());
+    }
+    
+    @FXML
+    void menuHelp() throws MalformedURLException {
+            // "TestMateHelp.html"
+    }
+    
+    @FXML
+    void menuAbout() {
+        Alert aboutAlert = new Alert(AlertType.INFORMATION, ("Copyright 1993-" + Calendar.getInstance().get(Calendar.YEAR) + " Robert Garcia\n\n" + 
+                "Test Mate is a mobile self-study system, designed to assist you in achieving your educational and professional goals by allowing you to study what you want, when and where you want.\n\n" + 
+                "Why study alone?"), ButtonType.OK);
+        aboutAlert.setTitle("Test Mate!");
+        aboutAlert.setHeaderText("Test Mate!");
+        aboutAlert.setGraphic(new ImageView("file:tmicon48a.png"));
+        Stage stage = (Stage)aboutAlert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("file:tmicon48a.png"));
+        aboutAlert.showAndWait();
     }
 
     public void errorMessage(String errorMessage) {
