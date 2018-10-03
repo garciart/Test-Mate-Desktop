@@ -25,35 +25,39 @@
             <menus>
                 <Menu text="Main">
                     <items>
-                        <MenuItem onAction="#startNewTest" text="Start a New Test" mnemonicParsing="true" accelerator="Shortcut+N" />
+                        <MenuItem accelerator="Shortcut+N" mnemonicParsing="true" onAction="#startNewTest" text="Start a New Test" />
                         <SeparatorMenuItem />
-                        <MenuItem onAction="#exitTestMate" text="Exit Test Mate" mnemonicParsing="true" accelerator="Shortcut+X" />
+                        <MenuItem accelerator="Shortcut+X" mnemonicParsing="true" onAction="#menuExit" text="Exit Test Mate" />
                     </items>
                 </Menu>
                 <Menu text="Options">
                     <items>
-                        <CheckMenuItem fx:id="onTopMenuItem" onAction="#menuOnTop" selected="false" text="Keep Test Mate on Top" accelerator="Shortcut+T" />
-                        <Menu text="Key Term Display">
+                        <CheckMenuItem fx:id="onTopMenuItem" accelerator="Shortcut+T" onAction="#menuOnTop" selected="false" text="Keep Test Mate on Top" />
+                        <CheckMenuItem fx:id="hideClockMenuItem" accelerator="Shortcut+C" onAction="#menuHideClock" selected="true" text="Show the Clock" />
+                        <Menu text="Settings...">
                             <items>
-                                <RadioMenuItem fx:id="termChoiceMenuItem" selected="true" text="List the Terms as Choices">
-                                    <toggleGroup>
-                                        <ToggleGroup fx:id="KeyTermDisplay" />
-                                    </toggleGroup>
-                                </RadioMenuItem>
-                                <RadioMenuItem fx:id="defChoiceMenuItem" text="List the Definitions as Choices" toggleGroup="$KeyTermDisplay" />
-                                <RadioMenuItem fx:id="mixedChoiceMenuItem" text="Randomize the display of choices" toggleGroup="$KeyTermDisplay" />
+                                <Menu text="Key Term Display">
+                                    <items>
+                                        <RadioMenuItem fx:id="termChoiceMenuItem" selected="true" text="List the Terms as Choices">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="keyTermDisplay" />
+                                            </toggleGroup>
+                                        </RadioMenuItem>
+                                        <RadioMenuItem fx:id="defChoiceMenuItem" text="List the Definitions as Choices" toggleGroup="$KeyTermDisplay" />
+                                        <RadioMenuItem fx:id="mixedChoiceMenuItem" text="Randomize the display of choices" toggleGroup="$KeyTermDisplay" />
+                                    </items>
+                                </Menu>
+                                <CheckMenuItem fx:id="provideFeedbackMenuItem" onAction="#menuProvideFeedback" selected="true" text="Provide Feedback After Answering" />
+                                <CheckMenuItem fx:id="questionOrderMenuItem" onAction="#menuQuestionOrder" text="Randomize the Question Order" />
                             </items>
                         </Menu>
-                        <CheckMenuItem fx:id="provideFeedbackMenuItem" selected="true" text="Provide Feedback After Answering" accelerator="Shortcut+F" />
-                        <CheckMenuItem fx:id="randomOrderMenuItem" text="Randomize the Question Order" accelerator="Shortcut+O" />
-                        <CheckMenuItem fx:id="hideClockMenuItem" onAction="#menuHideClock" selected="true" text="Show the Clock" accelerator="Shortcut+C" />
                     </items>
                 </Menu>
                 <Menu text="Help">
                     <items>
-                        <MenuItem text="Help Topics" mnemonicParsing="true" accelerator="Shortcut+F1" />
+                        <MenuItem accelerator="Shortcut+F1" text="Help Topics" />
                         <SeparatorMenuItem />
-                        <MenuItem text="About Test Mate..." mnemonicParsing="true" accelerator="Shortcut+A" onAction="#menuAbout" />
+                        <MenuItem accelerator="Shortcut+A" onAction="#menuAbout" text="About Test Mate..." />
                     </items>
                 </Menu>
             </menus>
@@ -94,7 +98,11 @@
                                 <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                             </padding>
                             <content>
-                                <VBox fx:id="choiceBox" spacing="10.0" />
+                                <VBox fx:id="choiceBox" spacing="10.0">
+                                    <fx:define>
+                                        <ToggleGroup fx:id="choiceGroup"></ToggleGroup>                                        
+                                    </fx:define>
+                                </VBox>
                             </content>
                         </ScrollPane>
                     </children>

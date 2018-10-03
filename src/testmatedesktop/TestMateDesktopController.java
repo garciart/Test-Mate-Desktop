@@ -26,13 +26,11 @@ package testmatedesktop;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.System.exit;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
@@ -40,12 +38,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -55,6 +55,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -72,6 +73,9 @@ public class TestMateDesktopController implements Initializable {
 
     public boolean takingTest = false;
     private int count = 0;
+    private final Settings settings = new Settings();
+    private String testName;
+    private Timeline timeline;
 
     @FXML
     private AnchorPane ap;
@@ -106,30 +110,36 @@ public class TestMateDesktopController implements Initializable {
     @FXML
     private CheckMenuItem onTopMenuItem;
     @FXML
+    private CheckMenuItem provideFeedbackMenuItem;
+    @FXML
+    private CheckMenuItem questionOrderMenuItem;
+    @FXML
     private CheckMenuItem hideClockMenuItem;
+    @FXML
+    private ToggleGroup choiceGroup;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            settings.getSettingsFromFile();
+            provideFeedbackMenuItem.setSelected(settings.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES);
+            questionOrderMenuItem.setSelected(settings.getQuestionOrderSetting() == Constants.QuestionOrder.RANDOM);
+        } catch (IOException ex) {
+            errorMessage("Unable to read settings file: " + ex.toString() + "\nApplying default settings...");
+            settings.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
+            settings.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
+            settings.setProvideFeedbackSetting(Constants.ProvideFeedback.YES);
+            try {
+                settings.saveSettingsToFile();
+            } catch (IOException ex1) {
+                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                exit(0);
+            }
+        }
     }
 
     public void startNewTest() throws IOException {
-            if (checkTestStatus()) {
-            Settings s = new Settings();
-            try {
-                s.getSettingsFromFile();
-            } catch (IOException ex) {
-                errorMessage("Unable to read settings file: " + ex.toString() + "\nApplying default settings...");
-                s.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
-                s.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
-                s.setProvideFeedbackSetting(Constants.ProvideFeedback.NO);
-                try {
-                    s.saveSettingsToFile();
-                } catch (IOException ex1) {
-                    errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
-                    exit(0);
-                }
-            }
+        if (checkTestStatus()) {
             try {
                 Stage stage = (Stage) ap.getScene().getWindow();
                 FileChooser chooser = new FileChooser();
@@ -139,48 +149,44 @@ public class TestMateDesktopController implements Initializable {
                 chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
                 File file = chooser.showOpenDialog(stage);
                 if (file != null) {
-                    takingTest = true;
-                    nextButton.setDisable(false);
-                    String testName = file.toString();
-                    int correctAnswerCount = 0;
-                    long startTime = System.nanoTime();
-                    Test test = new Test();
-                    final ArrayList<TestQuestion> testQuestion = test.getTest(testName, s.getQuestionOrderSetting(), s.getTermDisplaySetting());
-                    titleLabel.setText(test.getTestTitle());
-                    String userResults[][] = new String[testQuestion.size()][3];
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent t) {
-                            long elapsedTime = System.nanoTime() - startTime;
-                            testTimeLabel.setText(String.format("%02d:%02d:%02d",
-                                    TimeUnit.NANOSECONDS.toHours(elapsedTime),
-                                    TimeUnit.NANOSECONDS.toMinutes(elapsedTime),
-                                    TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
-                        }
-                    }));
-                    timeline.setCycleCount(Timeline.INDEFINITE);
-                    timeline.play();
-                    askQuestion(count, testQuestion.get(count));
-                    questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
-                    nextButton.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent e) {
-                            count++;
-                            if (count < testQuestion.size()) {
-                                questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
-                                askQuestion(count, testQuestion.get(count));
-                            } else {
-                                nextButton.setDisable(true);
-                                count = 0;
-                            }
-                        }
-                    });
-                    // System.out.println();
+                    testName = file.toString();
+                    administerTest(testName);
                 }
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 errorMessage(ex.toString());
             }
         }
+    }
+    
+    public void administerTest(String testName) throws IOException {
+        takingTest = true;
+        nextButton.setDisable(false);
+        int correctAnswerCount = 0;
+        startTimer(System.nanoTime());
+        Test test = new Test();
+        final ArrayList<TestQuestion> testQuestion = test.getTest(testName, settings.getQuestionOrderSetting(), settings.getTermDisplaySetting());
+        titleLabel.setText(test.getTestTitle());
+        String userResults[][] = new String[testQuestion.size()][3];
+        displayQuestion(count, testQuestion.get(count));
+        questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
+        nextButton.setOnAction((ActionEvent e) -> {
+            Toggle toggle = choiceGroup.getSelectedToggle();
+            if(toggle != null) {
+                System.out.println(toggle.toString());
+                count++;
+                if (count < testQuestion.size()) {
+                    questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
+                    displayQuestion(count, testQuestion.get(count));
+                } else {
+                    nextButton.setDisable(true);
+                    count = 0;
+                }
+            }
+            else {
+                (new Alert(AlertType.INFORMATION, ("Nothing selected!"), ButtonType.OK)).showAndWait();
+            }
+        });
+        // System.out.println();
     }
 
     @FXML
@@ -195,26 +201,25 @@ public class TestMateDesktopController implements Initializable {
     }
 
     @FXML
-    public void exitTestMate() {
+    public void menuExit() {
         Stage stage = (Stage) ap.getScene().getWindow();
+        System.out.println("From the controller...");
         stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
-    public int askQuestion(int questionNumber, TestQuestion tq) {
-        choiceBox.getChildren().clear();
+    public void displayQuestion(int questionNumber, TestQuestion tq) {
         questionLabel.setText(tq.getQuestion());
-        ToggleGroup choiceGroup = new ToggleGroup();
+        choiceBox.getChildren().clear();
+        choiceGroup.getToggles().clear();
         for (int y = 0; y <= tq.getNumberOfChoices(); y++) {
             RadioButton rb = new RadioButton(tq.getChoices().get(y));
             rb.setToggleGroup(choiceGroup);
-            rb.setId("rb" + y);
+            rb.setId(Integer.toString(y));
             rb.setWrapText(true);
             rb.setAlignment(Pos.TOP_LEFT);
+            rb.setToggleGroup(choiceGroup);
             choiceBox.getChildren().add(rb);
         }
-        // numberOfChoices is zero-based and getAndValidateChoice is one-based
-        // Add one to use getAndValidateChoice and subtract 1 to return the correct index
-        return 1;
     }
     
     @FXML
@@ -225,17 +230,15 @@ public class TestMateDesktopController implements Initializable {
 
     @FXML
     void menuProvideFeedback() {
-        Settings s = new Settings();
-        try {
-            s.getSettingsFromFile();
-        } catch (IOException ex) {
-            errorMessage("Unable to read settings file: " + ex.toString() + "\nApplying default settings...");
-            s.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
-            s.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
-            s.setProvideFeedbackSetting(Constants.ProvideFeedback.NO);
+        if (checkTestStatus()) {
+            settings.setProvideFeedbackSetting(provideFeedbackMenuItem.isSelected() ? Constants.ProvideFeedback.YES : Constants.ProvideFeedback.NO);
+            System.out.println("Here providing feedback!");
             try {
-                s.saveSettingsToFile();
-            } catch (IOException ex1) {
+                settings.saveSettingsToFile();
+                count = 0;
+                timeline.stop();
+                administerTest(testName);
+            } catch (IOException ex) {
                 errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
                 exit(0);
             }
@@ -244,7 +247,19 @@ public class TestMateDesktopController implements Initializable {
     
     @FXML
     void menuQuestionOrder() {
-
+        if (checkTestStatus()) {
+            settings.setQuestionOrderSetting(questionOrderMenuItem.isSelected() ? Constants.QuestionOrder.RANDOM : Constants.QuestionOrder.DEFAULT);
+            System.out.println("Here getting the question order!");
+            try {
+                settings.saveSettingsToFile();
+                count = 0;
+                timeline.stop();
+                administerTest(testName);
+            } catch (IOException ex) {
+                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                exit(0);
+            }
+        }
     }
     
     @FXML
@@ -253,8 +268,8 @@ public class TestMateDesktopController implements Initializable {
     }
     
     @FXML
-    void menuHelp() throws MalformedURLException {
-            // "TestMateHelp.html"
+    void menuHelp() {
+        // "TestMateHelp.html"
     }
     
     @FXML
@@ -272,5 +287,20 @@ public class TestMateDesktopController implements Initializable {
 
     public void errorMessage(String errorMessage) {
         new Alert(AlertType.ERROR, ("Oops! Something went wrong!\n\n" + errorMessage + "\n\nWe've been notified and will start fixing the problem right away!"), ButtonType.OK).showAndWait();
+    }
+    
+    void startTimer(long startTime) {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                long elapsedTime = System.nanoTime() - startTime;
+                testTimeLabel.setText(String.format("%02d:%02d:%02d",
+                        TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                        TimeUnit.NANOSECONDS.toMinutes(elapsedTime),
+                        TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 }

@@ -1,0 +1,8 @@
+try {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("TestMateDesktop.fxml"));
+    Parent root = loader.load();
+    Map<String, Object> fxmlNamespace = loader.getNamespace();
+    ToggleGroup choiceGroup = (ToggleGroup) fxmlNamespace.get("choiceGroup");
+} catch (IOException ex) {
+    errorMessage("Error: " + ex.toString());
+}
