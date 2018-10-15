@@ -166,7 +166,16 @@ public class TestMateDesktopController implements Initializable {
         nextButton.setOnAction((ActionEvent e) -> {
             Toggle toggle = choiceGroup.getSelectedToggle();
             if(toggle != null) {
-                System.out.println((int)toggle.getUserData());
+                int userChoice = (int)toggle.getUserData();
+                boolean result = (userChoice == testQuestion.get(count).getCorrectAnswerIndex());
+                if(settings.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Feedback");
+                    alert.setHeaderText(result ? "Correct!" : "Wrong!");
+                    alert.setContentText(testQuestion.get(count).getExplanation());
+                    alert.showAndWait();
+                }
+                System.out.println(result);
                 count++;
                 if (count < testQuestion.size()) {
                     questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
