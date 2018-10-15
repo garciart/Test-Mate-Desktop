@@ -38,13 +38,13 @@
                             <items>
                                 <Menu text="Key Term Display">
                                     <items>
-                                        <RadioMenuItem fx:id="termChoiceMenuItem" selected="true" text="List the Terms as Choices">
+                                        <RadioMenuItem fx:id="termChoiceMenuItem" onAction="#menuTermDisplay" selected="true" text="List the Terms as Choices">
                                             <toggleGroup>
                                                 <ToggleGroup fx:id="keyTermDisplay" />
                                             </toggleGroup>
                                         </RadioMenuItem>
-                                        <RadioMenuItem fx:id="defChoiceMenuItem" text="List the Definitions as Choices" toggleGroup="$KeyTermDisplay" />
-                                        <RadioMenuItem fx:id="mixedChoiceMenuItem" text="Randomize the display of choices" toggleGroup="$KeyTermDisplay" />
+                                        <RadioMenuItem fx:id="defChoiceMenuItem" onAction="#menuTermDisplay" text="List the Definitions as Choices" toggleGroup="$keyTermDisplay" />
+                                        <RadioMenuItem fx:id="mixedChoiceMenuItem" onAction="#menuTermDisplay" text="Randomize the display of choices" toggleGroup="$keyTermDisplay" />
                                     </items>
                                 </Menu>
                                 <CheckMenuItem fx:id="provideFeedbackMenuItem" onAction="#menuProvideFeedback" selected="true" text="Provide Feedback After Answering" />

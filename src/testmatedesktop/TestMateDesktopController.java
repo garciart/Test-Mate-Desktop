@@ -58,6 +58,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import testmatedesktop.Constants.*;
 
 /**
  *
@@ -111,18 +112,21 @@ public class TestMateDesktopController implements Initializable {
     private CheckMenuItem hideClockMenuItem;
     @FXML
     private ToggleGroup choiceGroup;
+    @FXML
+    private ToggleGroup keyTermDisplay;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             settings.getSettingsFromFile();
-            provideFeedbackMenuItem.setSelected(settings.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES);
-            questionOrderMenuItem.setSelected(settings.getQuestionOrderSetting() == Constants.QuestionOrder.RANDOM);
+            provideFeedbackMenuItem.setSelected(settings.getProvideFeedbackSetting() == ProvideFeedback.YES);
+            questionOrderMenuItem.setSelected(settings.getQuestionOrderSetting() == QuestionOrder.RANDOM);
+            keyTermDisplay.selectToggle(keyTermDisplay.getToggles().get(settings.getTermDisplaySetting().ordinal()));
         } catch (IOException ex) {
             errorMessage("Unable to read settings file: " + ex.toString() + "\nApplying default settings...");
-            settings.setQuestionOrderSetting(Constants.QuestionOrder.DEFAULT);
-            settings.setTermDisplaySetting(Constants.TermDisplay.DEFISQUESTION);
-            settings.setProvideFeedbackSetting(Constants.ProvideFeedback.YES);
+            settings.setQuestionOrderSetting(QuestionOrder.DEFAULT);
+            settings.setTermDisplaySetting(TermDisplay.DEFISQUESTION);
+            settings.setProvideFeedbackSetting(ProvideFeedback.YES);
             try {
                 settings.saveSettingsToFile();
             } catch (IOException ex1) {
@@ -133,7 +137,7 @@ public class TestMateDesktopController implements Initializable {
     }
 
     public void startNewTest() throws IOException {
-        if (checkTestStatus()) {
+        if (restartTest()) {
             try {
                 Stage stage = (Stage) ap.getScene().getWindow();
                 FileChooser chooser = new FileChooser();
@@ -168,14 +172,13 @@ public class TestMateDesktopController implements Initializable {
             if(toggle != null) {
                 int userChoice = (int)toggle.getUserData();
                 boolean result = (userChoice == testQuestion.get(count).getCorrectAnswerIndex());
-                if(settings.getProvideFeedbackSetting() == Constants.ProvideFeedback.YES) {
+                if(settings.getProvideFeedbackSetting() == ProvideFeedback.YES) {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Feedback");
-                    alert.setHeaderText(result ? "Correct!" : "Wrong!");
+                    alert.setHeaderText(result ? "Correct!" : "Sorry!");
                     alert.setContentText(testQuestion.get(count).getExplanation());
                     alert.showAndWait();
                 }
-                System.out.println(result);
                 count++;
                 if (count < testQuestion.size()) {
                     questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
@@ -193,7 +196,7 @@ public class TestMateDesktopController implements Initializable {
     }
 
     @FXML
-    public boolean checkTestStatus() {
+    public boolean restartTest() {
         if (takingTest) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will end your current test.\nDo you wish to continue?");
             Optional<ButtonType> result = alert.showAndWait();
@@ -206,7 +209,6 @@ public class TestMateDesktopController implements Initializable {
     @FXML
     public void menuExit() {
         Stage stage = (Stage) ap.getScene().getWindow();
-        System.out.println("From the controller...");
         stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
@@ -232,14 +234,39 @@ public class TestMateDesktopController implements Initializable {
     }
 
     @FXML
-    void menuProvideFeedback() {
-        if (checkTestStatus()) {
-            settings.setProvideFeedbackSetting(provideFeedbackMenuItem.isSelected() ? Constants.ProvideFeedback.YES : Constants.ProvideFeedback.NO);
-            System.out.println("Here providing feedback!");
+    void menuHideClock() {
+        testTimeLabel.setVisible(hideClockMenuItem.isSelected());
+    }
+    
+    @FXML
+    void menuTermDisplay() {
+        if (restartTest()) {
+            TermDisplay td = TermDisplay.values()[keyTermDisplay.getToggles().indexOf(keyTermDisplay.getSelectedToggle())];
+            settings.setTermDisplaySetting(td);
             try {
                 settings.saveSettingsToFile();
-                count = 0;
-                timeline.stop();
+                if(takingTest) {
+                    count = 0;
+                    timeline.stop();
+                }
+                administerTest(testName);
+            } catch (IOException ex) {
+                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                exit(0);
+            }
+        }
+    }
+    
+    @FXML
+    void menuProvideFeedback() {
+        if (restartTest()) {
+            settings.setProvideFeedbackSetting(provideFeedbackMenuItem.isSelected() ? ProvideFeedback.YES : ProvideFeedback.NO);
+            try {
+                settings.saveSettingsToFile();
+                if(takingTest) {
+                    count = 0;
+                    timeline.stop();
+                }
                 administerTest(testName);
             } catch (IOException ex) {
                 errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
@@ -250,13 +277,14 @@ public class TestMateDesktopController implements Initializable {
     
     @FXML
     void menuQuestionOrder() {
-        if (checkTestStatus()) {
-            settings.setQuestionOrderSetting(questionOrderMenuItem.isSelected() ? Constants.QuestionOrder.RANDOM : Constants.QuestionOrder.DEFAULT);
-            System.out.println("Here getting the question order!");
+        if (restartTest()) {
+            settings.setQuestionOrderSetting(questionOrderMenuItem.isSelected() ? QuestionOrder.RANDOM : QuestionOrder.DEFAULT);
             try {
                 settings.saveSettingsToFile();
-                count = 0;
-                timeline.stop();
+                if(takingTest) {
+                    count = 0;
+                    timeline.stop();
+                }
                 administerTest(testName);
             } catch (IOException ex) {
                 errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
@@ -264,11 +292,7 @@ public class TestMateDesktopController implements Initializable {
             }
         }
     }
-    
-    @FXML
-    void menuHideClock() {
-        testTimeLabel.setVisible(hideClockMenuItem.isSelected());
-    }
+
     
     @FXML
     void menuHelp() {
