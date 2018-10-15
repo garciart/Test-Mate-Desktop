@@ -166,7 +166,7 @@ public class TestMateDesktopController implements Initializable {
         nextButton.setOnAction((ActionEvent e) -> {
             Toggle toggle = choiceGroup.getSelectedToggle();
             if(toggle != null) {
-                System.out.println(toggle.toString());
+                System.out.println((int)toggle.getUserData());
                 count++;
                 if (count < testQuestion.size()) {
                     questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
@@ -208,7 +208,7 @@ public class TestMateDesktopController implements Initializable {
         for (int y = 0; y <= tq.getNumberOfChoices(); y++) {
             RadioButton rb = new RadioButton(tq.getChoices().get(y));
             rb.setToggleGroup(choiceGroup);
-            rb.setId(Integer.toString(y));
+            rb.setUserData(y);
             rb.setWrapText(true);
             rb.setAlignment(Pos.TOP_LEFT);
             rb.setToggleGroup(choiceGroup);
