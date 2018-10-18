@@ -24,10 +24,6 @@
 package testmatedesktop;
 
 import java.lang.reflect.Field;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -36,80 +32,6 @@ import static org.junit.Assert.*;
  * @author Rob Garcia at rgarcia@rgprogramming.com
  */
 public class RandomNumbersTest {
-    
-    public RandomNumbersTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of getIndexLocation method, of class RandomNumbers.
-     */
-    @Test
-    public void testGetIndexLocation() {
-        System.out.println("getIndexLocation");
-        RandomNumbers instance = null;
-        int expResult = 0;
-        int result = instance.getIndexLocation();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getUniqueArray method, of class RandomNumbers.
-     */
-    @Test
-    public void testGetUniqueArray() {
-        System.out.println("getUniqueArray");
-        RandomNumbers instance = null;
-        int[] expResult = null;
-        int[] result = instance.getUniqueArray();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setIndexLocation method, of class RandomNumbers.
-     */
-    @Test
-    public void testSetIndexLocation() {
-        System.out.println("setIndexLocation");
-        int indexLocation = 0;
-        RandomNumbers instance = null;
-        instance.setIndexLocation(indexLocation);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setUniqueArray method, of class RandomNumbers.
-     */
-    @Test
-    public void testSetUniqueArray() {
-        System.out.println("setUniqueArray");
-        int[] uniqueArray = null;
-        RandomNumbers instance = null;
-        instance.setUniqueArray(uniqueArray);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
     @Test
     /**
      * Method tested: public RandomNumbers(int max)
@@ -175,11 +97,11 @@ public class RandomNumbersTest {
     @Test
     /**
      * Method tested: public RandomNumbers(int max)
-     * Short description: Tests that the constructor creates an array with a max value of the parameter - 1 (zero-based).
+     * Short description: Tests that the constructor creates an array with all the required values.
      * Input: 5
-     * Expected result: 4
+     * Expected result: Pass
      */
-    public void testRandomNumbersMaxValue() {
+    public void testRandomNumbersCheckValues() {
         try {
             RandomNumbers rn = new RandomNumbers(5);
             Class<? extends RandomNumbers> rnClass = rn.getClass();
@@ -187,13 +109,16 @@ public class RandomNumbersTest {
             f1 = rnClass.getDeclaredField("uniqueArray");
             f1.setAccessible(true);
             int[] uniqueArray = (int[]) f1.get(rn);
-            int max = uniqueArray[0];
-            for(int i = 1; i < uniqueArray.length; i++) {
-                if(uniqueArray[i] > max) {
-                    max = uniqueArray[i];
+            for(int i = 0; i < uniqueArray.length; i++) {
+                for(int j = 0; j < uniqueArray.length; j++) {
+                    if(uniqueArray[i] == j) {
+                        break;
+                    }
+                    else if(j == (uniqueArray.length - 1)) {
+                        fail("Code issue: The array does not contain all the required values.");
+                    }
                 }
             }
-            assertEquals(4, max);
         }
         catch (IllegalAccessException ex) {
             fail("Test issue: Field object is enforcing Java language access control and the underlying field is inaccessible.");
