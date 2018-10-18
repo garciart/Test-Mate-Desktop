@@ -39,24 +39,24 @@ public final class RandomNumbers {
     /**
      * (Overloaded) RandomNumbers constructor
      *
-     * @param uniqueArraySize the number of elements to return 
+     * @param maxCount the number of elements to return 
      */
-    public RandomNumbers(int uniqueArraySize) {
+    public RandomNumbers(int maxCount) {
         // Ensure the argument is positive and that there is more than one value to randomize
-        if (uniqueArraySize >= 1) {
+        if (maxCount >= 1) {
             // Seed the psuedo random number generator using the current time
             Random rand = new Random();
             // Initiate the array set to the max size
-            this.uniqueArray = new int[uniqueArraySize];
+            this.uniqueArray = new int[maxCount];
             // Get ordered number set
-            for (int x = 0; x < uniqueArraySize; x++) {
+            for (int x = 0; x < maxCount; x++) {
                 uniqueArray[x] = x;
             }
             // Shuffle the set
-            for (int x = 0; x < uniqueArraySize; x++) {
+            for (int x = 0; x < maxCount; x++) {
                 // Get random numbers between 0 and max
                 // 0 is inclusive, but max is exclusive, so add 1)
-                int r = rand.nextInt(uniqueArraySize);
+                int r = rand.nextInt(maxCount);
                 int temp = uniqueArray[x];
                 uniqueArray[x] = uniqueArray[r];
                 uniqueArray[r] = temp;

@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
 public class RandomNumbersTest {
     @Test
     /**
-     * Method tested: public RandomNumbers(int max)
+     * Method tested: public RandomNumbers(int maxCount)
      * Short description: Tests that the constructor throws an IllegalArgumentException if the input is MIN_VALUE.
      * Input: Integer.MIN_VALUE
      * Expected result: Throw IllegalArgumentException
@@ -51,7 +51,7 @@ public class RandomNumbersTest {
 
     @Test
     /**
-     * Method tested: public RandomNumbers(int max)
+     * Method tested: public RandomNumbers(int maxCount)
      * Short description: Tests that the constructor throws an IllegalArgumentException if the input is 0.
      * Input: 0
      * Expected result: Throw IllegalArgumentException
@@ -68,7 +68,7 @@ public class RandomNumbersTest {
 
     @Test
     /**
-     * Method tested: public RandomNumbers(int max)
+     * Method tested: public RandomNumbers(int maxCount)
      * Short description: Tests that the constructor creates an array the size of the parameter.
      * Input: 5
      * Expected result: 5
@@ -96,8 +96,9 @@ public class RandomNumbersTest {
 
     @Test
     /**
-     * Method tested: public RandomNumbers(int max)
-     * Short description: Tests that the constructor creates an array with all the required values.
+     * Method tested: public RandomNumbers(int maxCount)
+     * Short description: Tests that the constructor creates an array of non-repeating numbers,
+     * maxCount in size, containing all numbers greater than or equal to 0 and less than maxCount.
      * Input: 5
      * Expected result: Pass
      */
@@ -124,7 +125,7 @@ public class RandomNumbersTest {
             fail("Test issue: Field object is enforcing Java language access control and the underlying field is inaccessible.");
         }
         catch (IllegalArgumentException ex) {
-            fail("Test issue: The RandomNumbers() max parameter must be be equal to or greater than 1.");
+            fail("Test issue: The RandomNumbers() maxCount parameter must be be equal to or greater than 1.");
         }
         catch (NoSuchFieldException ex) {
             fail("Code issue: RandomNumbers class missing expected attribute uniqueArray.");
