@@ -37,69 +37,32 @@ public final class RandomNumbers {
     private int[] uniqueArray;
 
     /**
-     * Index location for key value getter
-     *
-     * @return the location of a key value in the array
-     */
-    public final int getIndexLocation() {
-        return indexLocation;
-    }
-
-    /**
-     * Unique array getter
-     *
-     * @return an integer array of unique numbers in random order
-     */
-    public final int[] getUniqueArray() {
-        return Arrays.copyOf(uniqueArray, uniqueArray.length);
-    }
-
-    /**
-     * Index location for key value setter
-     *
-     * @param indexLocation the location of a key value in the array
-     */
-    public final void setIndexLocation(int indexLocation) {
-        this.indexLocation = indexLocation;
-    }
-
-    /**
-     * Unique array setter
-     *
-     * @param uniqueArray an integer array of unique numbers in random order
-     */
-    public final void setUniqueArray(int[] uniqueArray) {
-        this.uniqueArray = Arrays.copyOf(uniqueArray, uniqueArray.length);
-    }
-
-    /**
      * (Overloaded) RandomNumbers constructor
      *
-     * @param max the max value to return (0 is the min value)
+     * @param uniqueArraySize the number of elements to return 
      */
-    public RandomNumbers(int max) {
-        // EVERYTHING IS ZERO-BASED, INCLUDING THE ARGUMENTS
+    public RandomNumbers(int uniqueArraySize) {
         // Ensure the argument is positive and that there is more than one value to randomize
-        if (max > 1) {
+        if (uniqueArraySize >= 1) {
             // Seed the psuedo random number generator using the current time
             Random rand = new Random();
             // Initiate the array set to the max size
-            this.uniqueArray = new int[max + 1];
+            this.uniqueArray = new int[uniqueArraySize];
             // Get ordered number set
-            for (int x = 0; x <= max; x++) {
+            for (int x = 0; x < uniqueArraySize; x++) {
                 uniqueArray[x] = x;
             }
             // Shuffle the set
-            for (int x = 0; x <= max; x++) {
+            for (int x = 0; x < uniqueArraySize; x++) {
                 // Get random numbers between 0 and max
                 // 0 is inclusive, but max is exclusive, so add 1)
-                int r = rand.nextInt(max + 1);
+                int r = rand.nextInt(uniqueArraySize);
                 int temp = uniqueArray[x];
                 uniqueArray[x] = uniqueArray[r];
                 uniqueArray[r] = temp;
             }
         } else {
-            throw new IllegalArgumentException("Ensure the max value is greater than 1.");
+            throw new IllegalArgumentException("The RandomNumbers() max parameter must be be equal to or greater than 1.");
         }
     }
 
@@ -184,5 +147,41 @@ public final class RandomNumbers {
         } else {
             throw new IllegalArgumentException("Ensure both arguments are positive and that the index is less than or equal to the max value.");
         }
+    }
+
+    /**
+     * Index location for key value getter
+     *
+     * @return the location of a key value in the array
+     */
+    public final int getIndexLocation() {
+        return indexLocation;
+    }
+
+    /**
+     * Unique array getter
+     *
+     * @return an integer array of unique numbers in random order
+     */
+    public final int[] getUniqueArray() {
+        return Arrays.copyOf(uniqueArray, uniqueArray.length);
+    }
+
+    /**
+     * Index location for key value setter
+     *
+     * @param indexLocation the location of a key value in the array
+     */
+    public final void setIndexLocation(int indexLocation) {
+        this.indexLocation = indexLocation;
+    }
+
+    /**
+     * Unique array setter
+     *
+     * @param uniqueArray an integer array of unique numbers in random order
+     */
+    public final void setUniqueArray(int[] uniqueArray) {
+        this.uniqueArray = Arrays.copyOf(uniqueArray, uniqueArray.length);
     }
 }

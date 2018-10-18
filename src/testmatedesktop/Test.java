@@ -123,7 +123,7 @@ public final class Test {
                 }
             }
             if (questionOrder == Constants.QuestionOrder.RANDOM) {
-                RandomNumbers qoArray = new RandomNumbers(testQuestions.size() - 1);
+                RandomNumbers qoArray = new RandomNumbers(testQuestions.size());
                 for (int x = 0; x < testQuestions.size(); x++) {
                     TestQuestion temp = testQuestions.get(x);
                     testQuestions.set(x, testQuestions.get(qoArray.getUniqueArray()[x]));
