@@ -172,8 +172,8 @@ public final class TestQuestion {
      * question; must be less than six
      */
     private void setNumberOfChoices(int numberOfChoices) {
-        if (numberOfChoices <= 0) {
-            throw new IllegalArgumentException("The number of choices cannot be null or zero.");
+        if (numberOfChoices < 0) {
+            throw new IllegalArgumentException("The number of choices cannot be less than zero.");
         }
         if (numberOfChoices > 6) {
             throw new IllegalArgumentException("The number of multiple choice answers cannot be greater than six.");

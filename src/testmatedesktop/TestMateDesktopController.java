@@ -155,10 +155,11 @@ public class TestMateDesktopController implements Initializable {
             }
         }
     }
-    
+
     public void administerTest(String testName) throws IOException {
         takingTest = true;
         nextButton.setDisable(false);
+        count = 0;
         int correctAnswerCount = 0;
         startTimer(System.nanoTime());
         Test test = new Test();
@@ -169,10 +170,10 @@ public class TestMateDesktopController implements Initializable {
         questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
         nextButton.setOnAction((ActionEvent e) -> {
             Toggle toggle = choiceGroup.getSelectedToggle();
-            if(toggle != null) {
-                int userChoice = (int)toggle.getUserData();
+            if (toggle != null) {
+                int userChoice = (int) toggle.getUserData();
                 boolean result = (userChoice == testQuestion.get(count).getCorrectAnswerIndex());
-                if(settings.getProvideFeedbackSetting() == ProvideFeedback.YES) {
+                if (settings.getProvideFeedbackSetting() == ProvideFeedback.YES) {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Feedback");
                     alert.setHeaderText(result ? "Correct!" : "Sorry!");
@@ -187,8 +188,7 @@ public class TestMateDesktopController implements Initializable {
                     nextButton.setDisable(true);
                     count = 0;
                 }
-            }
-            else {
+            } else {
                 (new Alert(AlertType.INFORMATION, ("Nothing selected!"), ButtonType.OK)).showAndWait();
             }
         });
@@ -226,7 +226,7 @@ public class TestMateDesktopController implements Initializable {
             choiceBox.getChildren().add(rb);
         }
     }
-    
+
     @FXML
     void menuOnTop() {
         Stage stage = (Stage) ap.getScene().getWindow();
@@ -237,7 +237,7 @@ public class TestMateDesktopController implements Initializable {
     void menuHideClock() {
         testTimeLabel.setVisible(hideClockMenuItem.isSelected());
     }
-    
+
     @FXML
     void menuTermDisplay() {
         if (restartTest()) {
@@ -245,43 +245,7 @@ public class TestMateDesktopController implements Initializable {
             settings.setTermDisplaySetting(td);
             try {
                 settings.saveSettingsToFile();
-                if(takingTest) {
-                    count = 0;
-                    timeline.stop();
-                }
-                administerTest(testName);
-            } catch (IOException ex) {
-                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
-                exit(0);
-            }
-        }
-    }
-    
-    @FXML
-    void menuProvideFeedback() {
-        if (restartTest()) {
-            settings.setProvideFeedbackSetting(provideFeedbackMenuItem.isSelected() ? ProvideFeedback.YES : ProvideFeedback.NO);
-            try {
-                settings.saveSettingsToFile();
-                if(takingTest) {
-                    count = 0;
-                    timeline.stop();
-                }
-                administerTest(testName);
-            } catch (IOException ex) {
-                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
-                exit(0);
-            }
-        }
-    }
-    
-    @FXML
-    void menuQuestionOrder() {
-        if (restartTest()) {
-            settings.setQuestionOrderSetting(questionOrderMenuItem.isSelected() ? QuestionOrder.RANDOM : QuestionOrder.DEFAULT);
-            try {
-                settings.saveSettingsToFile();
-                if(takingTest) {
+                if (takingTest) {
                     count = 0;
                     timeline.stop();
                 }
@@ -293,21 +257,56 @@ public class TestMateDesktopController implements Initializable {
         }
     }
 
-    
+    @FXML
+    void menuProvideFeedback() {
+        if (restartTest()) {
+            settings.setProvideFeedbackSetting(provideFeedbackMenuItem.isSelected() ? ProvideFeedback.YES : ProvideFeedback.NO);
+            try {
+                settings.saveSettingsToFile();
+                if (takingTest) {
+                    count = 0;
+                    timeline.stop();
+                }
+                administerTest(testName);
+            } catch (IOException ex) {
+                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                exit(0);
+            }
+        }
+    }
+
+    @FXML
+    void menuQuestionOrder() {
+        if (restartTest()) {
+            settings.setQuestionOrderSetting(questionOrderMenuItem.isSelected() ? QuestionOrder.RANDOM : QuestionOrder.DEFAULT);
+            try {
+                settings.saveSettingsToFile();
+                if (takingTest) {
+                    count = 0;
+                    timeline.stop();
+                }
+                administerTest(testName);
+            } catch (IOException ex) {
+                errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
+                exit(0);
+            }
+        }
+    }
+
     @FXML
     void menuHelp() {
         // "TestMateHelp.html"
     }
-    
+
     @FXML
     void menuAbout() {
-        Alert aboutAlert = new Alert(AlertType.INFORMATION, ("Copyright 1993-" + Calendar.getInstance().get(Calendar.YEAR) + " Robert Garcia\n\n" + 
-                "Test Mate is a mobile self-study system, designed to assist you in achieving your educational and professional goals by allowing you to study what you want, when and where you want.\n\n" + 
-                "Why study alone?"), ButtonType.OK);
+        Alert aboutAlert = new Alert(AlertType.INFORMATION, ("Copyright 1993-" + Calendar.getInstance().get(Calendar.YEAR) + " Robert Garcia\n\n"
+                + "Test Mate is a mobile self-study system, designed to assist you in achieving your educational and professional goals by allowing you to study what you want, when and where you want.\n\n"
+                + "Why study alone?"), ButtonType.OK);
         aboutAlert.setTitle("Test Mate!");
         aboutAlert.setHeaderText("Test Mate!");
         aboutAlert.setGraphic(new ImageView("file:tmicon48a.png"));
-        Stage stage = (Stage)aboutAlert.getDialogPane().getScene().getWindow();
+        Stage stage = (Stage) aboutAlert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("file:tmicon48a.png"));
         aboutAlert.showAndWait();
     }
@@ -315,7 +314,7 @@ public class TestMateDesktopController implements Initializable {
     public void errorMessage(String errorMessage) {
         new Alert(AlertType.ERROR, ("Oops! Something went wrong!\n\n" + errorMessage + "\n\nWe've been notified and will start fixing the problem right away!"), ButtonType.OK).showAndWait();
     }
-    
+
     void startTimer(long startTime) {
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override

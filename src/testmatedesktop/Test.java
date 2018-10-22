@@ -106,7 +106,7 @@ public final class Test {
                     case M:
                         MultipleChoice mc = (MultipleChoice) testData.get(x);
                         ArrayList<String> mcTempChoices = new ArrayList<>();
-                        rn = new RandomNumbers(3, 0, 3);
+                        rn = new RandomNumbers(mc.getMCNumberOfChoices(), 0, mc.getMCNumberOfChoices());
                         for (int i = 0; i <= mc.getMCNumberOfChoices(); i++) {
                             mcTempChoices.add(mc.getMCChoices().get(rn.getUniqueArray()[i]));
                         }
@@ -196,17 +196,19 @@ public final class Test {
         }
         return testData;
     }
-    
+
     /**
      * Test title getter
+     *
      * @return the Test Title
      */
     public String getTestTitle() {
         return this.testTitle;
     }
-    
+
     /**
      * Test title setter
+     *
      * @param testTitle the test title
      */
     public void setTestTitle(String testTitle) {
