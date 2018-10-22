@@ -75,8 +75,9 @@ public final class Test {
                 switch (qt) {
                     case K:
                         KeyTerm kt = (KeyTerm) testData.get(x);
+                        int ktNumberOfChoices = ((ktIndex.size() - 1) < 3 ? (ktIndex.size() - 1) : 3);
                         ArrayList<String> ktTempChoices = new ArrayList<>();
-                        rn = new RandomNumbers((ktIndex.size() - 1), ktCount, (ktCount < 3 ? ktCount : 3));
+                        rn = new RandomNumbers((ktIndex.size() - 1), ktCount, ktNumberOfChoices);
                         boolean displayTermAsQuestion = true;
                         switch (termDisplay) {
                             case DEFISQUESTION:
@@ -90,15 +91,15 @@ public final class Test {
                                 break;
                         }
                         if (displayTermAsQuestion) {
-                            for (int y = 0; y <= (ktCount < 3 ? ktCount : 3); y++) {
+                            for (int y = 0; y <= ktNumberOfChoices; y++) {
                                 ktTempChoices.add(((KeyTerm) testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKTDefinition());
                             }
-                            testQuestions.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                            testQuestions.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), ktNumberOfChoices, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
                         } else {
-                            for (int y = 0; y <= (ktCount < 3 ? ktCount : 3); y++) {
+                            for (int y = 0; y <= ktNumberOfChoices; y++) {
                                 ktTempChoices.add(((KeyTerm) testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKeyTerm());
                             }
-                            testQuestions.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), 3, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                            testQuestions.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), ktNumberOfChoices, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
                         }
                         ktCount++;
                         break;

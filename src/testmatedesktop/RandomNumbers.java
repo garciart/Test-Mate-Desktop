@@ -131,7 +131,7 @@ public final class RandomNumbers {
             // Reshuffle the first four numbers, [0] to [3]. The index number at [0] will be in the new set
             for (int x = 0; x <= uniqueArraySize; x++) {
                 // Remember, 4 is exclusive
-                int r = rand.nextInt(uniqueArraySize);
+                int r = (x == 0 ? 0 : rand.nextInt(uniqueArraySize));
                 int temp = tempArray[x];
                 tempArray[x] = tempArray[r];
                 tempArray[r] = temp;
