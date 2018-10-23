@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -316,15 +315,12 @@ public class TestMateDesktopController implements Initializable {
     }
 
     void startTimer(long startTime) {
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                long elapsedTime = System.nanoTime() - startTime;
-                testTimeLabel.setText(String.format("%02d:%02d:%02d",
-                        TimeUnit.NANOSECONDS.toHours(elapsedTime),
-                        TimeUnit.NANOSECONDS.toMinutes(elapsedTime),
-                        TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
-            }
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), (ActionEvent t) -> {
+            long elapsedTime = System.nanoTime() - startTime;
+            testTimeLabel.setText(String.format("%02d:%02d:%02d",
+                    TimeUnit.NANOSECONDS.toHours(elapsedTime),
+                    TimeUnit.NANOSECONDS.toMinutes(elapsedTime),
+                    TimeUnit.NANOSECONDS.toSeconds(elapsedTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(elapsedTime))));
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();

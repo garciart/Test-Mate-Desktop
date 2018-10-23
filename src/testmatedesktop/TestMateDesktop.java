@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -52,12 +51,8 @@ public class TestMateDesktop extends Application {
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("file:tmicon48a.png"));
         primaryStage.show();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent we) {
-                System.out.println("From the main...");
-                exitTestMate(we);
-            }
+        primaryStage.setOnCloseRequest((WindowEvent we) -> {
+            exitTestMate(we);
         });
     }
 

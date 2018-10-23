@@ -39,7 +39,7 @@ public class RandomNumbersTest {
      * Input: Integer.MIN_VALUE
      * Expected result: Throw IllegalArgumentException
      */
-    public void testRandomNumbersLowerBound() {
+    public void testRandomNumbersConstructor1LowerBound() {
         try {
             RandomNumbers rn = new RandomNumbers(Integer.MIN_VALUE);
             fail("RandomNumbers() should have thrown an exception when the max parameter is not equal to or greater than 1.");
@@ -56,7 +56,7 @@ public class RandomNumbersTest {
      * Input: 0
      * Expected result: Throw IllegalArgumentException
      */
-    public void testRandomNumbersZero() {
+    public void testRandomNumbersConstructor1Zero() {
         try {
             RandomNumbers rn = new RandomNumbers(0);
             fail("RandomNumbers() should have thrown an exception when the max parameter is not equal to or greater than 1.");
@@ -73,7 +73,7 @@ public class RandomNumbersTest {
      * Input: 5
      * Expected result: 5
      */
-    public void testRandomNumbersValidParameter() {
+    public void testRandomNumbersConstructor1ValidParameter() {
         try {
             RandomNumbers rn = new RandomNumbers(5);
             Class<? extends RandomNumbers> rnClass = rn.getClass();
@@ -102,7 +102,7 @@ public class RandomNumbersTest {
      * Input: 5
      * Expected result: Pass
      */
-    public void testRandomNumbersCheckValues() {
+    public void testRandomNumbersConstructor1CheckValues() {
         try {
             RandomNumbers rn = new RandomNumbers(5);
             Class<? extends RandomNumbers> rnClass = rn.getClass();
@@ -130,5 +130,22 @@ public class RandomNumbersTest {
         catch (NoSuchFieldException ex) {
             fail("Code issue: RandomNumbers class missing expected attribute uniqueArray.");
         }
-    }    
+    }
+    
+    @Test
+    /**
+     * Method tested: public RandomNumbers(int max, int index, int uniqueArraySize)
+     * Short description: Tests that the constructor throws an IllegalArgumentException if the input is MIN_VALUE.
+     * Input: Integer.MIN_VALUE
+     * Expected result: Throw IllegalArgumentException
+     */
+    public void testRandomNumbersConstructor2LowerBound() {
+        try {
+            RandomNumbers rn = new RandomNumbers(Integer.MIN_VALUE, 0, 0);
+            fail("RandomNumbers() should have thrown an exception when the max parameter is not equal to or greater than 1.");
+        }
+        catch (IllegalArgumentException ex) {
+            assertEquals("The RandomNumbers() max parameter must be be equal to or greater than 1.", ex.getLocalizedMessage());
+        }
+    }
 }
