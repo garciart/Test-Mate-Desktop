@@ -39,6 +39,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -65,7 +66,7 @@ import testmatedesktop.Constants.*;
  */
 public class TestMateDesktopController implements Initializable {
 
-    public boolean takingTest = false;
+    private boolean takingTest = false;
     private int count = 0;
     private final Settings settings = new Settings();
     private String testName;
@@ -136,7 +137,7 @@ public class TestMateDesktopController implements Initializable {
     }
 
     public void startNewTest() throws IOException {
-        if (restartTest()) {
+        if (confirmRestart()) {
             try {
                 Stage stage = (Stage) ap.getScene().getWindow();
                 FileChooser chooser = new FileChooser();
@@ -147,6 +148,9 @@ public class TestMateDesktopController implements Initializable {
                 File file = chooser.showOpenDialog(stage);
                 if (file != null) {
                     testName = file.toString();
+                    if (takingTest) {
+                        restartTest();
+                    }
                     administerTest(testName);
                 }
             } catch (IOException ex) {
@@ -155,7 +159,7 @@ public class TestMateDesktopController implements Initializable {
         }
     }
 
-    public void administerTest(String testName) throws IOException {
+    void administerTest(String testName) throws IOException {
         takingTest = true;
         nextButton.setDisable(false);
         count = 0;
@@ -184,8 +188,7 @@ public class TestMateDesktopController implements Initializable {
                     questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
                     displayQuestion(count, testQuestion.get(count));
                 } else {
-                    nextButton.setDisable(true);
-                    count = 0;
+                    finishTest();
                 }
             } else {
                 (new Alert(AlertType.INFORMATION, ("Nothing selected!"), ButtonType.OK)).showAndWait();
@@ -195,7 +198,7 @@ public class TestMateDesktopController implements Initializable {
     }
 
     @FXML
-    public boolean restartTest() {
+    boolean confirmRestart() {
         if (takingTest) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will end your current test.\nDo you wish to continue?");
             Optional<ButtonType> result = alert.showAndWait();
@@ -206,7 +209,7 @@ public class TestMateDesktopController implements Initializable {
     }
 
     @FXML
-    public void menuExit() {
+    void menuExit() {
         Stage stage = (Stage) ap.getScene().getWindow();
         stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
@@ -239,14 +242,13 @@ public class TestMateDesktopController implements Initializable {
 
     @FXML
     void menuTermDisplay() {
-        if (restartTest()) {
+        if (confirmRestart()) {
             TermDisplay td = TermDisplay.values()[keyTermDisplay.getToggles().indexOf(keyTermDisplay.getSelectedToggle())];
             settings.setTermDisplaySetting(td);
             try {
                 settings.saveSettingsToFile();
                 if (takingTest) {
-                    count = 0;
-                    timeline.stop();
+                    restartTest();
                 }
                 administerTest(testName);
             } catch (IOException ex) {
@@ -258,13 +260,12 @@ public class TestMateDesktopController implements Initializable {
 
     @FXML
     void menuProvideFeedback() {
-        if (restartTest()) {
+        if (confirmRestart()) {
             settings.setProvideFeedbackSetting(provideFeedbackMenuItem.isSelected() ? ProvideFeedback.YES : ProvideFeedback.NO);
             try {
                 settings.saveSettingsToFile();
                 if (takingTest) {
-                    count = 0;
-                    timeline.stop();
+                    restartTest();
                 }
                 administerTest(testName);
             } catch (IOException ex) {
@@ -276,13 +277,12 @@ public class TestMateDesktopController implements Initializable {
 
     @FXML
     void menuQuestionOrder() {
-        if (restartTest()) {
+        if (confirmRestart()) {
             settings.setQuestionOrderSetting(questionOrderMenuItem.isSelected() ? QuestionOrder.RANDOM : QuestionOrder.DEFAULT);
             try {
                 settings.saveSettingsToFile();
                 if (takingTest) {
-                    count = 0;
-                    timeline.stop();
+                    restartTest();
                 }
                 administerTest(testName);
             } catch (IOException ex) {
@@ -324,5 +324,20 @@ public class TestMateDesktopController implements Initializable {
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+    }
+    
+    void restartTest() {
+        count = 0;
+        timeline.stop();
+    }
+    
+    void finishTest() {
+        nextButton.setDisable(true);
+        count = 0;
+        choiceGroup.getToggles().forEach(toggle -> {
+            Node node = (Node) toggle ;
+            node.setDisable(true);
+        });
+        timeline.stop();
     }
 }

@@ -142,10 +142,37 @@ public class RandomNumbersTest {
     public void testRandomNumbersConstructor2LowerBound() {
         try {
             RandomNumbers rn = new RandomNumbers(Integer.MIN_VALUE, 0, 0);
-            fail("RandomNumbers() should have thrown an exception when the max parameter is not equal to or greater than 1.");
+            fail("RandomNumbers() should have thrown an exception when the max parameter is less than 0.");
         }
         catch (IllegalArgumentException ex) {
-            assertEquals("The RandomNumbers() max parameter must be be equal to or greater than 1.", ex.getLocalizedMessage());
+            assertEquals("Ensure all arguments are greater than 0 and that the index is less than or equal to the max value.", ex.getLocalizedMessage());
+        }
+    }
+    
+    @Test
+    /**
+     * Method tested: public RandomNumbers(int max, int index, int uniqueArraySize)
+     * Short description: Tests that the constructor creates an array the size of the parameter.
+     * Input: Integer.MIN_VALUE
+     * Expected result: Throw IllegalArgumentException
+     */
+    public void testRandomNumbersConstructor2ValidUniqueArraySize() {
+        try {
+            RandomNumbers rn = new RandomNumbers(5, 0, 5);
+            Class<? extends RandomNumbers> rnClass = rn.getClass();
+            Field f1;
+            f1 = rnClass.getDeclaredField("uniqueArray");
+            f1.setAccessible(true);
+            int[] uniqueArray = (int[]) f1.get(rn);
+            assertEquals(6, uniqueArray.length);
+        } catch (NoSuchFieldException ex) {
+            fail("Code issue: RandomNumbers class missing expected attribute uniqueArray.");
+        } catch (SecurityException ex) {
+            fail("Test issue: Access denied to the fields in the class.");
+        } catch (IllegalArgumentException ex) {
+            fail("Test issue: The RandomNumbers() max parameter must be be equal to or greater than 1.");
+        } catch (IllegalAccessException ex) {
+            fail("Test issue: Field object is enforcing Java language access control and the underlying field is inaccessible.");
         }
     }
 }

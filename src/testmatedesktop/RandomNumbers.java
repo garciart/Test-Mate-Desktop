@@ -145,7 +145,7 @@ public final class RandomNumbers {
                 this.uniqueArray[x] = tempArray[x];
             }
         } else {
-            throw new IllegalArgumentException("Ensure both arguments are positive and that the index is less than or equal to the max value.");
+            throw new IllegalArgumentException("Ensure all arguments are greater than 0 and that the index is less than or equal to the max value.");
         }
     }
 

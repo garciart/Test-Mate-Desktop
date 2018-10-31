@@ -136,6 +136,10 @@ public final class Settings {
             if ((line = bufferedReader.readLine()) != null && !line.isEmpty()) {
                 setProvideFeedbackSetting(ProvideFeedback.valueOf(line));
             }
+        } catch (FileNotFoundException ex) {
+            throw new FileNotFoundException("Cannot find settings file: " + ex.toString());
+        } catch (IOException ex) {
+            throw new IOException("Unable to update settings file: " + ex.toString());
         }
     }
 
@@ -152,7 +156,7 @@ public final class Settings {
             bw.newLine();
             bw.write(getProvideFeedbackSetting().toString());
         } catch (IOException ex) {
-            throw new IOException("Unable to update file! " + ex.toString());
+            throw new IOException("Unable to update settings file: " + ex.toString());
         }
     }
 }

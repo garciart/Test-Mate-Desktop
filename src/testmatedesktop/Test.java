@@ -60,79 +60,75 @@ public final class Test {
      */
     public ArrayList<TestQuestion> getTest(String testFileName, Constants.QuestionOrder questionOrder, Constants.TermDisplay termDisplay) throws IOException {
         ArrayList<TestQuestion> testQuestions = new ArrayList<>();
-        try {
-            ArrayList<TestData> testData = readFile(testFileName);
-            ArrayList<Integer> ktIndex = new ArrayList<>();
-            for (int x = 0; x < testData.size(); x++) {
-                if (testData.get(x).getQuestionType() == Constants.QuestionType.K) {
-                    ktIndex.add(x);
-                }
+        ArrayList<TestData> testData = readFile(testFileName);
+        ArrayList<Integer> ktIndex = new ArrayList<>();
+        for (int x = 0; x < testData.size(); x++) {
+            if (testData.get(x).getQuestionType() == Constants.QuestionType.K) {
+                ktIndex.add(x);
             }
-            int ktCount = 0;
-            for (int x = 0; x < testData.size(); x++) {
-                Constants.QuestionType qt = testData.get(x).getQuestionType();
-                RandomNumbers rn;
-                switch (qt) {
-                    case K:
-                        KeyTerm kt = (KeyTerm) testData.get(x);
-                        int ktNumberOfChoices = ((ktIndex.size() - 1) < 3 ? (ktIndex.size() - 1) : 3);
-                        ArrayList<String> ktTempChoices = new ArrayList<>();
-                        rn = new RandomNumbers((ktIndex.size() - 1), ktCount, ktNumberOfChoices);
-                        boolean displayTermAsQuestion = true;
-                        switch (termDisplay) {
-                            case DEFISQUESTION:
-                                displayTermAsQuestion = false;
-                                break;
-                            case MIXEDQUESTION:
-                                displayTermAsQuestion = RANDOM.nextBoolean();
-                                break;
-                            case TERMISQUESTION:
-                            default:
-                                break;
+        }
+        int ktCount = 0;
+        for (int x = 0; x < testData.size(); x++) {
+            Constants.QuestionType qt = testData.get(x).getQuestionType();
+            RandomNumbers rn;
+            switch (qt) {
+                case K:
+                    KeyTerm kt = (KeyTerm) testData.get(x);
+                    int ktNumberOfChoices = ((ktIndex.size() - 1) < 3 ? (ktIndex.size() - 1) : 3);
+                    ArrayList<String> ktTempChoices = new ArrayList<>();
+                    rn = new RandomNumbers((ktIndex.size() - 1), ktCount, ktNumberOfChoices);
+                    boolean displayTermAsQuestion = true;
+                    switch (termDisplay) {
+                        case DEFISQUESTION:
+                            displayTermAsQuestion = false;
+                            break;
+                        case MIXEDQUESTION:
+                            displayTermAsQuestion = RANDOM.nextBoolean();
+                            break;
+                        case TERMISQUESTION:
+                        default:
+                            break;
+                    }
+                    if (displayTermAsQuestion) {
+                        for (int y = 0; y <= ktNumberOfChoices; y++) {
+                            ktTempChoices.add(((KeyTerm) testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKTDefinition());
                         }
-                        if (displayTermAsQuestion) {
-                            for (int y = 0; y <= ktNumberOfChoices; y++) {
-                                ktTempChoices.add(((KeyTerm) testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKTDefinition());
-                            }
-                            testQuestions.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), ktNumberOfChoices, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
-                        } else {
-                            for (int y = 0; y <= ktNumberOfChoices; y++) {
-                                ktTempChoices.add(((KeyTerm) testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKeyTerm());
-                            }
-                            testQuestions.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), ktNumberOfChoices, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                        testQuestions.add(new TestQuestion(qt, kt.getKeyTerm(), kt.getMediaType(), kt.getMediaFileName(), ktNumberOfChoices, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                    } else {
+                        for (int y = 0; y <= ktNumberOfChoices; y++) {
+                            ktTempChoices.add(((KeyTerm) testData.get(ktIndex.get(rn.getUniqueArray()[y]))).getKeyTerm());
                         }
-                        ktCount++;
-                        break;
-                    case M:
-                        MultipleChoice mc = (MultipleChoice) testData.get(x);
-                        ArrayList<String> mcTempChoices = new ArrayList<>();
-                        rn = new RandomNumbers(mc.getMCNumberOfChoices(), 0, mc.getMCNumberOfChoices());
-                        for (int i = 0; i <= mc.getMCNumberOfChoices(); i++) {
-                            mcTempChoices.add(mc.getMCChoices().get(rn.getUniqueArray()[i]));
-                        }
-                        testQuestions.add(new TestQuestion(qt, mc.getMCQuestion(), mc.getMediaType(), mc.getMediaFileName(), mc.getMCNumberOfChoices(), mcTempChoices, rn.getIndexLocation(), mc.getExplanation()));
-                        break;
-                    case T:
-                        TrueFalse tf = (TrueFalse) testData.get(x);
-                        ArrayList<String> tfTempChoices = new ArrayList<>();
-                        tfTempChoices.add("true");
-                        tfTempChoices.add("false");
-                        testQuestions.add(new TestQuestion(qt, tf.getTFQuestion(), tf.getMediaType(), tf.getMediaFileName(), 1, tfTempChoices, (tf.getTFAnswer() ? 0 : 1), tf.getExplanation()));
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Corrupt data. Check structure and values.");
-                }
+                        testQuestions.add(new TestQuestion(qt, kt.getKTDefinition(), kt.getMediaType(), kt.getMediaFileName(), ktNumberOfChoices, ktTempChoices, rn.getIndexLocation(), kt.getExplanation()));
+                    }
+                    ktCount++;
+                    break;
+                case M:
+                    MultipleChoice mc = (MultipleChoice) testData.get(x);
+                    ArrayList<String> mcTempChoices = new ArrayList<>();
+                    rn = new RandomNumbers(mc.getMCNumberOfChoices(), 0, mc.getMCNumberOfChoices());
+                    for (int i = 0; i <= mc.getMCNumberOfChoices(); i++) {
+                        mcTempChoices.add(mc.getMCChoices().get(rn.getUniqueArray()[i]));
+                    }
+                    testQuestions.add(new TestQuestion(qt, mc.getMCQuestion(), mc.getMediaType(), mc.getMediaFileName(), mc.getMCNumberOfChoices(), mcTempChoices, rn.getIndexLocation(), mc.getExplanation()));
+                    break;
+                case T:
+                    TrueFalse tf = (TrueFalse) testData.get(x);
+                    ArrayList<String> tfTempChoices = new ArrayList<>();
+                    tfTempChoices.add("true");
+                    tfTempChoices.add("false");
+                    testQuestions.add(new TestQuestion(qt, tf.getTFQuestion(), tf.getMediaType(), tf.getMediaFileName(), 1, tfTempChoices, (tf.getTFAnswer() ? 0 : 1), tf.getExplanation()));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Corrupt data. Check structure and values.");
             }
-            if (questionOrder == Constants.QuestionOrder.RANDOM) {
-                RandomNumbers qoArray = new RandomNumbers(testQuestions.size());
-                for (int x = 0; x < testQuestions.size(); x++) {
-                    TestQuestion temp = testQuestions.get(x);
-                    testQuestions.set(x, testQuestions.get(qoArray.getUniqueArray()[x]));
-                    testQuestions.set(qoArray.getUniqueArray()[x], temp);
-                }
+        }
+        if (questionOrder == Constants.QuestionOrder.RANDOM) {
+            RandomNumbers qoArray = new RandomNumbers(testQuestions.size());
+            for (int x = 0; x < testQuestions.size(); x++) {
+                TestQuestion temp = testQuestions.get(x);
+                testQuestions.set(x, testQuestions.get(qoArray.getUniqueArray()[x]));
+                testQuestions.set(qoArray.getUniqueArray()[x], temp);
             }
-        } catch (IOException | IllegalArgumentException ex) {
-            System.out.println("Error: " + ex.toString());
         }
         return testQuestions;
     }
@@ -193,7 +189,12 @@ public final class Test {
                     throw new IllegalArgumentException("Corrupt data file. Check structure and values.");
                 }
             }
+        } catch (FileNotFoundException ex) {
+            throw new FileNotFoundException("Cannot find test file: " + ex.toString());
+        } catch (IOException ex) {
+            throw new IOException("Cannot open test file: " + ex.toString());
         }
+        
         return testData;
     }
 
