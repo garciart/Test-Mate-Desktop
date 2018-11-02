@@ -24,6 +24,8 @@
 package testmatedesktop;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import static java.lang.System.exit;
 import java.net.URL;
@@ -33,13 +35,19 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -55,7 +63,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import testmatedesktop.Constants.*;
@@ -162,6 +176,8 @@ public class TestMateDesktopController implements Initializable {
     void administerTest(String testName) throws IOException {
         takingTest = true;
         nextButton.setDisable(false);
+        reviewButton.setDisable(false);
+        mediaButton.setDisable(false);
         count = 0;
         int correctAnswerCount = 0;
         startTimer(System.nanoTime());
@@ -194,7 +210,44 @@ public class TestMateDesktopController implements Initializable {
                 (new Alert(AlertType.INFORMATION, ("Nothing selected!"), ButtonType.OK)).showAndWait();
             }
         });
-        // System.out.println();
+        reviewButton.setOnAction((ActionEvent e) -> {
+            if (count > 0) {
+                count--;
+                questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
+                displayQuestion(count, testQuestion.get(count));
+            }
+        });
+        mediaButton.setOnAction((ActionEvent e) -> {
+            // try {
+                final Stage mediaDialog = new Stage();
+                mediaDialog.initModality(Modality.WINDOW_MODAL);
+                mediaDialog.setMaxWidth(640.0);
+                mediaDialog.setMaxHeight(480.0);
+                Group root = new Group();
+                Scene mediaScene = new Scene(root);
+                Media media = new Media(new File("History.mp4").toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.setAutoPlay(true);
+                MediaView mediaView = new MediaView(mediaPlayer);
+                root.getChildren().add(mediaView);
+                /*
+                Image image = new Image(new FileInputStream("art.jpg"));
+                ImageView imageView = new ImageView(image);
+                root.getChildren().add(imageView);
+                */
+                /*
+                Button closeButton = new Button("Close");
+                closeButton.setOnAction((ActionEvent e1) -> {
+                    mediaDialog.close();
+                });
+                root.getChildren().add(closeButton);
+                */
+                mediaDialog.setScene(mediaScene);
+                mediaDialog.show();
+            //} catch (FileNotFoundException ex) {
+            //    errorMessage(ex.toString());
+            //}
+        });
     }
 
     @FXML
@@ -325,17 +378,18 @@ public class TestMateDesktopController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-    
+
     void restartTest() {
         count = 0;
         timeline.stop();
     }
-    
+
     void finishTest() {
         nextButton.setDisable(true);
+        reviewButton.setDisable(true);
         count = 0;
         choiceGroup.getToggles().forEach(toggle -> {
-            Node node = (Node) toggle ;
+            Node node = (Node) toggle;
             node.setDisable(true);
         });
         timeline.stop();
