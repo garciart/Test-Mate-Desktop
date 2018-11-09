@@ -24,8 +24,6 @@
 package testmatedesktop;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import static java.lang.System.exit;
 import java.net.URL;
@@ -35,15 +33,11 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -63,11 +57,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -177,7 +169,6 @@ public class TestMateDesktopController implements Initializable {
         takingTest = true;
         nextButton.setDisable(false);
         reviewButton.setDisable(false);
-        mediaButton.setDisable(false);
         count = 0;
         int correctAnswerCount = 0;
         startTimer(System.nanoTime());
@@ -187,6 +178,7 @@ public class TestMateDesktopController implements Initializable {
         String userResults[][] = new String[testQuestion.size()][3];
         displayQuestion(count, testQuestion.get(count));
         questionNumberLabel.setText((count + 1) + " of " + testQuestion.size());
+
         nextButton.setOnAction((ActionEvent e) -> {
             Toggle toggle = choiceGroup.getSelectedToggle();
             if (toggle != null) {
@@ -225,7 +217,9 @@ public class TestMateDesktopController implements Initializable {
                 mediaDialog.setMaxHeight(480.0);
                 Group root = new Group();
                 Scene mediaScene = new Scene(root);
-                Media media = new Media(new File("History.mp4").toURI().toString());
+                // Media media = new Media(new File("History.mp4").toURI().toString());
+                File mediaFile = new File(testQuestion.get(count).getMediaFileName());
+                Media media = new Media(mediaFile.toURI().toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
                 mediaPlayer.setAutoPlay(true);
                 MediaView mediaView = new MediaView(mediaPlayer);
@@ -271,6 +265,8 @@ public class TestMateDesktopController implements Initializable {
         questionLabel.setText(tq.getQuestion());
         choiceBox.getChildren().clear();
         choiceGroup.getToggles().clear();
+        boolean b = (tq.getMediaType() == MediaType.N);
+        mediaButton.setDisable(b);
         for (int y = 0; y <= tq.getNumberOfChoices(); y++) {
             RadioButton rb = new RadioButton(tq.getChoices().get(y));
             rb.setToggleGroup(choiceGroup);

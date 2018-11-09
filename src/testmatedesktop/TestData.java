@@ -159,6 +159,7 @@ public abstract class TestData {
                     throw new IllegalArgumentException("Unsupported media type.");
                 }
             }
+            setMediaType(mediaType);
             setMediaFileName(mediaFileName);
         }
     }
