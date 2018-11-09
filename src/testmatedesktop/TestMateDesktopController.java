@@ -24,6 +24,8 @@
 package testmatedesktop;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import static java.lang.System.exit;
 import java.net.URL;
@@ -33,6 +35,8 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -213,23 +217,32 @@ public class TestMateDesktopController implements Initializable {
             // try {
                 final Stage mediaDialog = new Stage();
                 mediaDialog.initModality(Modality.WINDOW_MODAL);
-                mediaDialog.setMaxWidth(640.0);
-                mediaDialog.setMaxHeight(480.0);
+                mediaDialog.setWidth(640.0);
+                mediaDialog.setHeight(480.0);
                 Group root = new Group();
                 Scene mediaScene = new Scene(root);
-                // Media media = new Media(new File("History.mp4").toURI().toString());
-                File mediaFile = new File(testQuestion.get(count).getMediaFileName());
-                Media media = new Media(mediaFile.toURI().toString());
-                MediaPlayer mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.setAutoPlay(true);
-                MediaView mediaView = new MediaView(mediaPlayer);
-                root.getChildren().add(mediaView);
+                if(testQuestion.get(count).getMediaType() == MediaType.V || testQuestion.get(count).getMediaType() == MediaType.V) {
+                    File mediaFile = new File(testQuestion.get(count).getMediaFileName());
+                    Media media = new Media(mediaFile.toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.setAutoPlay(true);
+                    MediaView mediaView = new MediaView(mediaPlayer);
+                    root.getChildren().add(mediaView);
+                }
+                else if(testQuestion.get(count).getMediaType() == MediaType.I) {
+                    File mediaFile = new File(testQuestion.get(count).getMediaFileName());
+                    String mediaString = mediaFile.toURI().toString();
+                    Image image = new Image(mediaString);
+                    ImageView imageView = new ImageView(image);
+                    root.getChildren().add(imageView);
+                }
+
                 /*
-                Image image = new Image(new FileInputStream("art.jpg"));
+                FileInputStream fis = new FileInputStream("art.jpg"));
+                Image image = new Image(fis);
                 ImageView imageView = new ImageView(image);
                 root.getChildren().add(imageView);
-                */
-                /*
+                
                 Button closeButton = new Button("Close");
                 closeButton.setOnAction((ActionEvent e1) -> {
                     mediaDialog.close();
