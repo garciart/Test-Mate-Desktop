@@ -40,6 +40,8 @@ import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -215,42 +217,59 @@ public class TestMateDesktopController implements Initializable {
         });
         mediaButton.setOnAction((ActionEvent e) -> {
             // try {
-                final Stage mediaDialog = new Stage();
-                mediaDialog.initModality(Modality.WINDOW_MODAL);
-                mediaDialog.setWidth(640.0);
-                mediaDialog.setHeight(480.0);
-                Group root = new Group();
-                Scene mediaScene = new Scene(root);
-                if(testQuestion.get(count).getMediaType() == MediaType.V || testQuestion.get(count).getMediaType() == MediaType.V) {
-                    File mediaFile = new File(testQuestion.get(count).getMediaFileName());
-                    Media media = new Media(mediaFile.toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(media);
-                    mediaPlayer.setAutoPlay(true);
-                    MediaView mediaView = new MediaView(mediaPlayer);
-                    root.getChildren().add(mediaView);
+            Stage mediaDialog = new Stage();
+            mediaDialog.setAlwaysOnTop(true);
+            mediaDialog.initModality(Modality.WINDOW_MODAL);
+            mediaDialog.setMaxWidth(640.0);
+            mediaDialog.setMaxHeight(480.0);
+            Group root = new Group();
+            Scene mediaScene = new Scene(root);
+            if (testQuestion.get(count).getMediaType() != null) {
+                MediaPlayer mediaPlayer = null;
+                switch (testQuestion.get(count).getMediaType()) {
+                    case A: {
+                        File audioFile = new File(testQuestion.get(count).getMediaFileName());
+                        Media audio = new Media(audioFile.toURI().toString());
+                        mediaPlayer = new MediaPlayer(audio);
+                        MediaView mediaView = new MediaView(mediaPlayer);
+                        root.getChildren().add(mediaView);
+                        File imageFile = new File(System.getProperty("user.dir") + "\\TMMedia.png");
+                        Image image = new Image(imageFile.toURI().toString());
+                        ImageView imageView = new ImageView(image);
+                        root.getChildren().add(imageView);
+                        break;
+                    }
+                    case I: {
+                        File imageFile = new File(testQuestion.get(count).getMediaFileName());
+                        Image image = new Image(imageFile.toURI().toString());
+                        ImageView imageView = new ImageView(image);
+                        root.getChildren().add(imageView);
+                        break;
+                    }
+                    case V: {
+                        File videoFile = new File(testQuestion.get(count).getMediaFileName());
+                        Media media = new Media(videoFile.toURI().toString());
+                        mediaPlayer = new MediaPlayer(media);
+                        MediaView mediaView = new MediaView(mediaPlayer);
+                        root.getChildren().add(mediaView);
+                        break;
+                    }
+                    default:
+                        break;
                 }
-                else if(testQuestion.get(count).getMediaType() == MediaType.I) {
-                    File mediaFile = new File(testQuestion.get(count).getMediaFileName());
-                    String mediaString = mediaFile.toURI().toString();
-                    Image image = new Image(mediaString);
-                    ImageView imageView = new ImageView(image);
-                    root.getChildren().add(imageView);
-                }
-
                 /*
-                FileInputStream fis = new FileInputStream("art.jpg"));
-                Image image = new Image(fis);
-                ImageView imageView = new ImageView(image);
-                root.getChildren().add(imageView);
-                
-                Button closeButton = new Button("Close");
-                closeButton.setOnAction((ActionEvent e1) -> {
-                    mediaDialog.close();
+                mediaDialog.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent t) {
+                        // mediaPlayer.stop();
+                    }
                 });
-                root.getChildren().add(closeButton);
                 */
+                mediaPlayer.setAutoPlay(true);
                 mediaDialog.setScene(mediaScene);
                 mediaDialog.show();
+
+            }
             //} catch (FileNotFoundException ex) {
             //    errorMessage(ex.toString());
             //}
@@ -311,8 +330,8 @@ public class TestMateDesktopController implements Initializable {
                 settings.saveSettingsToFile();
                 if (takingTest) {
                     restartTest();
+                    administerTest(testName);
                 }
-                administerTest(testName);
             } catch (IOException ex) {
                 errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
                 exit(0);
@@ -328,8 +347,8 @@ public class TestMateDesktopController implements Initializable {
                 settings.saveSettingsToFile();
                 if (takingTest) {
                     restartTest();
+                    administerTest(testName);
                 }
-                administerTest(testName);
             } catch (IOException ex) {
                 errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
                 exit(0);
@@ -345,8 +364,8 @@ public class TestMateDesktopController implements Initializable {
                 settings.saveSettingsToFile();
                 if (takingTest) {
                     restartTest();
+                    administerTest(testName);
                 }
-                administerTest(testName);
             } catch (IOException ex) {
                 errorMessage("Unable to reset settings file: " + ex.toString() + "\nExiting application...");
                 exit(0);
