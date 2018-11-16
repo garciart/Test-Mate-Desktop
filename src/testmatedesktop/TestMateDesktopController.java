@@ -219,24 +219,26 @@ public class TestMateDesktopController implements Initializable {
             // try {
             Stage mediaDialog = new Stage();
             mediaDialog.setAlwaysOnTop(true);
-            mediaDialog.initModality(Modality.WINDOW_MODAL);
+            mediaDialog.initModality(Modality.APPLICATION_MODAL);
             mediaDialog.setMaxWidth(640.0);
             mediaDialog.setMaxHeight(480.0);
             Group root = new Group();
             Scene mediaScene = new Scene(root);
             if (testQuestion.get(count).getMediaType() != null) {
-                MediaPlayer mediaPlayer = null;
                 switch (testQuestion.get(count).getMediaType()) {
                     case A: {
                         File audioFile = new File(testQuestion.get(count).getMediaFileName());
                         Media audio = new Media(audioFile.toURI().toString());
-                        mediaPlayer = new MediaPlayer(audio);
+                        MediaPlayer mediaPlayer = new MediaPlayer(audio);
+                        mediaPlayer.setAutoPlay(true);
                         MediaView mediaView = new MediaView(mediaPlayer);
                         root.getChildren().add(mediaView);
                         File imageFile = new File(System.getProperty("user.dir") + "\\TMMedia.png");
                         Image image = new Image(imageFile.toURI().toString());
                         ImageView imageView = new ImageView(image);
                         root.getChildren().add(imageView);
+                        mediaDialog.setScene(mediaScene);
+                        mediaDialog.show();
                         break;
                     }
                     case I: {
@@ -244,30 +246,37 @@ public class TestMateDesktopController implements Initializable {
                         Image image = new Image(imageFile.toURI().toString());
                         ImageView imageView = new ImageView(image);
                         root.getChildren().add(imageView);
+                        mediaDialog.setScene(mediaScene);
+                        mediaDialog.show();
                         break;
                     }
                     case V: {
                         File videoFile = new File(testQuestion.get(count).getMediaFileName());
                         Media media = new Media(videoFile.toURI().toString());
-                        mediaPlayer = new MediaPlayer(media);
-                        MediaView mediaView = new MediaView(mediaPlayer);
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.setAutoPlay(true);
+                        MediaView mediaView = new MediaView();
+                        mediaView.setMediaPlayer(mediaPlayer);
+                        mediaView.setPreserveRatio(true);
                         root.getChildren().add(mediaView);
+                        mediaDialog.setScene(mediaScene);
+                        mediaPlayer.play();
+                        mediaDialog.show();
                         break;
                     }
                     default:
                         break;
                 }
-                /*
+
+                
                 mediaDialog.setOnCloseRequest(new EventHandler<WindowEvent>() {
                     @Override
                     public void handle(WindowEvent t) {
                         // mediaPlayer.stop();
                     }
                 });
-                */
-                mediaPlayer.setAutoPlay(true);
-                mediaDialog.setScene(mediaScene);
-                mediaDialog.show();
+
+
 
             }
             //} catch (FileNotFoundException ex) {
